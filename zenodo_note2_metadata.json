@@ -1,0 +1,33 @@
+{
+  "metadata": {
+    "upload_type": "publication",
+    "publication_type": "preprint",
+    "title": "The phase taxonomy of pitch-class set invariants",
+    "creators": [
+      { "name": "Marín Muñoz, Carles", "affiliation": "Independent researcher", "orcid": "0009-0007-5637-9688" }
+    ],
+    "description": "Working over the chromatic universe Z_12, represent a pitch-class set A by its 0/1 indicator and take its discrete Fourier transform Â = F(ind A), with Â = |Â| e^{iφ}. We record an exact organization: every classical pitch-class-set invariant we examine sorts cleanly by how much of the phase φ it retains. The interval vector, Babbitt's hexachord theorem, homometry / the Z-relation, deep scales, the rhythmic-oddity property, and common tones under transposition are all functions of the phase-blind power spectrum |Â|² alone — equivalently the autocorrelation, equivalently (in crystallography) the Patterson function. The sum / index vector — common tones under inversion — is a function of Â², which retains only partial phase and, as an invariant of the set class, is weak. Then comes the twist: the third-order triple correlation (whose transform is the bispectrum Â·Â·conj(Â)) is also phase-blind, yet over Z_12 it resolves the Z-relation completely — separating homometric chords needs not more phase but higher order. The full Â (magnitude and phase) is, last, a complete invariant determining the set exactly. The boundaries of this ladder of increasing resolving power are machine-checked in Lean 4 (Fourier.lean): the phase-blind collapse, the third-order resolution, and the complete-invariant capstone, in one file with a clean axiom audit. The crystallographic crossing is rigorous, not analogy: autocorrelation = Patterson function, |Â|² = X-ray diffraction intensity, the Z-relation = the phase problem. The contribution is the unified taxonomy as one organization with its boundaries machine-checked — a first formalization, not new mathematics. Note #2 of the music-math series; continues the 6-30 note. This record bundles the English and Spanish versions of the note.",
+    "keywords": [
+      "pitch-class set theory",
+      "discrete Fourier transform",
+      "homometry",
+      "Z-relation",
+      "interval vector",
+      "Patterson function",
+      "phase problem",
+      "triple correlation",
+      "bispectrum",
+      "Lean 4",
+      "formal verification",
+      "mathematical music theory"
+    ],
+    "language": "eng",
+    "license": "apache2.0",
+    "access_right": "open",
+    "related_identifiers": [
+      { "relation": "continues",      "identifier": "10.5281/zenodo.20820961",                  "scheme": "doi" },
+      { "relation": "isSupplementTo", "identifier": "https://github.com/karlesmarin/music-math", "scheme": "url" }
+    ],
+    "notes": "Mathematics is classical; formalization and organization only. Lean 4 source (Fourier.lean) and audio (MIDI/WAV) live in the GitHub repo. Prepared with the assistance of an AI system (Claude, Anthropic); all scope/limitation statements are the author's."
+  }
+}

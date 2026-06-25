@@ -1,0 +1,12 @@
+*.aux
+*.log
+*.out
+*.toc
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.olean
+*.ilean
+.lake/
+lake-manifest.json
+.DS_Store

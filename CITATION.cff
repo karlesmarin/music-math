@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "Mathematics of Music — machine-checked notes & Lean library"
+message: "If you use this work, please cite it. Each released note also carries its own Zenodo DOI; prefer the specific note's DOI."
+type: software
+authors:
+  - family-names: "Marín"
+    given-names: "Carles"
+    email: "karlesmarin@gmail.com"
+    affiliation: "Independent researcher"
+abstract: >-
+  Honest, machine-checked results in mathematical music theory: focused research
+  notes backed by Lean 4 / Mathlib formalizations (sorry-free, axiom-clean) and
+  reproducible Sage/GAP witnesses. Prepared with the assistance of an AI system
+  (Claude, Anthropic); the mathematics is classical and the scope of each note is
+  stated explicitly.
+keywords:
+  - mathematical music theory
+  - pitch-class set theory
+  - neo-Riemannian theory
+  - Lean 4
+  - formalization of mathematics
+license: Apache-2.0
+version: "3.0.0"
+doi: 10.5281/zenodo.20820962
+date-released: 2026-06-25

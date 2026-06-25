@@ -1,0 +1,498 @@
+% !TeX program = pdflatex
+% Una autodualidad centrada en el tritono: la clase de conjuntos 6-30 y su dual neo-riemanniano de orden 12.
+% Versión en español (traducción con sentido del original en inglés, sixthirty_note.tex).
+% Autor: Carles Marín (con Claude, Anthropic, como asistente de IA).
+% Build: pdflatex sixthirty_note_es.tex (dos veces, por las referencias).
+
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noindentfirst,es-noshorthands]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,booktabs,graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage[table]{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\definecolor{ctA}{HTML}{1B6F8C}
+\definecolor{ctB}{HTML}{B5530F}
+\setlength{\emergencystretch}{2em}
+\newtheorem{theorem}{Teorema}
+\newtheorem{proposition}{Proposición}
+\newtheorem{lemma}{Lema}
+\newtheorem{remark}{Observación}
+\newcommand{\lean}[1]{\texttt{#1}}
+\newcommand{\Ztwelve}{\mathbb{Z}_{12}}
+\newcommand{\Zn}[1]{\mathbb{Z}_{#1}}
+\newcommand{\Dgrp}[1]{D_{#1}}
+\newcommand{\Ahat}{\hat{A}}
+\newcommand{\Stab}{\mathrm{Stab}}
+\newcommand{\question}[1]{\smallskip\noindent\textit{#1}\smallskip}
+% enlaces de audio por fichero (vivos en el repo público); en color de acento para que se vean clicables
+\newcommand{\audiobase}{https://github.com/karlesmarin/music-math/raw/main/media}
+\newcommand{\audio}[1]{\href{\audiobase/#1}{\textcolor{ctA}{\footnotesize\,[$\flat$\,audio]}}}
+
+\title{\bf Una autodualidad centrada en el tritono:\\
+  la clase de conjuntos 6-30 y su dual neo-riemanniano de orden 12}
+\author{Carles Mar\'in\thanks{Preparado con la asistencia de un sistema de IA (Claude, Anthropic).
+La matemática es clásica; toda afirmación, delimitación de alcance y limitación es responsabilidad del
+autor. La frontera de la contribución se enuncia con claridad en la Sección~\ref{sec:novelty}, y es el
+núcleo de Lean~4 ---no el asistente--- lo que certifica las partes formalizadas.}\\[3pt]
+  \normalsize Investigador independiente\\
+  \normalsize \texttt{karlesmarin@gmail.com}}
+\date{Junio de 2026\\[3pt]\normalsize DOI: \href{https://doi.org/10.5281/zenodo.20820962}{10.5281/zenodo.20820962}
+\quad\textbullet\quad \href{https://github.com/karlesmarin/music-math}{github.com/karlesmarin/music-math}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}\noindent
+El acorde de \emph{Petrushka} de Stravinsky superpone dos tríadas mayores separadas por un tritono.
+Seguimos ese tritono hasta la teoría de grupos pura y de vuelta. Sobre el universo cromático
+$\Ztwelve$, el grupo $T/I$ actúa de forma regular sobre la órbita de una \emph{clase de conjuntos} de
+alturas ---admitiendo un grupo contextual dual simplemente transitivo de orden reducido, en el sentido
+de Lewin--- precisamente cuando el estabilizador $T/I$ de la clase es \emph{normal}; entre las simetrías
+de orden 2, esto singulariza al centro $\{T_0,T_6\}$, el tritono. La única clase no trivial en
+$\Ztwelve$ con esa simetría es la \textbf{6-30} de Forte $=(013679)$, la clase de conjuntos del acorde
+de Petrushka; su órbita tiene tamaño $12$ y su dual es diédrico de orden $12$ ($\cong\Dgrp{6}$). Damos la
+caracterización con demostración, identificamos la instancia, enumeramos el fenómeno a través de los
+universos (el conteo es $\mathrm{A}032239(n/2)$, brazaletes asimétricos de dos colores) y
+\textbf{verificamos por máquina} en Lean~4 (sin \lean{sorry}, axioma-limpio) tanto el motor de dualidad
+de fondo de Crans--Fiore--Satyendra como la estructura diédrica regular de orden 12 del dual de 6-30. La
+matemática es clásica; las contribuciones son la caracterización específica, la instancia 6-30 con su
+primer dual verificado por máquina, y la enumeración.
+\end{abstract}
+
+\section{El tritono, de Stravinsky a un grupo}\label{sec:intro}
+
+En el segundo cuadro de \emph{Petrushka} (1911), Stravinsky hace sonar una tríada de Do mayor contra una
+de Fa$\sharp$ mayor ---dos tríadas mayores separadas por un \emph{tritono}. Como clases de altura (con
+$Do=0$) este ``acorde de Petrushka'' es $\{0,1,4,6,7,10\}$\,\audio{petrushka_chord.wav}, la clase de conjuntos
+\textbf{6-30} de Forte,
+un subconjunto de seis notas de la colección octatónica que la tradición rusa transmitió a Stravinsky a
+través de Rimski-Kórsakov~\cite{Berger,Taruskin,vandenToorn}.\footnote{La lectura octatónica de
+Stravinsky es la tradición analítica dominante (Berger, van den Toorn, Taruskin); para la posición
+discrepante de que se aplica en exceso, véase Tymoczko~\cite{TymoczkoOct}. Usamos ``acorde de Petrushka''
+como nombre de la sonoridad, por el ballet, sin atribuir el término a ningún autor concreto.}
+
+\question{P\textsubscript{0}. ¿Por qué \emph{esta} colisión ---dos tríadas a un tritono--- suena tan
+autocontenida? ¿Qué tiene de especial, estructuralmente, el tritono?}
+
+Esta nota sigue esa pregunta hasta el álgebra de las transformaciones y de vuelta. La tradición
+neo-riemanniana (Lewin~\cite{Lewin}; Crans--Fiore--Satyendra~\cite{CFS}) lee los acordes no por sus notas
+sino por el grupo de operaciones que los relaciona, y empareja cada grupo de transformaciones con un
+\emph{dual}. Preguntamos qué hace esa dualidad para un acorde \emph{simétrico} como el de Petrushka,
+demostramos exactamente cuándo existe un dual reducido, y hallamos que la respuesta está gobernada en
+todo momento por el tritono ---que resulta ser, a la vez, el corazón musical del acorde y el centro del
+grupo. Toda afirmación sobre 6-30 que sigue está verificada por máquina en Lean~4.
+
+\section{Preliminares: tríadas, el grupo $T/I$ y su dual}\label{sec:setup}
+
+Para seguir el tritono necesitamos primero el reparto: los acordes, el grupo que los mueve y la noción de
+grupo \emph{dual} de Lewin. Las clases de altura son $\Ztwelve$. El grupo $T/I$ es el grupo diédrico
+$\Dgrp{12}$ de orden $24$: transposiciones $T_k:x\mapsto x+k$ e inversiones $I_k:x\mapsto -x+k$. Lo
+identificamos con \lean{DihedralGroup 12} de Mathlib ($r\,i = T_i$, $sr\,j$ una inversión). Una
+\emph{tríada} es un par $(\mathrm{fundamental},\mathrm{calidad})\in\Ztwelve\times\{\pm\}$ (mayor
+$\{r,r+4,r+7\}$ o menor $\{r,r+3,r+7\}$); hay $24$, y $T/I$ actúa sobre ellas de forma simplemente
+transitiva ---la representación regular por la izquierda de $\Dgrp{12}$. Las operaciones
+neo-riemannianas $P,L,R$ generan el grupo dual de $T/I$ sobre las $24$ tríadas: dos subgrupos de
+$\mathrm{Sym}(\Omega)$ son \emph{duales} (Lewin) cuando cada uno es el centralizador del otro y ambos
+actúan de forma simplemente transitiva~\cite{CFS}.
+
+\question{P\textsubscript{1}. La tríada es asimétrica, así que su órbita tiene $24$ formas y la dualidad
+es de orden $24$. ¿Qué le pasa al dual cuando el objeto es un acorde \emph{simétrico}, cuya órbita es
+menor?}
+
+La dualidad es el caso regular del teorema clásico del centralizador (el centralizador de un grupo de
+permutaciones regular es su representación regular opuesta; Dixon--Mortimer~\cite{DM} \S4.2, Teorema 4.2A;
+Cameron~\cite{Cam}). Verificamos por máquina el motor y la instancia $T/I\!\leftrightarrow\!PLR$ en Lean
+(Tabla~\ref{tab:lean}, espacio de nombres \lean{Duality}): el lema reutilizable del caso regular de
+Wielandt \lean{centralizing\_fixedPoint\_eq\_one}, la cota \lean{card\_PLRgrp = 24}, y la dualidad misma
+\lean{centralizer\_eq\_PLR}\,: $\mathrm{centralizador}(T/I)=\langle P,L,R\rangle$.
+
+\section{¿Cuándo conserva un acorde simétrico su dual?}\label{sec:char}
+
+Una clase simétrica tiene un estabilizador $T/I$ no trivial $H=\Stab(A)$, así que su órbita
+$O=T/I\cdot A\cong\Dgrp{12}/H$ tiene tamaño $24/|H|<24$, y la acción $T/I$ sobre $O$ es transitiva pero ya
+no libre. ¿Sigue $O$ portando un dual simplemente transitivo?
+
+\begin{proposition}[Dualidad reducida]\label{prop:dual}
+Sea $A$ un conjunto de clases de altura con estabilizador $T/I$ igual a $H=\Stab(A)\le\Dgrp{12}$ y órbita
+$O=T/I\cdot A$. El centralizador de la imagen de $T/I$ en $\mathrm{Sym}(O)$ actúa de forma simplemente
+transitiva ---un grupo dual de orden reducido en el sentido de Lewin--- \emph{si y solo si $H$ es normal
+en $\Dgrp{12}$}, y entonces el dual tiene orden $|O|=24/|H|$.
+\end{proposition}
+\begin{proof}
+$\Dgrp{12}$ actúa transitivamente sobre $O\cong\Dgrp{12}/H$ con estabilizadores de punto los conjugados
+de $H$. Para una acción transitiva de un grupo $G$ con estabilizador de punto $H$, el centralizador $C$
+de la imagen en $\mathrm{Sym}(O)$ es isomorfo a $N_G(H)/H$ y es semirregular; $C$ es transitivo ---
+equivalentemente regular, equivalentemente el dual es simplemente transitivo--- si y solo si $N_G(H)=G$,
+es decir, si y solo si $H\trianglelefteq G$ (\cite{DM} \S4.2; \cite{Cam}). Cuando $H\trianglelefteq G$,
+$|C|=|G/H|=|O|$.
+\end{proof}
+
+\question{P\textsubscript{2}. ¿Cuál es esa simetría, musicalmente? ¿Existe un acorde cuyo estabilizador
+sea exactamente el tritono ---y es único?}
+
+Los subgrupos normales de $\Dgrp{12}$ contenidos en el grupo de rotaciones son exactamente los
+$\langle T_d\rangle$; las reflexiones (inversiones) generan subgrupos no normales. Restringir a una
+simetría \emph{de orden 2} aísla el tritono:
+
+\begin{lemma}[El tritono es la involución central]\label{lem:tritone}
+$T_6$ es el único elemento de orden $2$ del grupo de rotaciones $\Zn{12}$ (equivalentemente, $6$ es el
+único punto fijo no nulo de $x\mapsto -x$), y $\{T_0,T_6\}=Z(\Dgrp{12})$ es el único subgrupo normal de
+orden 2 de $\Dgrp{12}$. Una inversión aislada $\langle I_j\rangle$ es un subgrupo de orden 2 pero
+\emph{no} es normal.
+\end{lemma}
+
+Así pues, entre las clases de conjuntos con una simetría de orden 2, la Proposición~\ref{prop:dual}
+otorga un dual simplemente transitivo reducido (de orden 12) \emph{si y solo si} la simetría es el
+tritono $T_6$. Una simetría de orden 2 no central (una inversión) no da dual. El barrido por fuerza bruta
+de las $222$ clases (\lean{sage/duality\_sweep.sage}) corrobora el enunciado general sin excepciones; es
+la demostración anterior la que lo convierte en teorema y no en mera observación.
+
+\section{6-30: la respuesta, y es el acorde de Petrushka}\label{sec:sixthirty}
+
+El Lema~\ref{lem:tritone} nos dijo dónde mirar: un acorde estabilizado por el tritono $T_6$ y nada más.
+En $\Ztwelve$ hay exactamente uno, y ya lo conocemos.
+
+\begin{theorem}[La instancia 6-30]\label{thm:sixthirty}
+La única clase de conjuntos no trivial en $\Ztwelve$ cuyo estabilizador $T/I$ es exactamente
+$\{T_0,T_6\}$ es la \textbf{6-30} $=(013679)$. Su órbita tiene tamaño $12$, y su grupo dual es regular y
+diédrico de orden $12$ ($\cong\Dgrp{6}$).
+\end{theorem}
+
+$A=(013679)$ es la unión de los tres \emph{pares centrales} (tritonos) $\{0,6\},\{1,7\},\{3,9\}$, así que
+es fijo por $T_6$ (una media vuelta del reloj de clases de altura,
+Figura~\ref{fig:clock})\,\audio{t6_symmetry.wav}; al no tener simetría inversiva,
+$\Stab(A)=\{T_0,T_6\}$ exactamente. Su inversión $(0,1,4,6,7,10)$ es el acorde de
+Petrushka mismo (el par $6$-30A/B). \textbf{El ``ajá'' de P\textsubscript{0}:} la bitonalidad por tritono
+que Stravinsky buscó de oído \emph{es} la simetría central $T_6$, y esa simetría central es justamente lo
+que dota a 6-30 de su autodualidad de orden 12.
+
+Todo este teorema está verificado por máquina en Lean~4 (archivo \lean{SixThirty.lean},
+Tabla~\ref{tab:s30}), sin \lean{sorry} y axioma-limpio: $\Stab_T(A)=\{0,6\}$ y sin simetría inversiva
+(\lean{stab\_T}, \lean{stab\_I\_empty}); órbita de tamaño $12$ (\lean{orbit\_card}); el núcleo de la
+acción de $\Dgrp{12}$ sobre la órbita es el centro $\{T_0,T_6\}$ (\lean{Ker\_eq}), de modo que la imagen
+es $\Dgrp{12}/Z$ de orden $12$ (\lean{card\_TIgrpO}); el dual (centralizador sobre la órbita) tiene orden
+$12$ (\lean{card\_Cgrp}, construido como la \emph{representación regular opuesta}) y actúa
+transitivamente, luego regularmente (\lean{Cgrp\_transitive}); y porta la huella diédrica
+(\lean{dihedral\_fingerprint}: un generador $s$ de orden $6$, una involución $t\ne1$ con $tst=s^{-1}$ y
+$st\ne ts$), fijándolo como diédrico de orden $12$.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.9,every node/.style={font=\small}]
+  \draw[thick] (0,0) circle (1);
+  \foreach \a/\b in {0/6,1/7,3/9}{
+    \draw[ctB,line width=1.3pt] ({90-30*\a}:1) -- ({90-30*\b}:1);
+  }
+  \foreach \k in {0,...,11}{
+    \pgfmathtruncatemacro{\ina}{ ( \k==0 || \k==1 || \k==3 || \k==6 || \k==7 || \k==9 ) ? 1 : 0 }
+    \ifnum\ina=1
+      \filldraw[black] ({90-30*\k}:1) circle (0.05);
+      \node at ({90-30*\k}:1.2) {\textbf{\k}};
+    \else
+      \draw[fill=white] ({90-30*\k}:1) circle (0.045);
+      \node[gray] at ({90-30*\k}:1.2) {\k};
+    \fi
+  }
+\end{tikzpicture}
+\caption{La \textbf{6-30} $=\{0,1,3,6,7,9\}$ sobre el reloj de clases de altura (nodos rellenos). Es la
+unión de los tres pares centrales $\{0,6\},\{1,7\},\{3,9\}$ (diámetros gruesos de tritono), luego fija
+por $T_6$ (una rotación de $180^\circ$); con cero simetrías inversivas, \emph{no} es inversivamente
+simétrica. Elegir tres de los seis pares de tritono, salvo rotación/reflexión, es la biyección con
+brazaletes de la \S\ref{sec:enum} (Figura~\ref{fig:bracelet}).}
+\label{fig:clock}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.0,every node/.style={font=\footnotesize},>={Stealth[length=2mm]}]
+  \foreach \k in {0,...,5}{
+    \coordinate (O\k) at ({90-60*\k}:2.3);
+    \coordinate (I\k) at ({90-60*\k}:1.15);
+  }
+  \foreach \k in {0,...,5}{
+    \pgfmathtruncatemacro{\next}{mod(\k+1,6)}
+    \draw[ctA,->,thick] (O\k) -- (O\next);
+    \draw[ctB,->,thick] (I\next) -- (I\k);
+    \draw[dashed] (O\k) -- (I\k);
+  }
+  \foreach \k in {0,...,5}{
+    \filldraw[fill=ctA!12,draw=ctA] (O\k) circle (0.30) node[black]{$T_{\k}A$};
+    \filldraw[fill=white,draw=ctB] (I\k) circle (0.30) node[black]{$I_{\k}A$};
+  }
+\end{tikzpicture}
+\caption{Grafo de Cayley del grupo dual $\Dgrp{6}$ de orden 12 actuando de forma simplemente transitiva
+sobre la órbita $T/I$ de 12 elementos de 6-30: las seis formas por transposición $T_kA$ (exterior, con
+$T_kA=T_{k+6}A$ identificadas) y las seis formas por inversión $I_kA$ (interior). Las flechas continuas
+son un generador de orden 6 (la orientación se invierte en la clase lateral interior, como en todo grafo
+de Cayley diédrico); las aristas discontinuas, un generador de orden 2. La regularidad de esta acción
+(\lean{Cgrp\_transitive} + semirregularidad) es lo que hace del dual un grupo de orden $12$.}
+\label{fig:cayley}
+\end{figure}
+
+\section{¿Con qué frecuencia ocurre esto?}\label{sec:enum}
+
+\question{P\textsubscript{3}. ¿Es $\Ztwelve$ especial, o existe un autodual centrado en el tritono en
+todo universo? ¿Cuántos hay?}
+
+Para $n$ par, contamos las clases de conjuntos cuyo estabilizador $T/I$ es exactamente el centro
+$\{T_0,T_{n/2}\}$ (dual $\cong\Dgrp{n/2}$, órbita $n$), recorriendo las uniones de los $n/2$ pares
+centrales $\{x,x+n/2\}$ (\lean{sage/sixthirty.sage}):
+
+\begin{table}[h]
+\centering
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{lrrrrrrrr}
+\toprule
+\rowcolor{ctA!22}
+$n$    & 8 & 10 & \textbf{12} & 14 & 16 & 18 & 20 & 24\\
+\midrule
+conteo & 0 & 0  & \textbf{1}  & 2  & 6  & 14 & 30 & 127\\
+\bottomrule
+\end{tabular}
+\caption{Clases autoduales centradas en el tritono por universo $n$: ninguna por debajo de $12$, única en
+$12$ (la clase 6-30).}
+\label{tab:counts}
+\end{table}
+
+Así, $\Ztwelve$ es el universo más pequeño donde el fenómeno existe, y allí es único. La sucesión
+$1,2,6,14,30,62,127$ para $n=12,14,\dots,24$ es la \textbf{OEIS A032239} (``número de brazaletes
+identidad (asimétricos) de $m$ cuentas, $2$ colores'') en $m=n/2$. La biyección
+(Figura~\ref{fig:bracelet}): una clase autodual centrada en el tritono es una elección de subconjunto de
+los $n/2$ pares centrales con grupo de simetría trivial, es decir, un brazalete asimétrico de dos colores
+sobre $n/2$ cuentas. No hay fórmula cerrada simple (la tentadora $2^{m-5}-2$ ajusta $m=7..11$ y luego
+falla en $m=12$: $\mathrm{A}032239(12)=127\ne126$); la enumeración es una especialización de
+Burnside/Pólya. Lo nuestro es la caracterización musical, la biyección con brazaletes y la minimalidad de
+6-30 en $\Ztwelve$.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.4,every node/.style={font=\footnotesize}]
+  \draw[gray!60] (0,0) circle (1);
+  \foreach \i/\lab/\f in {0/{0,6}/1, 1/{1,7}/1, 2/{2,8}/0, 3/{3,9}/1, 4/{4,10}/0, 5/{5,11}/0}{
+     \coordinate (b) at ({90-60*\i}:1);
+     \ifnum\f=1 \filldraw[black] (b) circle (0.13);
+     \else \draw[fill=white,thick] (b) circle (0.12); \fi
+     \node at ({90-60*\i}:1.32) {$\{\lab\}$};
+  }
+\end{tikzpicture}
+\caption{6-30 como brazalete de dos colores sobre $m=6$ cuentas: la cuenta $i$ es el par central
+$\{i,i+6\}$, rellena si y solo si está en el conjunto. El patrón (relleno en $\{0,6\},\{1,7\},\{3,9\}$)
+tiene simetría de rotación/reflexión trivial ---un brazalete \emph{asimétrico}, el objeto que cuenta
+A032239; 6-30 es el único patrón de este tipo en $m=6$.}
+\label{fig:bracelet}
+\end{figure}
+
+\section{Qué es el dual, musicalmente}\label{sec:music}
+
+\question{P\textsubscript{4}. El dual es un grupo abstracto de orden $12$. ¿Para qué \emph{sirve}?}
+
+Una acción de grupo simplemente transitiva es exactamente un \emph{Sistema de Intervalos Generalizado}
+(GIS) en el sentido de Lewin~\cite[p.~157]{Lewin}: dados dos elementos cualesquiera, existe una operación
+\emph{única} que lleva uno al otro. Así, el dual $\cong\Dgrp{6}$ es un GIS sobre las doce formas del
+acorde de Petrushka\,\audio{orbit_12.wav} ---la Figura~\ref{fig:cayley} es su mapa. Cualquier forma del acorde alcanza
+cualquier otra mediante un único movimiento dual; los doce colores de Petrushka se vuelven un único
+espacio armónico navegable, el análogo para acordes simétricos de la red $P/L/R$ de las tríadas. La
+Tabla~\ref{tab:family} sitúa el resultado en su familia.
+
+\paragraph{Escúchalo.} Tres sonificaciones acompañan a esta nota ---el acorde de Petrushka (dos tríadas
+a un tritono), la invariancia $T_6$ (6-30 y su transpuesta de tritono comparten las mismas seis clases
+de altura) y un recorrido por las doce formas (la órbita del grupo dual, que pasa por el acorde de
+Petrushka en $I_1$)--- como MIDI editable y WAV renderizado:
+\url{https://github.com/karlesmarin/music-math/tree/main/media}.
+
+\begin{table}[h]
+\centering\small
+\setlength{\tabcolsep}{5pt}
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\rowcolor{ctA!22}
+Objeto & Estabilizador & Órbita & Dual & Orden\\
+\midrule
+Tríada (Crans--Fiore--Satyendra) & $\{T_0\}$ & $24$ & $\Dgrp{12}$ & $24$\\
+Ciclo hexatónico (Berry--Fiore) & $\{T_0,T_4,T_8\}$ (aum.) & $6$ & $S_3$ & $6$\\
+\textbf{6-30 (esta nota)} & $\{T_0,T_6\}$ (tritono) & $12$ & $\Dgrp{6}$ & $12$\\
+\bottomrule
+\end{tabular}
+\caption{Tres instancias de la misma maquinaria de dualidad por centralizador, según la simetría del
+objeto.}
+\label{tab:family}
+\end{table}
+
+\section{Qué está verificado por máquina}\label{sec:checked}
+
+\question{P\textsubscript{5}. ¿Podemos fiarnos de todo esto?}
+
+Todo lo afirmado sobre el motor de dualidad y sobre 6-30 está comprobado por el núcleo de Lean~4
+(Tablas~\ref{tab:lean}--\ref{tab:s30}); \lean{\#print axioms} devuelve exactamente
+\lean{[propext, Classical.choice, Quot.sound]} sin \lean{sorryAx} en cada teorema. La enumeración
+(Tabla~\ref{tab:counts}) y la estructura nombrada $\Dgrp{6}$ se atestiguan además con scripts Sage/GAP
+reejecutables (Tabla~\ref{tab:sage}).
+
+\begin{table}[h]
+\centering\small
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}l p{0.56\textwidth}@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Teorema} & \textbf{Enunciado}\\
+\midrule
+\lean{centralizing\_fixedPoint\_eq\_one} & Caso regular de Wielandt (el centralizador de un grupo transitivo es semirregular).\\
+\lean{PLR\_le\_centralizer}              & $\langle P,L,R\rangle\le\mathrm{centralizador}(T/I)$.\\
+\lean{card\_PLRgrp}                      & $\mathrm{Nat.card}\,\mathrm{PLRgrp}=24$.\\
+\lean{centralizer\_eq\_PLR}             & $\mathrm{centralizador}(T/I)=\langle P,L,R\rangle$ (la dualidad CFS).\\
+\bottomrule
+\end{tabular}
+\caption{El motor de dualidad de fondo en \lean{NeoRiemannian.lean} (espacio de nombres \lean{Duality}),
+verificado por máquina (Ladrillo 3).}
+\label{tab:lean}
+\end{table}
+
+\begin{table}[h]
+\centering\small
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}l p{0.60\textwidth}@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Teorema} & \textbf{Enunciado}\\
+\midrule
+\lean{stab\_T}, \lean{stab\_I\_empty} & $\Stab_T(A)=\{0,6\}$; sin simetría inversiva.\\
+\lean{orbit\_card}                    & la órbita $T/I$ de $A$ tiene $12$ elementos.\\
+\lean{Ker\_eq}                        & el núcleo de la acción de $\Dgrp{12}$ sobre la órbita $=Z=\{T_0,T_6\}$.\\
+\lean{card\_TIgrpO}                   & la imagen sobre la órbita $=\Dgrp{12}/Z$, orden $12$.\\
+\lean{card\_Cgrp}                     & el dual (centralizador sobre la órbita) tiene orden $12$ (rep.\ regular opuesta).\\
+\lean{Cgrp\_transitive}              & el dual es transitivo, luego regular (simplemente transitivo).\\
+\lean{dihedral\_fingerprint}          & orden $12$; $s$ de orden $6$, $t^2=1$, $t\ne1$, $tst=s^{-1}$, $st\ne ts$.\\
+\bottomrule
+\end{tabular}
+\caption{El dual diédrico regular de orden 12 de 6-30 en \lean{SixThirty.lean}, verificado por máquina
+(Ladrillo 19) ---la primera demostración en Lean de la estructura del dual contextual de un acorde
+simétrico.}
+\label{tab:s30}
+\end{table}
+
+\begin{table}[h]
+\centering\small
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}l p{0.58\textwidth}@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Script} & \textbf{Qué atestigua}\\
+\midrule
+\lean{centralizer\_witness.sage} & GAP: $PLR==\mathrm{centralizador}$ exactamente; el dual de la 12-órbita de 6-30 $\cong\Dgrp{6}$.\\
+\lean{sixthirty.sage}            & detalle de 6-30 (estab.\ $\{T_0,T_6\}$, órbita 12, dual orden 12) + conteos por $n$.\\
+\lean{duality\_sweep.sage}       & las $222$ clases de $\Ztwelve$: regular $\iff$ autodual (0 excepciones).\\
+\lean{sc630\_verify.sage}        & VI $=[2,2,4,2,2,3]$; estab.\ $\{T_0,T_6\}$; no inversivamente simétrica.\\
+\bottomrule
+\end{tabular}
+\caption{Testigos Sage/GAP (Sage 10.8 + GAP), cada uno reejecutable.}
+\label{tab:sage}
+\end{table}
+
+\section{Novedad, alcance y preguntas abiertas}\label{sec:novelty}
+
+\paragraph{La contribución, dicha sin rodeos.} Esto es una nota de formalización $+$ caracterización, no
+matemática nueva. El motor de dualidad es el caso regular del \textbf{teorema del centralizador de
+Wielandt} (\cite{DM} \S4.2 Teor.\ 4.2A; \cite{Cam}); el marco de los grupos contextuales es
+Fiore--Satyendra/Fiore--Noll~\cite{FS,FN11,FN25}. Lo nuestro: (i) la caracterización de la dualidad
+reducida con demostración (Proposición~\ref{prop:dual}) y su corolario del tritono
+(Lema~\ref{lem:tritone}); (ii) la instancia 6-30 con el \emph{primer} dual contextual de un acorde
+simétrico verificado por máquina (Teorema~\ref{thm:sixthirty}, Ladrillo 19); (iii) la enumeración y la
+biyección con brazaletes. Mathlib tiene \lean{DihedralGroup}, \lean{IsPretransitive} y el teorema de
+Cayley, pero ningún resultado de centralizador-de-representación-regular; nuestro
+\lean{centralizing\_fixedPoint\_eq\_one} y la construcción de la regular opuesta en \lean{SixThirty.lean}
+cubren ese hueco como primeras formalizaciones.
+
+\paragraph{Relación con Berry--Fiore.} Berry--Fiore~\cite{BF} demuestran que el grupo $PL$ de un ciclo
+hexatónico es dual (en el sentido de Lewin) a su estabilizador $T/I$ ---la misma maquinaria. Los objetos
+difieren (Tabla~\ref{tab:family}): el suyo es el estabilizador del eje aumentado $\{T_0,T_4,T_8\}$ con
+dual $S_3$ de orden $6$; el nuestro es el centro de tritono $\{T_0,T_6\}$ con dual $\Dgrp{6}$ de orden
+$12$. ``Tritono'', ``octatónica'' y ``6-30'' no aparecen en su artículo.
+
+\paragraph{Relación con Peck.} Peck~\cite{Peck} generaliza los grupos conmutantes de Lewin a acciones
+semirregulares y diagonales con ejemplos musicales; lo citamos por la maquinaria. Hasta donde sabemos su
+tratamiento no incluye ni nuestra enumeración ni la instancia concreta de orden 12 ---verificado solo
+contra el resumen y la literatura secundaria, pues el cuerpo del \emph{JMT} es de pago; los grupos
+conmutantes octatónicos publicados en este linaje son de orden $8$ ($\cong\Dgrp{4}$, \cite{FN11}), no de
+orden $12$. La instancia de orden 12 cae dentro del ámbito de los ``casos diagonales'' de Peck y se
+matiza en consecuencia; la enumeración es la novedad mejor sostenida.
+
+\paragraph{El linaje esquiva el caso (complementario, no ``olvidado'').} Lecturas de \cite{FS,FN11,FN25}
+confirman que el autodual central de tritono no está enunciado: cada uno evita el régimen de órbita
+reducida de forma distinta (pc-segmentos ordenados $+$ una condición de tritono; poda por hipótesis de
+los recubrimientos; ``sin simetrías'' $+$ una condición de tritono que excluye $T_6$). Notablemente,
+\cite{FN11} tabula $\{0,1,4,6,7,10\}$ (``Major Triad Tritone Mixture'') y estudia su recubrimiento por
+$2$ tríadas (dual de orden $2$) ---la \emph{misma clase de conjuntos} que 6-30, sin formar nunca el dual
+de orden 12 del hexacordo-como-punto. La literatura de asistentes de demostración solo tiene
+Prismriver~\cite{Prism} (solo $T/I$, sin $PLR$/dualidad).
+
+\question{P\textsubscript{6}. ¿Hacia dónde lleva el tritono después?}
+
+\begin{itemize}\itemsep2pt
+  \item \textbf{La familia general-$n$.} La Proposición~\ref{prop:dual} es independiente del universo;
+        6-30 es la instancia no trivial mínima de una familia (dual $\cong\Dgrp{n/2}$ en el universo
+        $n$). Un enunciado uniforme y su demostración en Lean quedan abiertos.
+  \item \textbf{El isomorfismo nombrado.} Verificamos por máquina la \emph{huella} diédrica
+        (Tabla~\ref{tab:s30}); el isomorfismo nombrado $\mathrm{dual}\cong\mathrm{DihedralGroup}\,6$
+        requiere $\Dgrp{12}/Z\cong\Dgrp{6}$, hoy un hueco de Mathlib (aquí atestiguado por GAP).
+  \item \textbf{Fourier.} La simetría $T_6$ es exactamente soporte en frecuencias pares de $\Ahat$ ---un
+        hecho de magnitud; pero la autodualidad necesita información de \emph{fase} que $|\Ahat|$ no ve,
+        la misma ceguera que la relación-Z. Una descripción de la autodualidad en el espacio de Fourier
+        queda abierta.
+  \item \textbf{Acordes mayores.} Análogos de séptima y de tetracordos (cf.\ \cite{FN25}): ¿hay un
+        autodual centrado en el tritono entre ellos?
+\end{itemize}
+
+El tritono que abre el acorde de Petrushka resulta ser el centro de $\Dgrp{12}$, el obstáculo en el
+espacio de Fourier y la semilla de una autodualidad de orden 12 ---un único objeto visto desde el
+teclado, el reloj, el grupo y ahora el núcleo de Lean. Lo hemos seguido tan lejos como la máquina puede
+certificar; señala más allá.
+
+\section*{Disponibilidad de datos y código}
+Las fuentes Lean (\lean{NeoRiemannian.lean}, \lean{SixThirty.lean}) y los scripts testigo Sage/GAP de las
+Tablas~\ref{tab:lean}--\ref{tab:sage} acompañan a esta nota; cada teorema Lean es comprobable con
+\lean{\#print axioms} y cada script es reejecutable.
+
+\begin{thebibliography}{99}
+\bibitem{CFS} A. S. Crans, T. M. Fiore, R. Satyendra, ``Musical actions of dihedral groups,''
+  \emph{Amer. Math. Monthly} \textbf{116} (2009), no.~6, 479--495 (arXiv:0711.1873).
+\bibitem{DM} J. D. Dixon, B. Mortimer, \emph{Permutation Groups}, Springer GTM 163, 1996
+  (\S4.2, Teorema 4.2A).
+\bibitem{Cam} P. J. Cameron, \emph{Permutation Groups}, London Math. Soc. Student Texts 45, CUP, 1999.
+\bibitem{Lewin} D. Lewin, \emph{Generalized Musical Intervals and Transformations}, Yale Univ. Press,
+  1987 (reimpr.\ Oxford Univ. Press, 2007); GIS $=$ acción simplemente transitiva, p.~157.
+\bibitem{BF} C. Berry, T. M. Fiore, ``Hexatonic systems and dual groups in mathematical music theory,''
+  \emph{Involve} \textbf{11} (2018), no.~2, 253--270 (arXiv:1602.02577).
+\bibitem{Peck} R. W. Peck, ``Generalized commuting groups,'' \emph{J. Music Theory} \textbf{54} (2010),
+  no.~2, 143--177. doi:10.1215/00222909-1214912.
+\bibitem{FS} T. M. Fiore, R. Satyendra, ``Generalized contextual groups,'' \emph{Music Theory Online}
+  \textbf{11}.3 (2005).
+\bibitem{FN11} T. M. Fiore, T. Noll, ``Commuting groups and the topos of triads,'' in
+  \emph{Mathematics and Computation in Music} (MCM 2011), LNCS \textbf{6726}, Springer, 2011, pp.~69--83
+  (arXiv:1102.1496).
+\bibitem{FN25} T. M. Fiore, T. Noll, E. Bonnell, H. Pyle, N. Rodriguez, M. Williams, S. Cannas,
+  M. Andreatta, ``Transformations of triads and seventh chords: group extensions and duality,''
+  arXiv:2507.20811 (2025).
+\bibitem{Prism} L. Aniva, C. Wang, ``Prismriver: formalization of music theory and algorithmic
+  composition in Lean~4,'' arXiv:2606.19936 (2026).
+\bibitem{Berger} A. Berger, ``Problems of pitch organization in Stravinsky,'' \emph{Perspectives of New
+  Music} \textbf{2} (1963), no.~1, 11--42.
+\bibitem{Taruskin} R. Taruskin, \emph{Stravinsky and the Russian Traditions}, 2 vols., Univ. of
+  California Press, 1996.
+\bibitem{vandenToorn} P. C. van den Toorn, \emph{The Music of Igor Stravinsky}, Yale Univ. Press, 1983.
+\bibitem{TymoczkoOct} D. Tymoczko, ``Stravinsky and the octatonic: a reconsideration,'' \emph{Music
+  Theory Spectrum} \textbf{24} (2002), no.~1, 68--102.
+\bibitem{Forte} A. Forte, \emph{The Structure of Atonal Music}, Yale Univ. Press, 1973.
+\bibitem{OEIS} OEIS Foundation, sucesión A032239, ``Number of identity bracelets of $n$ beads of 2
+  colors.''
+\end{thebibliography}
+
+\end{document}

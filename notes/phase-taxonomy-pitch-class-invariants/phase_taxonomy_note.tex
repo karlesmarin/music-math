@@ -1,0 +1,499 @@
+% !TeX program = pdflatex
+% The phase taxonomy of pitch-class set invariants.
+% Author: Carles Marin (with Claude, Anthropic, as AI assistant).
+% Style: first-tier mathematical-music-theory note -- restrained, question-driven, THE PHASE as the
+% connecting thread; plain booktabs tables with sparing semantic spot color (grayscale-readable);
+% one-column serif. Note #2 in the music-math series (companion to sixthirty_note.tex).
+% Build: pdflatex phase_taxonomy_note.tex (twice, for refs).
+% Source of record: research/music-math/paper/phase_taxonomy_note.md (Curiosity, private repo).
+
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,booktabs,graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage[table]{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+% two semantic spot colors (meaning is ALSO carried by weight, so tables read in grayscale)
+\definecolor{ctA}{HTML}{1B6F8C} % the "complete / phase-aware" accent
+\definecolor{ctB}{HTML}{B5530F} % the "phase-blind" accent
+\setlength{\emergencystretch}{2em}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+\newcommand{\lean}[1]{\texttt{#1}}
+\newcommand{\Ztwelve}{\mathbb{Z}_{12}}
+\newcommand{\Zn}[1]{\mathbb{Z}_{#1}}
+\newcommand{\Ahat}{\hat{A}}
+\newcommand{\Fi}{\mathcal{F}^{-1}}
+\newcommand{\Stab}{\mathrm{Stab}}
+% a light "question" lead-in for each section (the connecting thread)
+\newcommand{\question}[1]{\smallskip\noindent\textit{#1}\smallskip}
+% per-file audio links (live on the public repo); shown in accent color so they read as clickable
+\newcommand{\audiobase}{https://github.com/karlesmarin/music-math/raw/main/media}
+\newcommand{\audio}[1]{\href{\audiobase/#1}{\textcolor{ctA}{\footnotesize\,[$\flat$\,audio]}}}
+
+\title{\bf The phase taxonomy of\\ pitch-class set invariants}
+\author{Carles Mar\'in\thanks{Prepared with the assistance of an AI system (Claude, Anthropic).
+The mathematics is classical; every claim, scope statement, and limitation is the author's
+responsibility. The boundary of the contribution is stated plainly in Section~\ref{sec:novelty}, and
+the Lean~4 kernel---not the assistant---is what certifies the formalized parts.}\\[3pt]
+  \normalsize Independent researcher\\
+  \normalsize \texttt{karlesmarin@gmail.com}}
+\date{June 2026\\[3pt]\normalsize DOI: \href{https://doi.org/10.5281/zenodo.20826774}{10.5281/zenodo.20826774}
+\quad\textbullet\quad \href{https://github.com/karlesmarin/music-math}{github.com/karlesmarin/music-math}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}\noindent
+Working over the chromatic universe $\Ztwelve$, represent a pitch-class \emph{set} $A$ by its $0/1$
+indicator and take its discrete Fourier transform $\Ahat=\mathcal{F}(\mathrm{ind}\,A)$. Write
+$\Ahat=|\Ahat|\,e^{i\varphi}$. We record the following exact organization: every classical pc-set
+invariant \emph{we examine} sorts cleanly by \textbf{how much of the phase $\varphi$ it retains}. The
+interval vector, Babbitt's hexachord theorem, homometry / the Z-relation, deep scales, the
+rhythmic-oddity property, and common tones under transposition are all functions of the
+phase-\textbf{blind} power spectrum $|\Ahat|^2$ alone --- equivalently the autocorrelation, equivalently
+(in crystallography) the \textbf{Patterson function}. The sum / index vector --- common tones under inversion --- is a
+function of the squared coefficient $\Ahat^2$, which retains only \emph{partial} phase and, as an invariant
+of the set class, is weak. Then comes the twist: the third-order \textbf{triple correlation} (whose
+transform is the bispectrum $\Ahat\cdot\Ahat\cdot\overline{\Ahat}$) is \emph{also} phase-blind, yet over
+$\Ztwelve$ it \textbf{resolves the Z-relation completely} --- separating homometric chords needs not more
+phase but higher \emph{order}. The full $\Ahat$ (magnitude \textbf{and} phase) is, last, a complete
+invariant determining the set exactly. The boundaries of this ladder of increasing resolving power are
+machine-checked in \lean{Fourier.lean}: the phase-blind collapse (\lean{homometric\_iff\_normSq\_dft\_eq},
+\lean{allIntervalTetrachords\_homometric}), the third-order resolution (\lean{triple\_tpose\_invariant},
+\lean{carterPair\_triple\_distinct}), and the complete-invariant capstone (\lean{Ahat\_injective}), in one
+file with a clean axiom audit. The crystallographic crossing is rigorous, not analogy: autocorrelation $=$
+Patterson function, $|\Ahat|^2=$ X-ray diffraction intensity, the Z-relation $=$ the phase problem. Every
+ingredient is classical (the triple correlation's resolving power is the bispectrum's recovery of the
+Fourier phase up to a ramp); the contribution is the unified taxonomy as one organization with its
+boundaries machine-checked --- a first formalization, not new mathematics.
+\end{abstract}
+
+\section{Two chords that measure the same}\label{sec:hook}
+
+In 1973 Allen Forte, cataloguing the chords of atonal music, marked certain pairs with the letter
+\textbf{Z}~\cite{Forte}: distinct set classes --- not related by transposition or inversion --- that
+nonetheless share the very same interval vector, the basic tally of how many intervals of each size a chord
+contains. Forte's \emph{Z-relation} named a puzzle David Lewin had already met in 1960~\cite{Lewin1960} and
+Howard Hanson had called \emph{isomeric}~\cite{Hanson}: two chords can be indistinguishable to interval
+analysis and yet be genuinely different
+objects. The canonical example is a pair of all-interval tetrachords, $\{0,1,4,6\}$ and $\{0,1,3,7\}$:
+each contains all six interval classes exactly once, so their interval vectors are identical, but no
+transposition or inversion carries one to the other.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.70\linewidth]{figs/fig_clocks.pdf}
+\caption{The canonical homometric (Z-related) pair on the pitch-class clock ($0$ at twelve o'clock,
+clockwise; filled nodes are members): 4-Z15 $\{0,1,4,6\}$ and 4-Z29 $\{0,1,3,7\}$. Both share the interval
+vector --- and the power spectrum $|\Ahat|^2=[16,2,4,2,4,2,4,2,4,2,4,2]$ --- yet are \emph{not}
+$T/I$-related: the same magnitude, a different phase (\S\ref{sec:floor}).}
+\label{fig:zpair}
+\end{figure}
+
+What is that shared descriptor, mathematically? \textbf{The interval vector is the magnitude of a Fourier
+transform with its phase thrown away.} Encode a chord as a $0/1$ indicator on the twelve pitch classes
+$\Ztwelve$ and take its discrete Fourier transform $\Ahat$; the interval vector is a function of
+$|\Ahat|^2$, the squared magnitudes alone. \textbf{Two chords are Z-related precisely when they share
+$|\Ahat|^2$ but disagree in the phase of $\Ahat$} --- the part $|\Ahat|^2$ cannot see. The phase is the
+hidden variable of this note. (The same magnitude-without-phase loss is, verbatim, the phase problem of
+X-ray crystallography: the interval vector is the \emph{Patterson function} of 1934 and homometric crystal
+structures~\cite{Patterson44} are Z-related chords --- a rigorous crossing we make precise in
+\S\ref{sec:floor}, after Mandereau et al.\ 2011~\cite{MAAA}. We note it and move on; the subject here is the music
+and its mathematics.)
+
+Note~\#1 of this series followed one \emph{chord} --- Stravinsky's Petrushka collection, the set class
+6-30 --- from a tritone into group theory. This note follows one \emph{question} --- why two chords can
+measure the same --- into the Fourier transform, and finds that the phase sorts the whole catalogue of
+pitch-class set invariants into a single \textbf{ladder}: the interval vector and its relatives at the
+phase-blind bottom, the complete set class at the top, each invariant placed by how much of the set it pins
+down --- a climb with a twist, since the phase is not the only currency.
+
+\section{Setup: the DFT of a pitch-class set}\label{sec:setup}
+
+Pitch classes are $\Ztwelve$. A pc-\emph{set} $A\subseteq\Ztwelve$ is encoded by its indicator
+$\mathrm{ind}\,A:\Ztwelve\to\mathbb{C}$, $\mathrm{ind}\,A\,(j)=1$ if $j\in A$ else $0$ (\lean{Fourier.lean}
+line~29). Its discrete Fourier transform is $\Ahat=\mathcal{F}(\mathrm{ind}\,A)$, built on Mathlib's
+\lean{ZMod.dft} (David Loeffler, Apache-2.0; line~32). In collapsed form (line~35),
+\[
+  \Ahat(t)\;=\;\sum_{a\in A}\mathrm{stdAddChar}(-(a\cdot t))\;=\;\sum_{a\in A}e^{-2\pi i\,a t/12}.
+\]
+Mathlib's sign convention is $\mathrm{stdAddChar}\,j=e^{2\pi i j/12}$ and
+$\mathcal{F}\Phi\,(k)=\sum_j\mathrm{stdAddChar}(-(jk))\,\Phi(j)$; the DC coefficient is the cardinality,
+$\Ahat(0)=|A|$ (\lean{Ahat\_zero}, line~42).
+
+Each coefficient decomposes as $\Ahat(t)=|\Ahat(t)|\,e^{i\varphi(t)}$. Two derived objects carry the
+rungs of the taxonomy. The \textbf{power spectrum} $\mathrm{powerSpec}(t)=\Ahat(t)\,\overline{\Ahat(t)}
+=|\Ahat(t)|^2$ (line~88) discards the phase entirely. The \textbf{sum spectrum}
+$\mathrm{sqSpec}(t)=\Ahat(t)\cdot\Ahat(t)=\Ahat(t)^2$ (line~469) is the coefficient \emph{squared} --- not
+its squared magnitude --- and \emph{retains} the phase (\lean{sqSpec\_eq\_sq}, line~473).
+
+The set \emph{class} carries two phase symmetries. Transposition is a frequency-linear phase
+\textbf{ramp}: $\Ahat(T_kA)(t)=\mathrm{stdAddChar}(-(kt))\,\Ahat(t)$ (\lean{Ahat\_tpose}, line~51), i.e.\
+$\Ahat(t)\mapsto e^{-2\pi i k t/12}\Ahat(t)$. Inversion is \textbf{conjugation plus a ramp}. Passing from
+a set to its $T/I$ class quotients out exactly these phase operations; $|\Ahat|$ is invariant under the
+ramp, but the phase still carries information $|\Ahat|$ cannot --- this is the whole story below.
+
+\section{The phase-blind floor: \texorpdfstring{$|\Ahat|^2$}{|A|^2} \texorpdfstring{$=$}{=} autocorrelation \texorpdfstring{$=$}{=} Patterson}\label{sec:floor}
+
+\noindent\textbf{P\textsubscript{0} --- the hook, made precise.} The two tetrachords of
+\S\ref{sec:hook}, $\{0,1,4,6\}$ (Forte 4-Z15) and $\{0,1,3,7\}$ (Forte 4-Z29), are identical to interval
+analysis yet not $T/I$-related --- the Z-relation. We now locate exactly \emph{what} invariant fails to
+separate them, and why: \textbf{it is a function of $|\Ahat|^2$ alone, and the answer is the phase.}
+
+To see it, read the interval vector spectrally. The ordered autocorrelation
+$\mathrm{autocorr}(A,d)=\#\{(a,b)\in A\times A: a-b=d\}$ (line~84)
+is the inverse DFT of the power spectrum (Wiener--Khinchin),
+$\mathrm{autocorr}(A,d)=\Fi(|\Ahat|^2)(d)$ (\lean{autocorr\_eq\_invDFT}, line~104); the raw interval vector
+is this autocorrelation regraded by interval class, $\mathrm{IVraw}(A,k)=\sum_{\mathrm{ivc}\,d=k}
+\Fi(|\Ahat|^2)(d)$ (\lean{IVraw\_eq\_invDFT\_power}, line~167). The interval vector is therefore a function
+of $|\Ahat|^2$ alone: it cannot see the phase.
+
+\paragraph{Homometry $=$ the kernel of ``forget the phase.''} Two pc-sets are \textbf{homometric} when
+they share the same autocorrelation (\lean{Homometric}, line~353). Exactly: homometric iff equal power
+spectrum (\lean{homometric\_iff\_powerSpec\_eq}, line~358), equivalently iff equal $|\Ahat|^2$ at every
+frequency (\lean{homometric\_iff\_normSq\_dft\_eq}, line~373). \textbf{Homometric $\iff$ same $|\Ahat|^2$:
+the equivalence ``same magnitude, any phase,'' the information it discards being the phase of $\Ahat$.}
+
+\paragraph{The crystallographic crossing (rigorous, not analogy).} In X-ray crystallography the
+autocorrelation of an electron density is the \textbf{Patterson function} (Patterson 1934~\cite{Patterson});
+the measured diffraction intensity is $|\Ahat|^2$, the squared structure-factor magnitude; and the central
+obstruction --- recovering a structure from its diffraction pattern --- is the \textbf{phase problem},
+because distinct densities can share $|\Ahat|^2$. \textbf{The Z-relation is that phase problem on
+$\Ztwelve$: same diffraction, different phase} --- autocorrelation $=$ Patterson, Z-relation $=$ phase
+problem. The correspondence Z-relation $\leftrightarrow$ Patterson is exactly
+Mandereau et al.\ 2011~\cite{MAAA}. In \lean{Fourier.lean} the Patterson function is named
+as such (\lean{Patterson}, line~349) and the phase-problem theorem is \lean{homometric\_iff\_normSq\_dft\_eq}.
+
+\paragraph{P\textsubscript{0} answered --- the witness.} The all-interval tetrachords are the canonical
+homometric pair (Figure~\ref{fig:magphase}): $\mathrm{Homometric}\,\{0,1,4,6\}\,\{0,1,3,7\}$
+(\lean{allIntervalTetrachords\_homometric}, line~390, \lean{by decide}). Verified in Sage (container
+\lean{cognitive\_arch\_sage}): both sets have autocorrelation $[4,1,1,1,1,1,2,1,1,1,1,1]$ and power
+spectrum $|\Ahat|^2=[16,2,4,2,4,2,4,2,4,2,4,2]$, equal at every frequency; their prime forms
+$(0,1,4,6)\ne(0,1,3,7)$ are not $T/I$-related (Figure~\ref{fig:zpair})\,\audio{z_pair.wav}. Same
+$|\Ahat|^2$, different set: the floor of the taxonomy.
+
+\begin{figure}[tbp]\centering
+\includegraphics[width=0.60\linewidth]{figs/fig_magphase.pdf}
+\caption{The two all-interval tetrachords share the power spectrum $|\Ahat(t)|^2$ exactly (top --- the
+bars coincide), yet their phases $\arg\Ahat(t)$ differ at most frequencies (bottom). Every phase-blind
+invariant is a function of $|\Ahat|^2$ alone, so none can separate them; the phase is the difference the
+interval vector cannot see.}
+\label{fig:magphase}
+\end{figure}
+
+\question{P\textsubscript{1}. Is the interval vector alone in this blindness, or does the whole floor share it?}
+
+Every phase-blind invariant is a function of $|\Ahat|^2$: the interval vector
+(\lean{IVraw\_eq\_invDFT\_power}); Babbitt's hexachord theorem --- a hexachord and its complement share
+$|\Ahat|$ off $t=0$ (\lean{hexachord\_abs\_eq}, line~327), hence the same interval vector; common tones
+under transposition $\#(A\cap T_kA)=\Fi(|\Ahat|^2)(k)$ (\lean{commonTones\_eq\_invDFT}, line~223); deep
+scales --- the interval-vector entries are the transposition common-tone counts, all distinct
+(\lean{IsDeep\_iff\_commonTones\_nodup}, line~304); the rhythmic-oddity property --- the autocorrelation
+vanishes at the tritone (\lean{rop\_iff\_autocorr\_zero}, line~580). All of these collapse on the Z-pair,
+because all of them are read off $|\Ahat|^2$.
+
+Over the $222$ nontrivial set classes of $\Ztwelve$ there are \textbf{23 Z-pairs} (every Z-group has size
+$2$), covering $46$ set classes: $1$ tetrachord pair (the all-interval tetrachords 4-Z15 / 4-Z29), $3$
+pentachord, $15$ hexachord (the classic hexachordal Z-relations), $3$ septachord, $1$ octachord
+(\lean{sage/phase\_taxonomy.sage}, \lean{sage/sc\_count.sage}).
+
+\section{The partial-phase rung: \texorpdfstring{$\Ahat^2$}{A^2} \texorpdfstring{$=$}{=} the sum / index vector}\label{sec:partial}
+
+\question{P\textsubscript{2}. Can any invariant see the phase the interval vector misses?}
+
+Where the interval vector counts tones held under \emph{transposition} (the \emph{difference} pairing
+$a-b$, governed by $|\Ahat|^2$), the \textbf{sum / index vector} counts tones held under \emph{inversion}
+$I_j(x)=j-x$ (the \emph{sum} pairing $a+b$). The held count is
+$\mathrm{commonTonesInv}(A,j)=\#(A\cap I_jA)$ (line~462), equal to the sum vector
+$\mathrm{sumcorr}(A,j)=\#\{(a,b):a+b=j\}$ (\lean{commonTonesInv\_eq\_sumcorr}, line~508).
+
+\paragraph{Its transform is $\Ahat^2$, not $|\Ahat|^2$.} The sum vector is the inverse DFT of the
+\emph{squared coefficient}, $\mathrm{sumcorr}(A,j)=\Fi(\Ahat^2)(j)$ (\lean{sumcorr\_eq\_invDFT},
+line~515), with $\mathrm{sqSpec}(t)=\Ahat(t)^2$ (\lean{sqSpec\_eq\_sq}, line~473). Because squaring keeps
+the coefficient rather than multiplying by its conjugate, $\Ahat^2$ retains phase that
+$|\Ahat|^2=\Ahat\cdot\overline{\Ahat}$ destroys. The sum vector is therefore \textbf{phase-dependent}.
+
+\paragraph{It splits the homometric pair $|\Ahat|^2$ cannot.} About axis $j=0$, the two all-interval
+tetrachords hold different numbers of tones:
+$\mathrm{commonTonesInv}\,\{0,1,4,6\}\,0\ne\mathrm{commonTonesInv}\,\{0,1,3,7\}\,0$
+(\lean{sumVector\_distinguishes\_homometric}, line~555, \lean{by decide}). Verified
+(\lean{sage/isum.sage}): at $j=0$, $\{0,1,4,6\}$\,\audio{inversion_4z15.wav} holds \textbf{2} tones,
+$\{0,1,3,7\}$\,\audio{inversion_4z29.wav} holds \textbf{1}. \textbf{The phase the interval vector cannot
+see, the sum vector sees}: $\Ahat^2$ retains partial phase and splits the Z-pair.
+
+\paragraph{Honest: partial, not all.} $\Ahat^2$ retains \emph{some} phase, not all of it. The full sum
+vectors of the pair are $[2,2,1,0,2,2,2,2,1,0,2,0]$ and $[1,2,2,2,2,0,1,2,2,0,2,0]$
+(\lean{sage/isum.sage}). These differ \emph{as indexed vectors} --- axis $j$ against axis $j$ --- but they
+are \textbf{permutations of each other}: both sort to $[0,0,0,1,1,2,2,2,2,2,2,2]$. So the \emph{indexed}
+sum vector (per axis) sees the phase; the bare \emph{multiset} of held-tone counts does not. We state the
+distinction as indexed, never as a global multiset difference.
+
+\section{The third-order rung: the triple correlation resolves homometry}\label{sec:triple}
+
+\question{Must we recover the lost phase at all to tell the homometric pair apart?}
+
+\noindent Surprisingly, no. The sum vector of the previous section saw phase only at a fixed axis and is
+weak as a class invariant; the object that resolves homometry completely keeps \emph{no} phase at all ---
+it climbs one \emph{order} instead. That higher-order object is the \textbf{triple correlation}
+$\mathrm{triple}\,A\,j\,k=\#(A\cap T_jA\cap T_kA)$ --- the number of pitch classes $x$ with $x$, $x-j$,
+$x-k$ all in $A$ --- whose DFT is the \textbf{bispectrum}
+$\Ahat(t_1)\,\Ahat(t_2)\,\overline{\Ahat(t_1+t_2)}$, the third-order analog of
+$\mathrm{autocorr}=\Fi(|\Ahat|^2)$. It is \textbf{phase-blind in the diffraction sense yet
+transposition-invariant} (\lean{triple\_tpose\_invariant}), and, unlike the interval vector, it
+\textbf{distinguishes the homometric pair}: $\mathrm{triple}\,\{0,1,4,6\}\ne\mathrm{triple}\,\{0,1,3,7\}$
+(\lean{carterPair\_triple\_distinct}, \lean{by decide}). Over $\Ztwelve$ it separates \textbf{all 23
+homometry (Z-related) pairs and all 222 set classes} (exhaustive computation, two independent ways, $0$
+collisions). It is \textbf{not} inversion-invariant (\lean{triple\_not\_inversionInvariant}) --- it tells a
+set from its inversion --- which is exactly why, folded by inversion, it is the complete set-class invariant
+of the next section. The mathematics is classical: the bispectrum recovers the Fourier phase up to a linear
+ramp (the triple-correlation completeness theorem, Kakarala~\cite{Kakarala}; the bispectrum of Tukey and
+Brillinger~\cite{Brillinger}; the crystallographic higher-order Patterson function), the $\Zn{n}$
+reconstruction-from-3-deck question is Keleti--Kolountzakis 2006~\cite{KK}, and the transposition-invariant
+coefficient products are Yust--Amiot 2022~\cite{YA}. Our contribution is the exact $\Ztwelve$ statement and its
+first formalization (Brick~22).
+
+\section{The complete invariant: the full \texorpdfstring{$\Ahat$}{A}}\label{sec:complete}
+
+\question{P\textsubscript{3}. What would it take to see \emph{all} of the phase?}
+
+\textbf{The full DFT $\Ahat$ (magnitude and phase) determines the pitch-class set exactly:}
+$\Ahat_A=\Ahat_B\Rightarrow A=B$
+(\lean{Ahat\_injective}, line~427), with biconditional \lean{Ahat\_eq\_iff} (line~431). The proof is short
+and classical: \lean{ZMod.dft} is a \lean{LinearEquiv}, hence injective (\lean{dft.injective}), and the
+indicator is injective because membership is recoverable as $\mathrm{ind}\,A\,(x)=1$ using $(1:\mathbb{C})
+\ne0$ (\lean{ind\_injective}, line~418). The phase is exactly the data that completes the interval vector
+to a total invariant.
+
+\paragraph{From SET to set CLASS --- the computational boundary.} \textbf{\lean{Ahat\_injective} proves
+$\Ahat$ determines the set; the set-class completeness (modulo the $T/I$ phase symmetries) is the
+computational statement, not a Lean theorem.} Quotienting by the two phase symmetries of \S\ref{sec:setup}
+--- the transposition ramp and the inversion conjugation-plus-ramp --- gives a candidate complete invariant
+of the set class.
+Verified (\lean{sage/phase\_taxonomy.sage}): take the canonical signature $=$ lex-min of $\Ahat$ over the
+$24$-element phase-symmetry group ($12$ ramps $\times\,\{\mathrm{id},\mathrm{conj}\}$); the sweep finds
+\textbf{0 collisions}, $\text{distinct signatures}=224=\text{number of }T/I\text{ orbits}$ ($=222$
+nontrivial set classes $+$ the empty set $+$ the chromatic aggregate). So the full $\Ahat$ modulo
+$\{\text{ramp},\text{conj-ramp}\}$ is a complete set-class invariant --- and homometry, the phase-blind
+collapse, sits exactly one rung below this completeness boundary.
+
+\section{The taxonomy, and the loop back to 6-30}\label{sec:taxonomy}
+
+The whole map, with each invariant pinned to its slice of $\Ahat$:
+
+\begin{table}[ht]
+\centering\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}llccl@{}}
+\toprule
+\textbf{Invariant} & \textbf{Slice of $\Ahat$} & \textbf{Phase} & \textbf{Complete?} & \textbf{Lean (\lean{Fourier.lean})}\\
+\midrule
+Interval vector (B.1)        & $|\Ahat|^2$            & blind   & no$^\dagger$ & \lean{IVraw\_eq\_invDFT\_power} (L167)\\
+Hexachord theorem (B.2)      & $|\Ahat|$              & blind   & ---          & \lean{hexachord\_abs\_eq} (L327)\\
+Homometry / Z-relation (B.3) & $|\Ahat|^2$            & blind   & collapses    & \lean{homometric\_iff\_normSq\_dft\_eq} (L373)\\
+Common tones / $T_k$ (O.1)   & $|\Ahat|^2$            & blind   & no           & \lean{commonTones\_eq\_invDFT} (L223)\\
+Deep scale (L.4)             & $|\Ahat|^2$            & blind   & no           & \lean{IsDeep\_iff\_commonTones\_nodup} (L304)\\
+Rhythmic oddity (N.1)        & $|\Ahat|^2$ at $t=6$   & blind   & no           & \lean{rop\_iff\_autocorr\_zero} (L580)\\
+Sum / index vector (O.2)     & $\Ahat^2$              & partial & no (weak)    & \lean{sumcorr\_eq\_invDFT} (L515)\\
+Triple correlation (B22)     & $\Ahat\!\cdot\!\Ahat\!\cdot\!\overline{\Ahat}$ & blind & \textbf{resolves} & \lean{triple\_tpose\_invariant} (L703)\\
+\rowcolor{ctA!18}
+\textbf{Full DFT}            & $\boldsymbol{\Ahat}$   & \textbf{complete} & \textbf{YES}$^\ddagger$ & \lean{Ahat\_injective} (L427)\\
+\bottomrule
+\end{tabular}
+\caption{Each classical invariant pinned to the slice of $\Ahat$ it retains. $^\dagger$Homometry
+collapses the interval vector (\S\ref{sec:floor}). $^\ddagger$The full $\Ahat$ determines the
+\emph{set} in Lean; the \emph{set-class} completeness (mod the $T/I$ phase symmetries) is the
+computational statement of \S\ref{sec:complete}.}
+\label{tab:taxonomy}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.56\linewidth]{figs/fig_ladder.pdf}
+\caption{The taxonomy as a ladder of increasing information. $|\Ahat|^2$ is phase-blind and homometry
+collapses it; $\Ahat^2$ retains only partial (weak) phase; the triple correlation
+(\S\ref{sec:triple}) is the phase-blind third-order invariant that \emph{resolves} homometry; the full
+$\Ahat$ sees everything (\texttt{Ahat\_injective}). The top rung is the completeness boundary, highlighted
+as in Table~\ref{tab:taxonomy}.}
+\label{fig:ladder}
+\end{figure}
+
+\question{P\textsubscript{4}. What does this say back to the tritone self-duality of Note~\#1?}
+
+Note~\#1~\cite{Note1} identified 6-30 $=(013679)$ as the unique nontrivial $\Ztwelve$ set class carrying a
+tritone-centered self-duality: its $T/I$-stabilizer is exactly the center $\{T_0,T_6\}$. That self-duality
+is a \textbf{phase fact}. The condition $T_6\in\Stab$ is equivalent to $\Ahat$ being supported on the even
+frequencies (vanishing on the odd ones) --- now machine-witnessed: \textbf{0 mismatches over all $4096$
+subsets} of $\Ztwelve$ (\lean{sage/phase\_taxonomy.sage}), the strongest universe, not merely the set
+classes. But self-duality needs \emph{more} than tritone symmetry: it also requires an inversion-free
+phase condition that $|\Ahat|$ cannot see. This is the H2 thread of Note~\#1, where self-duality was
+\textbf{refuted as a clean $|\Ahat|^2$ theorem} --- Fourier explains the phase \emph{requirement}, it does
+not deliver self-duality from the magnitude alone. The taxonomy retro-explains why Note~\#1's result lived
+\textbf{above} the interval-vector floor: a fact about tritone symmetry and self-duality is a fact about
+the \emph{phase} of $\Ahat$, invisible to the phase-blind column where the interval vector and all its
+relatives sit.
+
+\section{What is machine-checked}\label{sec:checked}
+
+\question{P\textsubscript{5}. Can we trust all this?}
+
+The ladder is checked by the Lean~4 kernel (Table~\ref{tab:lean}), namespace \lean{Fourier}, sorry-free.
+The axiom audit at the foot of \lean{Fourier.lean} (\lean{\#print axioms}, lines 727--766) returns at most
+\lean{[propext, Classical.choice, Quot.sound]} with no \lean{sorryAx} on every theorem; the decidable
+witnesses (\lean{sumVector\_distinguishes\_homometric}, \lean{carterPair\_triple\_distinct},
+\lean{triple\_not\_inversionInvariant}, \lean{diatonic\_isDeep}, \lean{augmented\_not\_isDeep}) are even
+choice-free (\lean{[propext, Quot.sound]}), confirmed by recompiling the file in the godsil fast-loop
+environment (EXIT 0).
+
+\begin{table}[ht]
+\centering\small
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}l p{0.60\textwidth}@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Theorem (line)} & \textbf{Statement}\\
+\midrule
+\lean{IVraw\_eq\_invDFT\_power} (167)         & Interval vector $=\Fi(|\Ahat|^2)$ summed over each interval class --- the phase-blind keystone.\\
+\lean{homometric\_iff\_powerSpec\_eq} (358)   & Homometric $\iff$ equal power spectrum --- homometry is the kernel of ``forget the phase.''\\
+\lean{homometric\_iff\_normSq\_dft\_eq} (373) & Crystallographic form: homometric $\iff$ equal diffraction intensity $|\Ahat|^2$ --- the phase problem.\\
+\lean{allIntervalTetrachords\_homometric} (390) & $\mathrm{Homometric}\,\{0,1,4,6\}\,\{0,1,3,7\}$ --- the canonical Z-pair, same $|\Ahat|^2$, not $T/I$-related.\\
+\lean{commonTones\_eq\_invDFT} (223)          & Common tones under $T_k$ $=\Fi(|\Ahat|^2)(k)$.\\
+\lean{sumcorr\_eq\_invDFT} (515)              & Sum / index vector $=\Fi(\Ahat^2)$ --- the phase-dependent face.\\
+\lean{sqSpec\_eq\_sq} (473)                   & $\mathrm{sqSpec}(t)=\Ahat(t)^2$ --- the coefficient squared, retaining phase.\\
+\lean{commonTonesInv\_eq\_sumcorr} (508)      & Held tones under $I_j$ $=$ the sum vector at $j$ (Lewin/Rahn; first formalization).\\
+\lean{sumVector\_distinguishes\_homometric} (555) & The sum vector splits the homometric pair $|\Ahat|^2$ cannot.\\
+\lean{ind\_injective} (418)                   & A pc-set is determined by its $0/1$ indicator.\\
+\lean{Ahat\_injective} (427)                  & \textbf{The capstone.} The full DFT determines the set: $\Ahat_A=\Ahat_B\Rightarrow A=B$.\\
+\lean{Ahat\_eq\_iff} (431)                    & Biconditional form: $\Ahat_A=\Ahat_B\iff A=B$.\\
+\lean{triple\_tpose\_invariant} (703)         & The triple correlation is transposition-invariant (3rd-order, phase-blind).\\
+\lean{carterPair\_triple\_distinct} (713)     & The triple correlation distinguishes the homometric pair the interval vector cannot.\\
+\lean{triple\_not\_inversionInvariant} (721)  & The triple correlation is not inversion-invariant (it tells a set from its inversion).\\
+\bottomrule
+\end{tabular}
+\caption{The phase-taxonomy ladder in \lean{Fourier.lean}, machine-checked --- the phase-blind collapse,
+the partial-phase rung, and the complete-invariant capstone in one file.}
+\label{tab:lean}
+\end{table}
+
+\lean{Ahat\_injective} proves $\Ahat$ determines the \textbf{set}. The set-\textbf{class} completeness
+(modulo the $T/I$ phase symmetries) is \textbf{computational} (the Sage sweep, $0$ collisions over $224$
+$T/I$ orbits), not a Lean theorem --- the same posture as Note~\#1, where Lean proves the engine and Sage
+gives the specific sweep. The witnesses (Table~\ref{tab:sage}) are re-runnable.
+
+\begin{table}[H]
+\centering\small
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}l p{0.62\textwidth}@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Script} & \textbf{What it witnesses}\\
+\midrule
+\lean{phase\_taxonomy.sage} & Homometric pair $|\Ahat|^2$ equal; $T_6$-symmetry $\iff$ odd-frequency vanishing, \textbf{0 mismatches over all 4096 subsets}; full $\Ahat$ mod $\{\text{ramp},\text{conj-ramp}\}$ complete, \textbf{0 collisions, 224 distinct signatures}.\\
+\lean{homometry.sage}       & The all-interval tetrachords share autocorrelation $[4,1,1,1,1,1,2,1,1,1,1,1]$ and $|\Ahat|^2=[16,2,4,2,4,2,4,2,4,2,4,2]$; prime forms differ, not $T/I$-related.\\
+\lean{isum.sage}            & Sum-vector phase distinction: at $j=0$, $\{0,1,4,6\}$ holds 2, $\{0,1,3,7\}$ holds 1; the full sum vectors differ as indexed vectors but are permutations of each other.\\
+\lean{sc\_count.sage}       & Z-relation census: 23 Z-pairs over 222 nontrivial set classes (1 tetra / 3 penta / 15 hexa / 3 septa / 1 octa).\\
+\bottomrule
+\end{tabular}
+\caption{Sage witnesses (container \lean{cognitive\_arch\_sage}, Sage 10.8), each re-runnable.}
+\label{tab:sage}
+\end{table}
+
+\section{Novelty, scope, and what this note does not claim}\label{sec:novelty}
+
+\paragraph{Contribution, stated plainly.} This is a formalization $+$ organization note, not new
+mathematics. Each ingredient is classical: the autocorrelation theorem (Wiener--Khinchin) and its
+crystallographic reading --- autocorrelation $=$ Patterson, $|\Ahat|^2=$ diffraction intensity, Z-relation
+$=$ phase problem --- are classical (Patterson 1934~\cite{Patterson}; the Z-relation $\leftrightarrow$
+Patterson correspondence is Mandereau et al.\ 2011~\cite{MAAA}). Homometry is the classical
+``same interval content'' equivalence (Lewin~\cite{Lewin}; Soderberg~\cite{Soderberg}). The DFT-of-pc-sets program is
+Amiot~\cite{Amiot}; the sum / index vector and its relation to $\Ahat^2$ are within that program --- we
+claim \textbf{formalization only}, never priority. The combinatorial sum-vector identity is classical
+(Lewin~\cite{Lewin}; Rahn~\cite{Rahn}). DFT injectivity is just that \lean{ZMod.dft} is a
+\lean{LinearEquiv}~\cite{Loeffler}. The contribution is the \textbf{unified taxonomy as one statement} ---
+pinning each classical invariant to its exact slice of $\Ahat$ and machine-checking the \textbf{two
+boundaries of the ladder side by side}: the phase-blind collapse
+(\lean{homometric\_iff\_normSq\_dft\_eq}) and the complete-invariant capstone (\lean{Ahat\_injective}) in
+one file with a clean axiom audit. This is the first formalization, and the first time the boundaries are
+checked together.
+
+\paragraph{What this note does \emph{not} claim.}
+\begin{itemize}\itemsep2pt
+  \item \textbf{Not new mathematics.} First \emph{formalization} and \emph{organization} only.
+  \item \textbf{Not a Lean proof of set-CLASS completeness.} \lean{Ahat\_injective} proves $\Ahat$
+        determines the \emph{set}; completeness modulo the $T/I$ phase symmetries is the
+        \emph{computational} statement (Sage sweep, $0$ collisions over $224$ $T/I$ orbits), not a Lean
+        theorem.
+  \item \textbf{Not ``full phase'' for the sum vector.} $\Ahat^2$ retains \emph{partial} phase; the
+        Z-pair's two sum vectors are permutations of each other, so the distinction is indexed (per axis),
+        not a global multiset difference.
+  \item \textbf{Not priority over the DFT-of-pc-sets program.} Patterson, Lewin/Soderberg homometry,
+        Amiot's Fourier program, and Tymoczko--Yust~\cite{TY} each predate this; we cite, formalize, and do
+        not supplant. The Tymoczko--Yust phase $\approx$ pc-sum result is \emph{under transposition}, a
+        \emph{different} theorem, cited for intuition only.
+  \item \textbf{Not a Fourier depth claim about 6-30 self-duality.} $T_6\in\Stab\iff\Ahat$ vanishes on odd
+        frequencies is machine-witnessed ($0$ mismatches over $4096$ subsets), but self-duality also needs
+        an inversion-free phase condition $|\Ahat|$ cannot see --- refuted as a clean $|\Ahat|^2$ theorem
+        in Note~\#1. \textbf{Open frontier:} a Lean theorem for set-class completeness, and lifting the
+        even-frequency-support characterization to general even universes.
+\end{itemize}
+
+\paragraph{Beyond $\Ztwelve$.} When the triple correlation ceases to be a complete invariant for general
+$\Zn{n}$ --- a question of finite additive combinatorics rather than music theory --- is taken up in a
+companion note.
+
+\section*{Data and code availability}
+The Lean source \lean{Fourier.lean} and the Sage witness scripts of Tables~\ref{tab:lean}--\ref{tab:sage}
+accompany this note; each Lean theorem is checkable by \lean{\#print axioms} and each script is
+re-runnable.
+
+\begin{thebibliography}{99}
+\bibitem{Forte} A. Forte, \emph{The Structure of Atonal Music}, Yale Univ. Press, 1973.
+\bibitem{Lewin1960} D. Lewin, ``Re: The intervallic content of a collection of notes, intervallic relations
+  between a collection of notes and its complement\dots,'' \emph{J. Music Theory} \textbf{4} (1960),
+  no.~1, 98--101.
+\bibitem{Hanson} H. Hanson, \emph{Harmonic Materials of Modern Music: Resources of the Tempered Scale},
+  Appleton--Century--Crofts, 1960.
+\bibitem{Patterson} A. L. Patterson, ``A Fourier Series Method for the Determination of the Components of
+  Interatomic Distances in Crystals,'' \emph{Phys. Rev.} \textbf{46} (1934), 372--376.
+  doi:10.1103/PhysRev.46.372.
+\bibitem{Patterson44} A. L. Patterson, ``Ambiguities in the X-Ray Analysis of Crystal Structures,''
+  \emph{Phys. Rev.} \textbf{65} (1944), 195--201. doi:10.1103/PhysRev.65.195.
+\bibitem{MAAA} J. Mandereau, D. Ghisi, E. Amiot, M. Andreatta, C. Agon, ``Z-relation and homometry in
+  musical distributions,'' \emph{J. Math. \& Music} \textbf{5} (2011), no.~2, 83--98.
+  doi:10.1080/17459737.2011.608819.
+\bibitem{Amiot} E. Amiot, \emph{Music Through Fourier Space: Discrete Fourier Transform in Music Theory},
+  Computational Music Science, Springer, 2016.
+\bibitem{TY} D. Tymoczko, J. Yust, ``Fourier phase and pitch-class sum,'' in \emph{Mathematics and
+  Computation in Music} (MCM 2019), LNCS \textbf{11502}, Springer (2019), pp.~46--58.
+  doi:10.1007/978-3-030-21392-3\_4.
+\bibitem{YA} J. Yust, E. Amiot, ``Non-spectral Transposition-Invariant Information in Pitch-Class Sets and
+  Distributions,'' in \emph{Mathematics and Computation in Music} (MCM 2022), LNCS \textbf{13267}, Springer
+  (2022), pp.~279--291. doi:10.1007/978-3-031-07015-0\_23.
+\bibitem{Brillinger} D. R. Brillinger, ``An introduction to polyspectra,'' \emph{Ann. Math. Statist.}
+  \textbf{36} (1965), 1351--1374. [the bispectrum / higher-order spectra]
+\bibitem{Kakarala} R. Kakarala, ``Completeness of bispectrum on compact groups,'' arXiv:0902.0196 (2009);
+  see also the Ph.D. thesis ``Triple correlation on groups,'' Univ. of California, Irvine, 1992. [the
+  triple correlation determines a signal up to translation]
+\bibitem{KK} T. Keleti, M. N. Kolountzakis, ``On the determination of sets by their triple correlation in
+  finite cyclic groups,'' \emph{Online J. Anal. Comb.} \textbf{1} (2006), \#3 (arXiv:math/0603415).
+\bibitem{Lewin} D. Lewin, \emph{Generalized Musical Intervals and Transformations}, Yale Univ. Press,
+  1987 (repr.\ Oxford Univ. Press, 2007).
+\bibitem{Soderberg} S. Soderberg, ``Z-Related Sets as Dual Inversions,'' \emph{J. Music Theory} \textbf{39}
+  (1995), no.~1, 77--100.
+\bibitem{Rahn} J. Rahn, \emph{Basic Atonal Theory}, Longman, 1980.
+\bibitem{Loeffler} D. Loeffler, Mathlib \lean{ZMod.dft} (Apache-2.0) --- the discrete Fourier transform as
+  a \lean{LinearEquiv}.
+\bibitem{Note1} C. Mar\'in, ``A tritone-centered self-duality: the set class 6-30 and its order-12
+  neo-Riemannian dual,'' Note~\#1 (music-math series), 2026 (DOI:10.5281/zenodo.20820962).
+\end{thebibliography}
+
+\end{document}

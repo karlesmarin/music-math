@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "upload_type": "publication",
+    "publication_type": "preprint",
+    "title": "The Tonnetz spectrum is the generating triad's Fourier balance profile",
+    "creators": [
+      { "name": "Marín Muñoz, Carles", "affiliation": "Independent researcher", "orcid": "0009-0007-5637-9688" }
+    ],
+    "description": "The neo-Riemannian Tonnetz — the graph on the 24 major and minor triads joined by the parsimonious P, L, R moves — has an adjacency spectrum, and the main result identifies it exactly: the eigenvalues of the Tonnetz are ± the Fourier balances of the single triad that generates it, the signed multiset ±{3, sqrt(5), sqrt(3), 1, 2cos(pi/12), 2cos(5pi/12)} = {±|hat 1_T(k)|} for k = 0..6. The augmented balance sqrt(5) = |a_3|, the diminished sqrt(3) = |a_4|, the whole-tone 1 = |a_6| — the chord's own periodicity weights — are literally the graph's vibration frequencies. The proof builds one tool: the discrete Fourier transform is the shared eigenbasis of pitch-class symmetry. (i) every translation-invariant operator on Z_N (the chromatic cycle C_12, every abelian Cayley graph) is diagonalized by the DFT characters, eigenvalue the Fourier coefficient of its connection set (Babai). (ii) adjoining inversion makes the T/I group D_2N block-diagonal, pairing a_k <-> a_{-k} into conjugate-pair irreducibles. (iii) the Tonnetz is the Cayley graph of the non-abelian PLR = D_12 group, and reading it through (i)-(ii) yields the balance-profile identity, complete with multiplicities. Every step is machine-checked in Lean 4, sorry-free and axiom-clean, including the unconditional completeness of the spectrum (an explicit basis of eigenvectors; no Sage, no irrep classification). The spectral formula itself is standard — the dihedral-Cayley computation of Gao-Luo, of which the Tonnetz is the S = {P,L,R} instance; the Tonnetz Laplacian was studied by Lostanlen. What is added is the reading of that adjacency spectrum as the generating triad's balance profile, the identification of its spectral fibres with the music-theoretic Z-relation (homometric chords give cospectral graphs — Babai's 1979 criterion, read musically), and the Lean certification. An appendix instantiates the N-generic saturation rule at N = 24 (quarter tones): the limited-transposition catalogue strictly extends the chromatic one, with one symmetric mode (H_8) landing off the 12-tone grid; the Z_24 cosets are verified by exact cyclotomic computation in Sage. Not new mathematics — a unified, certified account. Note #3 of the music-math series; continues the phase-taxonomy note. This record bundles the English and Spanish versions of the note.",
+    "keywords": [
+      "neo-Riemannian theory",
+      "Tonnetz",
+      "Cayley graph spectrum",
+      "discrete Fourier transform",
+      "pitch-class set theory",
+      "dihedral group representation",
+      "circulant matrix",
+      "homometry",
+      "Z-relation",
+      "limited transposition modes",
+      "microtonality",
+      "Lean 4",
+      "formal verification",
+      "mathematical music theory"
+    ],
+    "language": "eng",
+    "license": "apache2.0",
+    "access_right": "open",
+    "related_identifiers": [
+      { "relation": "continues",      "identifier": "10.5281/zenodo.20826773",                  "scheme": "doi" },
+      { "relation": "isSupplementTo", "identifier": "https://github.com/karlesmarin/music-math", "scheme": "url" }
+    ],
+    "notes": "Note 3 of the Mathematics of Music series — machine-checked notes in Lean 4 (https://github.com/karlesmarin/music-math). Mathematics is classical; formalization and organization only. Lean 4 sources (CycleGraphSpectrum, InversionDFT, Fourier, TonnetzSpectrum, TonnetzCompleteness), Sage witnesses, and audio (MIDI/WAV, incl. a 24-EDO microtonal realization) live in the GitHub repo. Prepared with the assistance of an AI system (Claude, Anthropic); all scope/limitation statements are the author's."
+  }
+}

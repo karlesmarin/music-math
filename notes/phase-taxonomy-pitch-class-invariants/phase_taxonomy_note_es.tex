@@ -1,0 +1,510 @@
+% !TeX program = pdflatex
+% La taxonomia de fase de los invariantes de conjuntos de clases de altura.
+% Version en espanol (traduccion con sentido del original en ingles, phase_taxonomy_note.tex).
+% Autor: Carles Marin (con Claude, Anthropic, como asistente de IA).
+% Build: pdflatex phase_taxonomy_note_es.tex (dos veces, por las referencias).
+
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noindentfirst,es-noshorthands]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,booktabs,graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage[table]{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\definecolor{ctA}{HTML}{1B6F8C}
+\definecolor{ctB}{HTML}{B5530F}
+\setlength{\emergencystretch}{2em}
+\newtheorem{theorem}{Teorema}
+\newtheorem{proposition}{Proposición}
+\newtheorem{lemma}{Lema}
+\newtheorem{remark}{Observación}
+\newcommand{\lean}[1]{\texttt{#1}}
+\newcommand{\Ztwelve}{\mathbb{Z}_{12}}
+\newcommand{\Zn}[1]{\mathbb{Z}_{#1}}
+\newcommand{\Ahat}{\hat{A}}
+\newcommand{\Fi}{\mathcal{F}^{-1}}
+\newcommand{\Stab}{\mathrm{Stab}}
+\newcommand{\question}[1]{\smallskip\noindent\textit{#1}\smallskip}
+% enlaces de audio por fichero (vivos en el repo público); en color de acento para que se vean clicables
+\newcommand{\audiobase}{https://github.com/karlesmarin/music-math/raw/main/media}
+\newcommand{\audio}[1]{\href{\audiobase/#1}{\textcolor{ctA}{\footnotesize\,[$\flat$\,audio]}}}
+
+\title{\bf La taxonomía de fase de\\ los invariantes de conjuntos de clases de altura}
+\author{Carles Mar\'in\thanks{Preparado con la asistencia de un sistema de IA (Claude, Anthropic).
+La matemática es clásica; toda afirmación, delimitación de alcance y limitación es responsabilidad del
+autor. La frontera de la contribución se enuncia con claridad en la Sección~\ref{sec:novelty}, y es el
+núcleo de Lean~4 ---no el asistente--- lo que certifica las partes formalizadas.}\\[3pt]
+  \normalsize Investigador independiente\\
+  \normalsize \texttt{karlesmarin@gmail.com}}
+\date{Junio de 2026\\[3pt]\normalsize DOI: \href{https://doi.org/10.5281/zenodo.20826774}{10.5281/zenodo.20826774}
+\quad\textbullet\quad \href{https://github.com/karlesmarin/music-math}{github.com/karlesmarin/music-math}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}\noindent
+Sobre el universo cromático $\Ztwelve$, representamos un \emph{conjunto} de clases de altura $A$ por su
+indicador $0/1$ y tomamos su transformada de Fourier discreta
+$\Ahat=\mathcal{F}(\mathrm{ind}\,A)$. Escribimos $\Ahat=|\Ahat|\,e^{i\varphi}$. Registramos la siguiente
+organización exacta: todo invariante clásico de conjuntos de alturas \emph{que examinamos} se ordena con
+limpieza según \textbf{cuánta fase $\varphi$ conserva}. El vector de intervalos, el teorema del hexacordo
+de Babbitt, la homometría / la relación Z, las escalas profundas, la propiedad de imparidad rítmica y los
+tonos comunes bajo transposición son todos función únicamente del espectro de potencia \textbf{ciego a la
+fase} $|\Ahat|^2$ ---equivalentemente la autocorrelación, equivalentemente (en cristalografía) la
+\textbf{función de Patterson}. El vector suma / índice ---los tonos comunes bajo la inversión--- es
+función del coeficiente al cuadrado $\Ahat^2$, que conserva sólo \emph{parte} de la fase y, como invariante
+de la clase de conjuntos, es débil. Entonces llega el giro: la \textbf{correlación triple} de tercer orden
+(cuya transformada es el biespectro $\Ahat\cdot\Ahat\cdot\overline{\Ahat}$) es \emph{también} ciega a la
+fase y, sin embargo, sobre $\Ztwelve$ \textbf{resuelve la relación Z por completo} ---separar acordes
+homométricos no exige más fase, sino mayor \emph{orden}. La $\Ahat$ completa (magnitud \textbf{y} fase) es,
+por último, un invariante completo que determina el conjunto de forma exacta. Las fronteras de esta
+escalera de poder resolutivo creciente están verificadas por máquina en \lean{Fourier.lean}: el colapso
+ciego a la fase (\lean{homometric\_iff\_normSq\_dft\_eq}, \lean{allIntervalTetrachords\_homometric}), la
+resolución de tercer orden (\lean{triple\_tpose\_invariant}, \lean{carterPair\_triple\_distinct}) y el
+remate del invariante completo (\lean{Ahat\_injective}), en un mismo fichero con una auditoría de axiomas
+limpia. El cruce cristalográfico es riguroso, no una analogía: autocorrelación $=$ función de Patterson,
+$|\Ahat|^2 =$ intensidad de difracción de rayos X, la relación Z $=$ el problema de la fase. Todo
+ingrediente es clásico (el poder resolutivo de la correlación triple es la recuperación, por el biespectro,
+de la fase de Fourier salvo una rampa); la contribución es la taxonomía unificada como una sola
+organización con sus fronteras verificadas por máquina ---una primera formalización, no matemática nueva.
+\end{abstract}
+
+\section{Dos acordes que miden igual}\label{sec:hook}
+
+En 1973 Allen Forte, catalogando los acordes de la música atonal, marcó ciertos pares con la letra
+\textbf{Z}~\cite{Forte}: clases de conjunto distintas ---no relacionadas por transposición ni inversión---
+que aun así comparten el mismo \emph{vector de intervalos} (\emph{interval vector}), el recuento básico de cuántos intervalos de cada
+tamaño contiene un acorde. La \emph{relación-Z} de Forte bautizó un enigma que David Lewin ya había
+encontrado en 1960~\cite{Lewin1960} y que Howard Hanson llamaba \emph{isomérico}~\cite{Hanson}: dos acordes
+pueden ser indistinguibles para el análisis
+interválico y ser, sin embargo, objetos genuinamente distintos. El ejemplo canónico es un par de
+tetracordes todo-intervalo, $\{0,1,4,6\}$ y $\{0,1,3,7\}$: cada uno contiene las seis clases de intervalo
+exactamente una vez, de modo que sus vectores de intervalos son idénticos, pero ninguna transposición o inversión
+lleva uno al otro.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.70\linewidth]{figs/fig_clocks.pdf}
+\caption{El par homométrico canónico sobre el reloj de clases de altura ($0$ en las doce, sentido horario;
+los nodos llenos son miembros): 4-Z15 $\{0,1,4,6\}$ y 4-Z29 $\{0,1,3,7\}$. Ambos comparten el vector de
+intervalos ---y el espectro de potencia $|\Ahat|^2=[16,2,4,2,4,2,4,2,4,2,4,2]$--- y sin embargo \emph{no}
+están relacionados por $T/I$: la misma magnitud, distinta fase (\S\ref{sec:floor}).}
+\label{fig:zpair}
+\end{figure}
+
+¿Qué es, matemáticamente, ese descriptor compartido? \textbf{El vector de intervalos es la magnitud de una
+transformada de Fourier con su fase descartada.} Codifica un acorde como un indicador $0/1$ sobre las doce
+clases de altura $\Ztwelve$ y toma su transformada de Fourier discreta $\Ahat$; el vector de intervalos es
+función de $|\Ahat|^2$, sólo las magnitudes al cuadrado. \textbf{Dos acordes están Z-relacionados
+precisamente cuando comparten $|\Ahat|^2$ pero discrepan en la fase de $\Ahat$} ---la parte que $|\Ahat|^2$
+no puede ver. La fase es la variable oculta de esta nota. (Esa misma pérdida de fase es, literalmente, el
+problema de la fase de la cristalografía de rayos X: el vector de intervalos es la \emph{función de Patterson} de
+1934 y las estructuras cristalinas homométricas~\cite{Patterson44} son acordes Z-relacionados ---un cruce
+riguroso que precisamos en la \S\ref{sec:floor}, siguiendo a Mandereau et al.\ 2011~\cite{MAAA}. Lo
+señalamos y seguimos; el asunto aquí es la música y su matemática.)
+
+La Nota~1 de esta serie siguió \emph{un acorde} ---el conjunto de Petrushka de Stravinsky, la clase
+6-30--- desde un tritono hasta la teoría de grupos. Esta nota sigue \emph{una pregunta} ---por qué dos
+acordes pueden medir igual--- hasta la transformada de Fourier, y descubre que la fase ordena todo el
+catálogo de invariantes de pc-sets en una sola \textbf{escalera}: el vector de intervalos y sus parientes en el
+suelo ciego a la fase, la clase de conjunto completa en lo alto, cada invariante colocado según cuánto del
+conjunto determina ---un ascenso con un giro, pues la fase no es la única moneda.
+
+\section{Preliminares: la DFT de un conjunto de alturas}\label{sec:setup}
+
+Las clases de altura son $\Ztwelve$. Un \emph{conjunto} $A\subseteq\Ztwelve$ se codifica por su indicador
+$\mathrm{ind}\,A:\Ztwelve\to\mathbb{C}$, con $\mathrm{ind}\,A\,(j)=1$ si $j\in A$ y $0$ en caso contrario
+(\lean{Fourier.lean} línea~29). Su transformada de Fourier discreta es $\Ahat=\mathcal{F}(\mathrm{ind}\,A)$,
+construida sobre la \lean{ZMod.dft} de Mathlib (David Loeffler, Apache-2.0; línea~32). En forma reducida
+(línea~35),
+\[
+  \Ahat(t)\;=\;\sum_{a\in A}\mathrm{stdAddChar}(-(a\cdot t))\;=\;\sum_{a\in A}e^{-2\pi i\,a t/12}.
+\]
+La convención de signo de Mathlib es $\mathrm{stdAddChar}\,j=e^{2\pi i j/12}$ y
+$\mathcal{F}\Phi\,(k)=\sum_j\mathrm{stdAddChar}(-(jk))\,\Phi(j)$; el coeficiente de continua es el
+cardinal, $\Ahat(0)=|A|$ (\lean{Ahat\_zero}, línea~42).
+
+Cada coeficiente se descompone como $\Ahat(t)=|\Ahat(t)|\,e^{i\varphi(t)}$. Dos objetos derivados
+sostienen los peldaños de la taxonomía. El \textbf{espectro de potencia}
+$\mathrm{powerSpec}(t)=\Ahat(t)\,\overline{\Ahat(t)}=|\Ahat(t)|^2$ (línea~88) descarta la fase por
+completo. El \textbf{espectro suma} $\mathrm{sqSpec}(t)=\Ahat(t)\cdot\Ahat(t)=\Ahat(t)^2$ (línea~469) es el
+coeficiente \emph{al cuadrado} ---no su magnitud al cuadrado--- y \emph{conserva} la fase
+(\lean{sqSpec\_eq\_sq}, línea~473).
+
+La \emph{clase de conjuntos} arrastra dos simetrías de fase. La transposición es una \textbf{rampa} de
+fase lineal en la frecuencia: $\Ahat(T_kA)(t)=\mathrm{stdAddChar}(-(kt))\,\Ahat(t)$ (\lean{Ahat\_tpose},
+línea~51), es decir $\Ahat(t)\mapsto e^{-2\pi i k t/12}\Ahat(t)$. La inversión es \textbf{conjugación más
+una rampa}. Pasar de un conjunto a su clase $T/I$ equivale a cocientar exactamente por estas operaciones
+de fase; $|\Ahat|$ es invariante bajo la rampa, pero la fase aún guarda información que $|\Ahat|$ no puede
+ver ---y ésa es toda la historia que sigue.
+
+\section{El suelo ciego a la fase: \texorpdfstring{$|\Ahat|^2$}{|A|^2} \texorpdfstring{$=$}{=} autocorrelación \texorpdfstring{$=$}{=} Patterson}\label{sec:floor}
+
+\noindent\textbf{P\textsubscript{0} --- el gancho, hecho preciso.} Los dos tetracordos de la
+\S\ref{sec:hook}, $\{0,1,4,6\}$ (4-Z15 de Forte) y $\{0,1,3,7\}$ (4-Z29), son idénticos para el análisis de
+intervalos y sin embargo no están relacionados por $T/I$ ---la relación Z. Localizamos ahora exactamente
+\emph{qué} invariante no logra separarlos, y por qué: \textbf{es función únicamente de $|\Ahat|^2$, y la
+respuesta es la fase.}
+
+Para verlo, leamos el vector de intervalos en clave espectral. La autocorrelación ordenada
+$\mathrm{autocorr}(A,d)=\#\{(a,b)\in A\times A: a-b=d\}$
+(línea~84) es la DFT inversa del espectro de potencia (Wiener--Khinchin),
+$\mathrm{autocorr}(A,d)=\Fi(|\Ahat|^2)(d)$ (\lean{autocorr\_eq\_invDFT}, línea~104); el vector de
+intervalos en bruto es esa autocorrelación reagrupada por clase de intervalo,
+$\mathrm{IVraw}(A,k)=\sum_{\mathrm{ivc}\,d=k}\Fi(|\Ahat|^2)(d)$ (\lean{IVraw\_eq\_invDFT\_power},
+línea~167). El vector de intervalos es, por tanto, función únicamente de $|\Ahat|^2$: no puede ver la fase.
+
+\paragraph{La homometría $=$ el núcleo de ``olvidar la fase''.} Dos conjuntos son \textbf{homométricos}
+cuando comparten la misma autocorrelación (\lean{Homometric}, línea~353). Exactamente: homométricos si y
+sólo si tienen igual espectro de potencia (\lean{homometric\_iff\_powerSpec\_eq}, línea~358),
+equivalentemente igual $|\Ahat|^2$ en toda frecuencia (\lean{homometric\_iff\_normSq\_dft\_eq},
+línea~373). \textbf{Homométricos $\iff$ mismo $|\Ahat|^2$: la equivalencia ``misma magnitud, cualquier
+fase'', siendo la fase de $\Ahat$ lo que descarta.}
+
+\paragraph{El cruce cristalográfico (riguroso, no una analogía).} En cristalografía de rayos X, la
+autocorrelación de una densidad electrónica es la \textbf{función de Patterson} (Patterson
+1934~\cite{Patterson}); la intensidad de difracción medida es $|\Ahat|^2$, el cuadrado de la magnitud del
+factor de estructura; y la obstrucción central ---recuperar una estructura a partir de su patrón de
+difracción--- es el \textbf{problema de la fase}, porque densidades distintas pueden compartir $|\Ahat|^2$.
+\textbf{La relación Z es ese problema de la fase sobre $\Ztwelve$: misma difracción, distinta fase}
+---autocorrelación $=$ Patterson, relación Z $=$ problema de la fase. La
+correspondencia relación~Z $\leftrightarrow$ Patterson es exactamente
+Mandereau et al.\ 2011~\cite{MAAA}. En \lean{Fourier.lean} la función de Patterson está
+nombrada como tal (\lean{Patterson}, línea~349) y el teorema del problema de la fase es
+\lean{homometric\_iff\_normSq\_dft\_eq}.
+
+\paragraph{P\textsubscript{0} respondida ---el testigo.} Los tetracordos de todos los intervalos son el
+par homométrico canónico (Figura~\ref{fig:magphase}): $\mathrm{Homometric}\,\{0,1,4,6\}\,\{0,1,3,7\}$
+(\lean{allIntervalTetrachords\_homometric}, línea~390, \lean{by decide}). Verificado en Sage (contenedor
+\lean{cognitive\_arch\_sage}): ambos conjuntos tienen autocorrelación $[4,1,1,1,1,1,2,1,1,1,1,1]$ y
+espectro de potencia $|\Ahat|^2=[16,2,4,2,4,2,4,2,4,2,4,2]$, iguales en toda frecuencia; sus formas primas
+$(0,1,4,6)\ne(0,1,3,7)$ no están relacionadas por $T/I$ (Figura~\ref{fig:zpair})\,\audio{z_pair.wav}.
+Mismo $|\Ahat|^2$, distinto conjunto: el suelo de la taxonomía.
+
+\begin{figure}[tbp]\centering
+\includegraphics[width=0.60\linewidth]{figs/fig_magphase.pdf}
+\caption{Los dos tetracordes todo-intervalo comparten exactamente el espectro de potencia $|\Ahat(t)|^2$
+(arriba --- las barras coinciden), pero sus fases $\arg\Ahat(t)$ difieren en casi todas las frecuencias
+(abajo). Todo invariante ciego a la fase es función únicamente de $|\Ahat|^2$, así que ninguno puede
+separarlos; la fase es la diferencia que el vector de intervalos no puede ver.}
+\label{fig:magphase}
+\end{figure}
+
+\question{P\textsubscript{1}. ¿Está el vector de intervalos solo en esa ceguera, o la comparte todo el suelo?}
+
+Todo invariante ciego a la fase es función de $|\Ahat|^2$: el vector de intervalos
+(\lean{IVraw\_eq\_invDFT\_power}); el teorema del hexacordo de Babbitt ---un hexacordo y su complemento
+comparten $|\Ahat|$ fuera de $t=0$ (\lean{hexachord\_abs\_eq}, línea~327), luego el mismo vector de
+intervalos; los tonos comunes bajo transposición $\#(A\cap T_kA)=\Fi(|\Ahat|^2)(k)$
+(\lean{commonTones\_eq\_invDFT}, línea~223); las escalas profundas ---las entradas del vector de
+intervalos son los conteos de tonos comunes por transposición, todos distintos
+(\lean{IsDeep\_iff\_commonTones\_nodup}, línea~304); la propiedad de imparidad rítmica ---la
+autocorrelación se anula en el tritono (\lean{rop\_iff\_autocorr\_zero}, línea~580). Todos colapsan sobre
+el par~Z, porque todos se leen de $|\Ahat|^2$.
+
+Sobre las $222$ clases de conjuntos no triviales de $\Ztwelve$ hay \textbf{23 pares Z} (todo grupo Z tiene
+tamaño $2$), que abarcan $46$ clases: $1$ par de tetracordos (los tetracordos de todos los intervalos
+4-Z15 / 4-Z29), $3$ de pentacordos, $15$ de hexacordos (las relaciones Z hexacordales clásicas), $3$ de
+heptacordos, $1$ de octacordos (\lean{sage/phase\_taxonomy.sage}, \lean{sage/sc\_count.sage}).
+
+\section{El peldaño de fase parcial: \texorpdfstring{$\Ahat^2$}{A^2} \texorpdfstring{$=$}{=} el vector suma / índice}\label{sec:partial}
+
+\question{P\textsubscript{2}. ¿Puede algún invariante ver la fase que el vector de intervalos no ve?}
+
+Donde el vector de intervalos cuenta los tonos retenidos bajo \emph{transposición} (el emparejamiento por
+\emph{diferencia} $a-b$, gobernado por $|\Ahat|^2$), el \textbf{vector suma / índice} cuenta los tonos
+retenidos bajo \emph{inversión} $I_j(x)=j-x$ (el emparejamiento por \emph{suma} $a+b$). El conteo retenido
+es $\mathrm{commonTonesInv}(A,j)=\#(A\cap I_jA)$ (línea~462), igual al vector suma
+$\mathrm{sumcorr}(A,j)=\#\{(a,b):a+b=j\}$ (\lean{commonTonesInv\_eq\_sumcorr}, línea~508).
+
+\paragraph{Su transformada es $\Ahat^2$, no $|\Ahat|^2$.} El vector suma es la DFT inversa del
+\emph{coeficiente al cuadrado}, $\mathrm{sumcorr}(A,j)=\Fi(\Ahat^2)(j)$ (\lean{sumcorr\_eq\_invDFT},
+línea~515), con $\mathrm{sqSpec}(t)=\Ahat(t)^2$ (\lean{sqSpec\_eq\_sq}, línea~473). Como elevar al cuadrado
+conserva el coeficiente en vez de multiplicarlo por su conjugado, $\Ahat^2$ retiene fase que
+$|\Ahat|^2=\Ahat\cdot\overline{\Ahat}$ destruye. El vector suma es, por tanto, \textbf{dependiente de la
+fase}.
+
+\paragraph{Separa el par homométrico que $|\Ahat|^2$ no puede.} En torno al eje $j=0$, los dos tetracordos
+de todos los intervalos retienen números distintos de tonos:
+$\mathrm{commonTonesInv}\,\{0,1,4,6\}\,0\ne\mathrm{commonTonesInv}\,\{0,1,3,7\}\,0$
+(\lean{sumVector\_distinguishes\_homometric}, línea~555, \lean{by decide}). Verificado
+(\lean{sage/isum.sage}): en $j=0$, $\{0,1,4,6\}$\,\audio{inversion_4z15.wav} retiene \textbf{2} tonos,
+$\{0,1,3,7\}$\,\audio{inversion_4z29.wav} retiene \textbf{1}. \textbf{La fase que el vector de intervalos no
+ve, el vector suma sí la ve}: $\Ahat^2$ conserva fase parcial y separa el par Z.
+
+\paragraph{Honestos: parcial, no total.} $\Ahat^2$ retiene \emph{algo} de fase, no toda. Los vectores suma
+completos del par son $[2,2,1,0,2,2,2,2,1,0,2,0]$ y $[1,2,2,2,2,0,1,2,2,0,2,0]$ (\lean{sage/isum.sage}).
+Difieren \emph{como vectores indexados} ---eje $j$ contra eje $j$--- pero son \textbf{permutación uno del
+otro}: ambos ordenan a $[0,0,0,1,1,2,2,2,2,2,2,2]$. Así que el vector suma \emph{indexado} (por eje) ve la
+fase; el mero \emph{multiconjunto} de conteos no. Enunciamos la distinción como indexada, nunca como una
+diferencia global de multiconjuntos.
+
+\section{El peldaño de tercer orden: la correlación triple resuelve la homometría}\label{sec:triple}
+
+\question{¿Hace falta recuperar la fase perdida para distinguir el par homométrico?}
+
+\noindent Sorprendentemente, no. El vector suma de la sección anterior sólo veía fase a un eje fijo y es
+débil como invariante de clase; el objeto que resuelve la homometría por completo no conserva \emph{nada}
+de fase ---sube un \emph{orden} en su lugar. Ese objeto de orden superior es la \textbf{correlación triple}
+$\mathrm{triple}\,A\,j\,k=\#(A\cap T_jA\cap T_kA)$ ---el número de clases de altura $x$ con $x$, $x-j$,
+$x-k$ todas en $A$--- cuya DFT es el \textbf{biespectro} $\Ahat(t_1)\,\Ahat(t_2)\,\overline{\Ahat(t_1+t_2)}$,
+el análogo de tercer orden de $\mathrm{autocorr}=\Fi(|\Ahat|^2)$. Es \textbf{ciego a la fase en el sentido
+de difracción y, sin embargo, invariante por transposición} (\lean{triple\_tpose\_invariant}) y, a
+diferencia del vector de intervalos, \textbf{distingue el par homométrico}:
+$\mathrm{triple}\,\{0,1,4,6\}\ne\mathrm{triple}\,\{0,1,3,7\}$ (\lean{carterPair\_triple\_distinct},
+\lean{by decide}). Sobre $\Ztwelve$ separa \textbf{los 23 pares de homometría (relacionados por Z) y las
+222 clases de conjuntos} (cómputo exhaustivo, por dos vías independientes, $0$ colisiones). \textbf{No} es
+invariante por inversión (\lean{triple\_not\_inversionInvariant}) ---distingue un conjunto de su inversión---
+y eso es precisamente por lo que, plegado por inversión, es el invariante completo de la clase de conjuntos
+de la sección siguiente. La matemática es clásica: el biespectro recupera la fase de Fourier salvo una
+rampa lineal (el teorema de completitud de la correlación triple, Kakarala~\cite{Kakarala}; el biespectro
+de Tukey y Brillinger~\cite{Brillinger}; la función de Patterson de orden superior de la cristalografía),
+la cuestión de la reconstrucción desde el 3-\emph{deck} en $\Zn{n}$ es Keleti--Kolountzakis
+2006~\cite{KK}, y los productos de coeficientes invariantes por transposición en música son Yust--Amiot
+2022~\cite{YA}. Nuestra contribución es el enunciado exacto en $\Ztwelve$ y su primera formalización (Brick~22).
+
+\section{El invariante completo: la \texorpdfstring{$\Ahat$}{A} entera}\label{sec:complete}
+
+\question{P\textsubscript{3}. ¿Qué haría falta para ver \emph{toda} la fase?}
+
+\textbf{La DFT completa $\Ahat$ (magnitud y fase) determina el conjunto de clases de altura de forma
+exacta:} $\Ahat_A=\Ahat_B\Rightarrow A=B$ (\lean{Ahat\_injective}, línea~427), con el bicondicional
+\lean{Ahat\_eq\_iff} (línea~431). La demostración es breve y clásica: \lean{ZMod.dft} es una
+\lean{LinearEquiv}, luego inyectiva (\lean{dft.injective}), y el indicador es inyectivo porque la
+pertenencia se recupera como $\mathrm{ind}\,A\,(x)=1$ usando $(1:\mathbb{C})\ne0$ (\lean{ind\_injective},
+línea~418). La fase es exactamente el dato que completa el vector de intervalos hasta un invariante total.
+
+\paragraph{Del CONJUNTO a la CLASE de conjuntos ---la frontera computacional.} \textbf{\lean{Ahat\_injective}
+demuestra que $\Ahat$ determina el conjunto; la completitud de la clase de conjuntos (módulo las simetrías
+de fase $T/I$) es el enunciado computacional, no un teorema en Lean.} Cocientar por las dos simetrías de
+fase de la \S\ref{sec:setup} ---la rampa de transposición y la conjugación-más-rampa de inversión--- da un
+candidato a invariante completo de la clase de conjuntos. Verificado (\lean{sage/phase\_taxonomy.sage}):
+tómese la firma canónica $=$ el mínimo lexicográfico de $\Ahat$ sobre el grupo de simetrías de fase de
+$24$ elementos ($12$ rampas $\times\,\{\mathrm{id},\mathrm{conj}\}$); el barrido halla \textbf{0
+colisiones}, $\text{firmas distintas}=224=\text{número de órbitas }T/I$ ($=222$ clases no triviales $+$ el
+conjunto vacío $+$ el agregado cromático). Así, la $\Ahat$ completa módulo
+$\{\text{rampa},\text{conj-rampa}\}$ es un invariante completo de la clase de conjuntos ---y la homometría,
+el colapso ciego a la fase, queda exactamente un peldaño por debajo de esta frontera de completitud.
+
+\section{La taxonomía, y el lazo de vuelta a 6-30}\label{sec:taxonomy}
+
+El mapa entero, con cada invariante anclado a su porción de $\Ahat$:
+
+\begin{table}[ht]
+\centering\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}llccl@{}}
+\toprule
+\textbf{Invariante} & \textbf{Porción de $\Ahat$} & \textbf{Fase} & \textbf{¿Completo?} & \textbf{Lean (\lean{Fourier.lean})}\\
+\midrule
+Vector de intervalos (B.1)     & $|\Ahat|^2$            & ciego   & no$^\dagger$ & \lean{IVraw\_eq\_invDFT\_power} (L167)\\
+Teorema del hexacordo (B.2)    & $|\Ahat|$              & ciego   & ---          & \lean{hexachord\_abs\_eq} (L327)\\
+Homometría / relación Z (B.3)  & $|\Ahat|^2$            & ciego   & colapsa      & \lean{homometric\_iff\_normSq\_dft\_eq} (L373)\\
+Tonos comunes / $T_k$ (O.1)    & $|\Ahat|^2$            & ciego   & no           & \lean{commonTones\_eq\_invDFT} (L223)\\
+Escala profunda (L.4)          & $|\Ahat|^2$            & ciego   & no           & \lean{IsDeep\_iff\_commonTones\_nodup} (L304)\\
+Imparidad rítmica (N.1)        & $|\Ahat|^2$ en $t=6$   & ciego   & no           & \lean{rop\_iff\_autocorr\_zero} (L580)\\
+Vector suma / índice (O.2)     & $\Ahat^2$              & parcial & no (débil)   & \lean{sumcorr\_eq\_invDFT} (L515)\\
+Correlación triple (B22)       & $\Ahat\!\cdot\!\Ahat\!\cdot\!\overline{\Ahat}$ & ciego & \textbf{resuelve} & \lean{triple\_tpose\_invariant} (L703)\\
+\rowcolor{ctA!18}
+\textbf{DFT completa}          & $\boldsymbol{\Ahat}$   & \textbf{completa} & \textbf{SÍ}$^\ddagger$ & \lean{Ahat\_injective} (L427)\\
+\bottomrule
+\end{tabular}
+\caption{Cada invariante clásico anclado a la porción de $\Ahat$ que retiene. $^\dagger$La homometría
+colapsa el vector de intervalos (\S\ref{sec:floor}). $^\ddagger$La $\Ahat$ completa determina el
+\emph{conjunto} en Lean; la completitud de la \emph{clase de conjuntos} (módulo las simetrías de fase
+$T/I$) es el enunciado computacional de la \S\ref{sec:complete}.}
+\label{tab:taxonomy}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.56\linewidth]{figs/fig_ladder.pdf}
+\caption{La taxonomía como una escalera de poder de resolución creciente. $|\Ahat|^2$ es ciego a la fase y
+la homometría lo colapsa; $\Ahat^2$ retiene sólo fase parcial (débil); la correlación triple
+(\S\ref{sec:triple}) es el invariante ciego a la fase de tercer orden que \emph{resuelve} la homometría;
+la $\Ahat$ completa lo ve todo (\texttt{Ahat\_injective}). El peldaño superior es la frontera de
+completitud, resaltado como en la Tabla~\ref{tab:taxonomy}.}
+\label{fig:ladder}
+\end{figure}
+
+\question{P\textsubscript{4}. ¿Qué le dice esto a la autodualidad centrada en el tritono de la Nota~\#1?}
+
+La Nota~\#1~\cite{Note1} identificó la 6-30 $=(013679)$ como la única clase no trivial de $\Ztwelve$ que
+porta una autodualidad centrada en el tritono: su estabilizador $T/I$ es exactamente el centro
+$\{T_0,T_6\}$. Esa autodualidad es un \textbf{hecho de fase}. La condición $T_6\in\Stab$ equivale a que
+$\Ahat$ tenga soporte en las frecuencias pares (se anule en las impares) ---ahora atestiguado por máquina:
+\textbf{0 discrepancias sobre los $4096$ subconjuntos} de $\Ztwelve$ (\lean{sage/phase\_taxonomy.sage}), el
+universo más fuerte, no sólo las clases. Pero la autodualidad necesita \emph{más} que la simetría del
+tritono: requiere además una condición de fase libre de inversión que $|\Ahat|$ no puede ver. Éste es el
+hilo H2 de la Nota~\#1, donde la autodualidad quedó \textbf{refutada como teorema limpio de
+$|\Ahat|^2$} ---Fourier explica el \emph{requisito} de fase, no entrega la autodualidad a partir de la
+magnitud sola. La taxonomía explica, a posteriori, por qué el resultado de la Nota~\#1 vivía \textbf{por
+encima} del suelo del vector de intervalos: un hecho sobre la simetría del tritono y la autodualidad es un
+hecho sobre la \emph{fase} de $\Ahat$, invisible para la columna ciega a la fase donde se sientan el vector
+de intervalos y todos sus parientes.
+
+\section{Qué está verificado por máquina}\label{sec:checked}
+
+\question{P\textsubscript{5}. ¿Podemos fiarnos de todo esto?}
+
+La escalera la verifica el núcleo de Lean~4 (Tabla~\ref{tab:lean}), espacio de nombres \lean{Fourier}, sin
+\lean{sorry}. La auditoría de axiomas al pie de \lean{Fourier.lean} (\lean{\#print axioms}, líneas
+727--766) devuelve a lo sumo \lean{[propext, Classical.choice, Quot.sound]} sin \lean{sorryAx} en todo
+teorema; los testigos decidibles (\lean{sumVector\_distinguishes\_homometric},
+\lean{carterPair\_triple\_distinct}, \lean{triple\_not\_inversionInvariant}, \lean{diatonic\_isDeep},
+\lean{augmented\_not\_isDeep}) son incluso libres de elección (\lean{[propext, Quot.sound]}), confirmado al
+recompilar el fichero en el entorno rápido godsil (EXIT 0).
+
+\begin{table}[ht]
+\centering\small
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}l p{0.60\textwidth}@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Teorema (línea)} & \textbf{Enunciado}\\
+\midrule
+\lean{IVraw\_eq\_invDFT\_power} (167)         & Vector de intervalos $=\Fi(|\Ahat|^2)$ sumado por clase de intervalo ---la clave ciega a la fase.\\
+\lean{homometric\_iff\_powerSpec\_eq} (358)   & Homométricos $\iff$ igual espectro de potencia ---la homometría es el núcleo de ``olvidar la fase''.\\
+\lean{homometric\_iff\_normSq\_dft\_eq} (373) & Forma cristalográfica: homométricos $\iff$ igual intensidad de difracción $|\Ahat|^2$ ---el problema de la fase.\\
+\lean{allIntervalTetrachords\_homometric} (390) & $\mathrm{Homometric}\,\{0,1,4,6\}\,\{0,1,3,7\}$ ---el par Z canónico, mismo $|\Ahat|^2$, no $T/I$.\\
+\lean{commonTones\_eq\_invDFT} (223)          & Tonos comunes bajo $T_k$ $=\Fi(|\Ahat|^2)(k)$.\\
+\lean{sumcorr\_eq\_invDFT} (515)              & Vector suma / índice $=\Fi(\Ahat^2)$ ---la cara dependiente de la fase.\\
+\lean{sqSpec\_eq\_sq} (473)                   & $\mathrm{sqSpec}(t)=\Ahat(t)^2$ ---el coeficiente al cuadrado, que conserva la fase.\\
+\lean{commonTonesInv\_eq\_sumcorr} (508)      & Tonos retenidos bajo $I_j$ $=$ el vector suma en $j$ (Lewin/Rahn; primera formalización).\\
+\lean{sumVector\_distinguishes\_homometric} (555) & El vector suma separa el par homométrico que $|\Ahat|^2$ no puede.\\
+\lean{ind\_injective} (418)                   & Un conjunto queda determinado por su indicador $0/1$.\\
+\lean{Ahat\_injective} (427)                  & \textbf{El remate.} La DFT completa determina el conjunto: $\Ahat_A=\Ahat_B\Rightarrow A=B$.\\
+\lean{Ahat\_eq\_iff} (431)                    & Forma bicondicional: $\Ahat_A=\Ahat_B\iff A=B$.\\
+\lean{triple\_tpose\_invariant} (703)         & La correlación triple es invariante por transposición (3er orden, ciego a la fase).\\
+\lean{carterPair\_triple\_distinct} (713)     & La correlación triple distingue el par homométrico que el vector de intervalos no puede.\\
+\lean{triple\_not\_inversionInvariant} (721)  & La correlación triple no es invariante por inversión (distingue un conjunto de su inversión).\\
+\bottomrule
+\end{tabular}
+\caption{La escalera de la taxonomía de fase en \lean{Fourier.lean}, verificada por máquina ---el colapso
+ciego a la fase, el peldaño de fase parcial y el remate del invariante completo en un mismo fichero.}
+\label{tab:lean}
+\end{table}
+
+\lean{Ahat\_injective} demuestra que $\Ahat$ determina el \textbf{conjunto}. La completitud de la
+\textbf{clase de conjuntos} (módulo las simetrías de fase $T/I$) es \textbf{computacional} (el barrido en
+Sage, $0$ colisiones sobre $224$ órbitas $T/I$), no un teorema en Lean ---la misma postura que la
+Nota~\#1, donde Lean demuestra el motor y Sage aporta el barrido específico. Los testigos
+(Tabla~\ref{tab:sage}) son reejecutables.
+
+\begin{table}[H]
+\centering\small
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}l p{0.62\textwidth}@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Script} & \textbf{Qué atestigua}\\
+\midrule
+\lean{phase\_taxonomy.sage} & Par homométrico con $|\Ahat|^2$ igual; simetría $T_6$ $\iff$ anulación en frecuencias impares, \textbf{0 discrepancias sobre los 4096 subconjuntos}; $\Ahat$ completa mód $\{\text{rampa},\text{conj-rampa}\}$ completa, \textbf{0 colisiones, 224 firmas distintas}.\\
+\lean{homometry.sage}       & Los tetracordos de todos los intervalos comparten autocorrelación $[4,1,1,1,1,1,2,1,1,1,1,1]$ y $|\Ahat|^2=[16,2,4,2,4,2,4,2,4,2,4,2]$; formas primas distintas, no $T/I$.\\
+\lean{isum.sage}            & Distinción de fase del vector suma: en $j=0$, $\{0,1,4,6\}$ retiene 2, $\{0,1,3,7\}$ retiene 1; los vectores suma completos difieren como indexados pero son permutación uno del otro.\\
+\lean{sc\_count.sage}       & Censo de la relación Z: 23 pares Z sobre 222 clases no triviales (1 tetra / 3 penta / 15 hexa / 3 hepta / 1 octa).\\
+\bottomrule
+\end{tabular}
+\caption{Testigos en Sage (contenedor \lean{cognitive\_arch\_sage}, Sage 10.8), todos reejecutables.}
+\label{tab:sage}
+\end{table}
+
+\section{Novedad, alcance y lo que esta nota no afirma}\label{sec:novelty}
+
+\paragraph{La contribución, dicha sin rodeos.} Ésta es una nota de formalización $+$ organización, no de
+matemática nueva. Cada ingrediente es clásico: el teorema de la autocorrelación (Wiener--Khinchin) y su
+lectura cristalográfica ---autocorrelación $=$ Patterson, $|\Ahat|^2=$ intensidad de difracción,
+relación~Z $=$ problema de la fase--- son clásicos (Patterson 1934~\cite{Patterson}; la correspondencia
+relación~Z $\leftrightarrow$ Patterson es Mandereau et al.\ 2011~\cite{MAAA}). La
+homometría es la equivalencia clásica de ``mismo contenido interválico'' (Lewin~\cite{Lewin}; Soderberg~\cite{Soderberg}).
+El programa de la DFT de conjuntos de alturas es de Amiot~\cite{Amiot}; el vector suma / índice y su
+relación con $\Ahat^2$ están dentro de ese programa ---afirmamos \textbf{sólo formalización}, nunca
+prioridad. La identidad combinatoria del vector suma es clásica (Lewin~\cite{Lewin}; Rahn~\cite{Rahn}). La
+inyectividad de la DFT no es más que el hecho de que \lean{ZMod.dft} es una \lean{LinearEquiv}~\cite{Loeffler}.
+La contribución es la \textbf{taxonomía unificada como un único enunciado} ---anclar cada invariante
+clásico a su porción exacta de $\Ahat$ y verificar por máquina las \textbf{dos fronteras de la escalera lado
+a lado}: el colapso ciego a la fase (\lean{homometric\_iff\_normSq\_dft\_eq}) y el remate del invariante
+completo (\lean{Ahat\_injective}) en un mismo fichero con una auditoría de axiomas limpia. Es la primera
+formalización, y la primera vez que ambas fronteras se verifican juntas.
+
+\paragraph{Lo que esta nota \emph{no} afirma.}
+\begin{itemize}\itemsep2pt
+  \item \textbf{No es matemática nueva.} Sólo primera \emph{formalización} y \emph{organización}.
+  \item \textbf{No es una prueba en Lean de la completitud de la CLASE de conjuntos.}
+        \lean{Ahat\_injective} demuestra que $\Ahat$ determina el \emph{conjunto}; la completitud módulo
+        las simetrías de fase $T/I$ es el enunciado \emph{computacional} (barrido en Sage, $0$ colisiones
+        sobre $224$ órbitas $T/I$), no un teorema en Lean.
+  \item \textbf{No es ``fase total'' para el vector suma.} $\Ahat^2$ retiene fase \emph{parcial}; los dos
+        vectores suma del par~Z son permutación uno del otro, de modo que la distinción es indexada (por
+        eje), no una diferencia global de multiconjuntos.
+  \item \textbf{No es prioridad sobre el programa de la DFT de conjuntos de alturas.} Patterson, la
+        homometría de Lewin/Soderberg, el programa de Fourier de Amiot y Tymoczko--Yust~\cite{TY} preceden
+        a esto; citamos, formalizamos y no suplantamos. El resultado fase $\approx$ suma de clases de
+        Tymoczko--Yust es \emph{bajo transposición}, un teorema \emph{distinto}, citado sólo por la
+        intuición.
+  \item \textbf{No es una afirmación de profundidad de Fourier sobre la autodualidad de 6-30.}
+        $T_6\in\Stab\iff\Ahat$ se anula en frecuencias impares está atestiguado por máquina ($0$
+        discrepancias sobre $4096$ subconjuntos), pero la autodualidad necesita además una condición de
+        fase libre de inversión que $|\Ahat|$ no puede ver ---refutada como teorema limpio de $|\Ahat|^2$
+        en la Nota~\#1. \textbf{Frontera abierta:} un teorema en Lean para la completitud de la clase de
+        conjuntos, y elevar la caracterización por soporte en frecuencias pares a universos pares generales.
+\end{itemize}
+
+\paragraph{Más allá de $\Ztwelve$.} Cuándo la correlación triple deja de ser un invariante completo para
+$\Zn{n}$ general ---una cuestión de combinatoria aditiva finita, no de teoría musical--- se aborda en una
+nota compañera.
+
+\section*{Disponibilidad de datos y código}
+La fuente en Lean \lean{Fourier.lean} y los scripts testigo de Sage de las
+Tablas~\ref{tab:lean}--\ref{tab:sage} acompañan a esta nota; cada teorema de Lean es comprobable con
+\lean{\#print axioms} y cada script es reejecutable.
+
+\begin{thebibliography}{99}
+\bibitem{Forte} A. Forte, \emph{The Structure of Atonal Music}, Yale Univ. Press, 1973.
+\bibitem{Lewin1960} D. Lewin, ``Re: The intervallic content of a collection of notes, intervallic relations
+  between a collection of notes and its complement\dots,'' \emph{J. Music Theory} \textbf{4} (1960),
+  no.~1, 98--101.
+\bibitem{Hanson} H. Hanson, \emph{Harmonic Materials of Modern Music: Resources of the Tempered Scale},
+  Appleton--Century--Crofts, 1960.
+\bibitem{Patterson} A. L. Patterson, ``A Fourier Series Method for the Determination of the Components of
+  Interatomic Distances in Crystals,'' \emph{Phys. Rev.} \textbf{46} (1934), 372--376.
+  doi:10.1103/PhysRev.46.372.
+\bibitem{Patterson44} A. L. Patterson, ``Ambiguities in the X-Ray Analysis of Crystal Structures,''
+  \emph{Phys. Rev.} \textbf{65} (1944), 195--201. doi:10.1103/PhysRev.65.195.
+\bibitem{MAAA} J. Mandereau, D. Ghisi, E. Amiot, M. Andreatta, C. Agon, ``Z-relation and homometry in
+  musical distributions,'' \emph{J. Math. \& Music} \textbf{5} (2011), no.~2, 83--98.
+  doi:10.1080/17459737.2011.608819.
+\bibitem{Amiot} E. Amiot, \emph{Music Through Fourier Space: Discrete Fourier Transform in Music Theory},
+  Computational Music Science, Springer, 2016.
+\bibitem{TY} D. Tymoczko, J. Yust, ``Fourier phase and pitch-class sum,'' in \emph{Mathematics and
+  Computation in Music} (MCM 2019), LNCS \textbf{11502}, Springer (2019), pp.~46--58.
+  doi:10.1007/978-3-030-21392-3\_4.
+\bibitem{YA} J. Yust, E. Amiot, ``Non-spectral Transposition-Invariant Information in Pitch-Class Sets and
+  Distributions,'' in \emph{Mathematics and Computation in Music} (MCM 2022), LNCS \textbf{13267}, Springer
+  (2022), pp.~279--291. doi:10.1007/978-3-031-07015-0\_23.
+\bibitem{Brillinger} D. R. Brillinger, ``An introduction to polyspectra,'' \emph{Ann. Math. Statist.}
+  \textbf{36} (1965), 1351--1374.
+\bibitem{Kakarala} R. Kakarala, ``Completeness of bispectrum on compact groups,'' arXiv:0902.0196 (2009);
+  véase también la tesis doctoral ``Triple correlation on groups,'' Univ. de California, Irvine, 1992. [la
+  correlación triple determina una señal salvo traslación]
+\bibitem{KK} T. Keleti, M. N. Kolountzakis, ``On the determination of sets by their triple correlation in
+  finite cyclic groups,'' \emph{Online J. Anal. Comb.} \textbf{1} (2006), \#3 (arXiv:math/0603415).
+\bibitem{Lewin} D. Lewin, \emph{Generalized Musical Intervals and Transformations}, Yale Univ. Press,
+  1987 (reimp.\ Oxford Univ. Press, 2007).
+\bibitem{Soderberg} S. Soderberg, ``Z-Related Sets as Dual Inversions,'' \emph{J. Music Theory} \textbf{39}
+  (1995), no.~1, 77--100.
+\bibitem{Rahn} J. Rahn, \emph{Basic Atonal Theory}, Longman, 1980.
+\bibitem{Loeffler} D. Loeffler, Mathlib \lean{ZMod.dft} (Apache-2.0) ---la transformada de Fourier discreta
+  como \lean{LinearEquiv}.
+\bibitem{Note1} C. Mar\'in, ``A tritone-centered self-duality: the set class 6-30 and its order-12
+  neo-Riemannian dual,'' Nota~\#1 (serie music-math), 2026 (DOI:10.5281/zenodo.20820962).
+\end{thebibliography}
+
+\end{document}

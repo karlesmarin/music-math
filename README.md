@@ -3,6 +3,7 @@
 [![Note 1 — DOI](https://img.shields.io/badge/Note_1-10.5281%2Fzenodo.20820961-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20820961)
 [![Note 2 — DOI](https://img.shields.io/badge/Note_2-10.5281%2Fzenodo.20826773-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20826773)
 [![Note 3 — DOI](https://img.shields.io/badge/Note_3-10.5281%2Fzenodo.20862821-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20862821)
+[![Note 4 — DOI](https://img.shields.io/badge/Note_4-10.5281%2Fzenodo.20971089-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20971089)
 [![Corpus paper — DOI](https://img.shields.io/badge/Corpus_paper-10.5281%2Fzenodo.20953768-B5530F?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20953768)
 [![License](https://img.shields.io/badge/License-Apache_2.0-B5530F)](LICENSE)
 [![Lean 4 + Mathlib](https://img.shields.io/badge/Lean_4-Mathlib-2C2C2C)](https://leanprover.github.io/)
@@ -62,9 +63,26 @@ constraint-search composition program built on the verified invariants. New note
   Sage-verified. EN + ES, with MIDI/WAV (incl. a microtonal realization). DOI (this note)
   [10.5281/zenodo.20862822](https://doi.org/10.5281/zenodo.20862822).
 
-> **Notes 2 and 3 are both Fourier/spectral** and share `lean/Fourier.lean`: Note 2's homometry power
+- 🎵 **Note 4 — *The per-voice Fourier signature: the bass is the spectrally purest voice***
+  ([`per_voice_note.pdf`](notes/per-voice-fourier-signature/per_voice_note.pdf) · EN;
+  [ES](notes/per-voice-fourier-signature/per_voice_note_es.pdf)):
+  The DFT-of-pitch-classes program reads a piece by **time**; this note turns it on the **voices**. Across
+  **334 four-part Bach chorales** (and Palestrina) the **bass is the spectrally purest voice** — lowest
+  chromaticity `|a₁|` and whole-toneness `|a₆|`, *despite* the widest pitch-class vocabulary — because it
+  realizes the harmonic **roots**: fifth/fourth (odd) root motion balances pitch-class parity (`a₆→0`, the
+  *parity channel*) and the bass's wide tessitura disperses the chromatic clustering (`a₁` low, the
+  *dispersion channel*). The effect is **texture-bounded** — strong in functional-bass homophony, fading in
+  imitative Monteverdi and pre-functional Trecento — a **diagnostic of functional-bass writing**. The parity
+  kernel (`a₆` = even-minus-odd pitch-class parity, in any even universe `ℤ₂ₘ`) is machine-checked in
+  `lean/ParityA6.lean`. An empirical corpus law with a certified kernel; the ingredients are classical
+  (Rameau/Riemann's functional bass, Amiot, Hoffman) — not new mathematics. EN + ES, with MIDI/WAV (the four
+  solo voices + the character archetypes). DOI (this note)
+  [10.5281/zenodo.20971090](https://doi.org/10.5281/zenodo.20971090).
+
+> **Notes 2, 3 and 4 are all Fourier/spectral** and share `lean/Fourier.lean`: Note 2's homometry power
 > spectrum `|Â|²` reappears in Note 3 as the conjugate-pair object behind the dihedral blocks (one
-> `{k,−k}` quotient behind both notes).
+> `{k,−k}` quotient behind both notes), and Note 4's parity kernel reads the same DFT at the order-2
+> frequency `a₆`.
 
 ## 🧩 What is formalized
 
@@ -125,6 +143,24 @@ named factored characteristic polynomial and its multiplicities is the exact Sag
 (`sage/tonnetz_cayley_spectrum.py`). The microtonal `sage/z24_saturation.sage` verifies the 24-EDO
 saturation table by exact cyclotomic arithmetic.
 
+### 🎵 Note 4 — the per-voice Fourier signature
+
+Lean source: `ParityA6.lean` (built on `Fourier.lean`). All `sorry`-free and axiom-clean. The per-voice law
+is an empirical corpus measurement; its formalized kernel is the parity identity behind the `a₆` channel.
+
+| Theorem | Statement |
+|---|---|
+| `ParityA6.Ahat_six_eq_sum_neg_one_pow` | the whole-tone coefficient is the signed parity sum: `Â(6) = ∑_{x∈A} (−1)ˣ`. |
+| `ParityA6.Ahat_six_eq_card_sub` | `Â(6) = #(even pcs) − #(odd pcs)` — the even/odd parity imbalance. |
+| `ParityA6.Ahat_six_eq_zero_iff` | `Â(6) = 0 ⟺ #(even) = #(odd)` — `a₆` vanishes exactly at parity balance. |
+| `ParityA6.dftN_half_eq_sum_neg_one_pow` | general even universe `ℤ₂ₘ`: the order-2 frequency reads pitch-class parity. |
+
+The identity is classical (`a₆` = pitch-class parity — Amiot's *Torii of Phases*; the single-note-move
+rule — Hoffman); this is its **first formalization**, *distinct* from the tritone lemma (which concerns the
+*odd*-index coefficients). The per-voice magnitude law itself is **empirical** (a corpus regularity; its
+mathematical kernel is the linearity of the DFT over the voice decomposition), measured with `music21` over
+Bach chorales, Palestrina, Monteverdi and Trecento. Formalization + measurement, not new mathematics.
+
 ### 🎼 Corpus paper — the scales-and-tuning pillar (Pillar 3)
 
 The corpus paper *One transform and one duality* consolidates Notes #1–#3 (Pillars 1–2: Fourier invariants
@@ -155,9 +191,10 @@ notes/   — one folder per note / paper: PDF (EN + ES), LaTeX source, README
   ├── corpus-one-transform-one-duality/      — Corpus paper (the umbrella; EN + ES)
   ├── sixthirty-tritone-self-duality/        — Note 1 (6-30 / Petrushka tritone self-duality)
   ├── phase-taxonomy-pitch-class-invariants/ — Note 2 (the phase taxonomy)
-  └── fourier-spectra-pitch-symmetry/        — Note 3 (the Tonnetz spectrum)
+  ├── fourier-spectra-pitch-symmetry/        — Note 3 (the Tonnetz spectrum)
+  └── per-voice-fourier-signature/           — Note 4 (the per-voice Fourier signature)
 lean/    — Lean 4 sources. Notes: NeoRiemannian, SixThirty, Fourier, CycleGraphSpectrum,
-           InversionDFT, TonnetzSpectrum, TonnetzCompleteness. Corpus Pillar 3 (new):
+           InversionDFT, TonnetzSpectrum, TonnetzCompleteness, ParityA6 (Note 4). Corpus Pillar 3 (new):
            IntervalVector, DiatonicScale, MaximalEvenness, AllPairsEvenness, Temperament, CircleOfFifths
 sage/    — Sage/GAP witness scripts, each re-runnable
 media/   — audio companions (MIDI + WAV) and the generators make_audio*.py
@@ -180,10 +217,11 @@ lake build              # notes:  NeoRiemannian, SixThirty, Fourier, CycleGraphS
 Axiom footprint — one headline theorem per note, and the corpus' Pillar 3:
 
 ```lean
-import SixThirty; import Fourier; import TonnetzSpectrum; import TonnetzCompleteness; import AllPairsEvenness
+import SixThirty; import Fourier; import TonnetzSpectrum; import TonnetzCompleteness; import AllPairsEvenness; import ParityA6
 #print axioms SixThirty.dihedral_fingerprint           -- Note 1: 6-30's dual is dihedral D₆
 #print axioms Ahat_eq_iff                              -- Note 2: the full Â is a complete invariant
 #print axioms tonnetz_spectrum_complete_unconditional  -- Note 3: the Tonnetz spectrum is complete
+#print axioms ParityA6.Ahat_six_eq_zero_iff            -- Note 4: a₆ is the even−odd pitch-class parity
 #print axioms AllPairsEvenness.abel_bridge             -- Corpus: the all-pairs energy engine (axiom-clean)
 -- each: propext, Classical.choice, Quot.sound
 -- (the all-pairs maximal-evenness censuses, e.g. AllPairsEvenness.diatonic_unique, additionally use
@@ -195,7 +233,9 @@ import SixThirty; import Fourier; import TonnetzSpectrum; import TonnetzComplete
 The claims can be **heard** (`media/`, MIDI + WAV): Note 1 — the Petrushka chord, the `T₆`
 invariance, a traversal of all twelve forms; Note 2 — the homometric `Z`-pair the bispectrum separates
 (`inversion_4z15`, `inversion_4z29`, `z_pair`); Note 3 — the augmented `a₃` cycle, the Tonnetz hexatonic
-walk, and a 24-EDO microtonal realization (`microtonal_z24`); **Corpus (Pillar 3)** — the maximally even
+walk, and a 24-EDO microtonal realization (`microtonal_z24`); **Note 4** — the four solo chorale voices
+(`bwv66_6_bass`/`tenor`/`alto`/`soprano`) and the character archetypes that voice the `a₁`/`a₆` channels
+(`arch_fifthchain`, `arch_chromatic`, `arch_wholetone`); **Corpus (Pillar 3)** — the maximally even
 scales (`diatonic_scale`, `pentatonic_scale`), the diatonic-vs-cluster contrast that the all-pairs energy
 resolves (`even_vs_cluster`), the closing circle of fifths (`circle_of_fifths`), and the **audible commas**,
 built from exact frequency ratios: twelve pure fifths vs seven octaves (`pythagorean_comma`, ≈23.5 cents)
@@ -233,6 +273,12 @@ Cite the **corpus paper** for the whole library, or the specific note for an ind
   year   = {2026}, doi = {10.5281/zenodo.20862821},
   note   = {Note 3, Mathematics of Music series. \url{https://github.com/karlesmarin/music-math}}
 }
+@misc{Marin2026PerVoice,
+  author = {Mar\'in Mu\~noz, Carles},
+  title  = {The Per-Voice Fourier Signature: the Bass is the Spectrally Purest Voice},
+  year   = {2026}, doi = {10.5281/zenodo.20971089},
+  note   = {Note 4, Mathematics of Music series. \url{https://github.com/karlesmarin/music-math}}
+}
 ```
 
 Each note is archived on Zenodo with a concept DOI (all versions) and a version DOI:
@@ -243,10 +289,11 @@ Each note is archived on Zenodo with a concept DOI (all versions) and a version 
 | 1 — 6-30 self-duality | [10.5281/zenodo.20820961](https://doi.org/10.5281/zenodo.20820961) | [20820962](https://doi.org/10.5281/zenodo.20820962) |
 | 2 — phase taxonomy | [10.5281/zenodo.20826773](https://doi.org/10.5281/zenodo.20826773) | [20826774](https://doi.org/10.5281/zenodo.20826774) |
 | 3 — Tonnetz spectrum | [10.5281/zenodo.20862821](https://doi.org/10.5281/zenodo.20862821) | [20862822](https://doi.org/10.5281/zenodo.20862822) |
+| 4 — per-voice Fourier signature | [10.5281/zenodo.20971089](https://doi.org/10.5281/zenodo.20971089) | [20971090](https://doi.org/10.5281/zenodo.20971090) |
 
 ## ⚖️ Author and license
 
-Carles Marín (independent researcher, karlesmarin@gmail.com). A large language model was used as a
+Carles Marín Muñoz (independent researcher, karlesmarin@gmail.com). A large language model was used as a
 coding assistant; every statement was independently verified by the Lean kernel, and all mathematics and
 claims are the author's responsibility.
 

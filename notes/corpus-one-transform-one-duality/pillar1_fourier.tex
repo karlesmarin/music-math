@@ -1,0 +1,197 @@
+% pillar1_fourier.tex -- Pillar 1 body of corpus_paper.tex, in the HOUSE LINE.
+% No preamble: relies on the master's macros (\question, \lean, \audio, \Ahat, \Fi, \Ztwelve,
+%   theorem/definition/remark envs, ctA/ctB spot colors). Honesty lives in the master's
+%   Novelty section (Sec. \ref{sec:novelty}) -- NO inline tags here. Lean theorems in a table.
+% Source of exposition: Note #2 (phase_taxonomy_note.tex); content audited against Fourier.lean
+%   and IntervalVector.lean.
+
+\section{Pillar 1: Fourier invariants of pitch-class sets}\label{sec:pillar1}
+
+\question{P\textsubscript{0}. The interval vector, the hexachord theorem, homometry, deep scales,
+rhythmic oddity, the common-tone theorem --- what if they are all one object, seen through
+different folds?}
+
+Encode a pitch-class set $A\subseteq\Ztwelve$ by its $0/1$ indicator and take its discrete
+Fourier transform $\Ahat=\mathcal{F}(\mathrm{ind}\,A)$, built on Mathlib's \lean{ZMod.dft}
+(Loeffler~\cite{Loeffler}): $\Ahat(t)=\sum_{a\in A}e^{-2\pi i\,at/12}$ (\lean{Ahat}). Write
+$\Ahat=|\Ahat|\,e^{i\varphi}$. The claim of this pillar is that the \emph{power spectrum}
+$|\Ahat|^2$ (\lean{powerSpec})---equivalently the autocorrelation, equivalently the
+crystallographers' Patterson function---is a single object behind a large family of the classical
+invariants, and that the boundary of what it can see is \emph{exactly} the phase $\varphi$. Each
+statement below is a theorem in \lean{Fourier.lean}/\lean{IntervalVector.lean}
+(Table~\ref{tab:p1}), sorry-free and axiom-clean.
+
+\subsection{The interval vector is the autocorrelation}\label{sec:p1-ivkey}
+
+\question{P\textsubscript{1}. Why is the interval vector invariant under transposition and
+inversion---and what is it, spectrally?}
+
+The interval vector counts, for each interval class $k$, the ordered pairs of $A$ at difference
+class $k$ (\lean{IVraw}); it is invariant under transposition (\lean{IVraw\_tpose}) and inversion
+(\lean{IVraw\_invert}) because both only permute differences. Its spectral identity is the hub of
+the pillar. With the autocorrelation $\mathrm{autocorr}(A,d)=\#\{(a,b)\in A^2:a-b=d\}$
+(\lean{autocorr}), the Wiener--Khinchin theorem holds verbatim,
+$\mathrm{autocorr}(A,d)=\Fi(|\Ahat|^2)(d)$ (\lean{autocorr\_eq\_invDFT}), and regrading by
+interval class gives the keystone
+\[
+  \mathrm{IVraw}(A,k)=\textstyle\sum_{\mathrm{ivc}\,d=k}\Fi(|\Ahat|^2)(d)
+  \qquad(\lean{IVraw\_eq\_invDFT\_power}).
+\]
+The interval vector is therefore a function of $|\Ahat|^2$ \emph{alone}: it cannot see the phase.
+Everything in the next subsection rides on this.
+
+\subsection{The phase-blind family: hexachord, common tones, deep scales, rhythmic oddity}
+\label{sec:p1-family}
+
+\question{P\textsubscript{2}. How much of the classical floor falls out of ``it is a function of
+$|\Ahat|^2$''?}
+
+\emph{Babbitt's hexachord theorem.} For $|A|=6$ and every $t\neq0$, $A$ and its complement have
+opposite transforms (\lean{Ahat\_compl}), so equal power spectra (\lean{hexachord\_powerSpec\_eq})
+and, by the keystone, equal interval content, $\mathrm{IVraw}(A,k)=\mathrm{IVraw}(A^{\mathsf c},k)$
+(\lean{hexachord\_IVraw\_eq}): a hexachord and its complement are interval-equal (Babbitt; the DFT
+proof is Amiot~\cite{Amiot}).
+
+\emph{Common tones and the tritone.} The pitch classes held under $T_k$ are exactly the
+autocorrelation, $\#(A\cap T_kA)=\Fi(|\Ahat|^2)(k)$ (\lean{commonTones\_eq\_invDFT}); over an
+interval class $1\le k\le5$ the fibre is a doubleton so $\mathrm{IVraw}(A,k)=2\,\#(A\cap T_kA)$,
+while over the tritone class $6$ it is a singleton and the factor $2$ disappears
+(\lean{IVraw\_tritone}). The tritone $T_6$ is the same central element that organizes Pillar~2.
+
+\emph{Deep scales and rhythmic oddity.} A scale is \emph{deep} when its six interval-class
+multiplicities are distinct (\lean{IsDeep})---by the tritone identity, exactly when every
+transposition retains a different number of notes (\lean{IsDeep\_iff\_commonTones\_nodup}); the
+diatonic is deep, the augmented triad is not (\lean{diatonic\_isDeep},
+\lean{augmented\_not\_isDeep}). A cyclic rhythm has the Rhythmic Oddity Property when no two
+onsets are a tritone apart, i.e.\ when the autocorrelation vanishes at $6$
+(\lean{rop\_iff\_autocorr\_zero}), which forces $|A|\le6$ (\lean{rop\_card\_le}).
+
+\subsection{Homometry: the phase the interval vector cannot see}\label{sec:p1-homometry}
+
+\question{P\textsubscript{3}. If the interval vector is phase-blind, two sets can share it and
+still differ. What is the missing information?}
+
+Two sets are \emph{homometric} when they share the autocorrelation (\lean{Homometric}); equivalently
+they have the same power spectrum (\lean{homometric\_iff\_powerSpec\_eq}), equivalently the same
+diffraction intensity $|\Ahat|^2$ at every frequency (\lean{homometric\_iff\_normSq\_dft\_eq}). This
+is, verbatim, the phase problem of X-ray crystallography: the autocorrelation is the
+\emph{Patterson} function (\lean{Patterson}; Patterson 1934~\cite{Patterson}), $|\Ahat|^2$ the
+measured intensity, homometric structures the $Z$-related chords (Forte~\cite{Forte}; the
+$Z\leftrightarrow$Patterson correspondence is Mandereau et al.~\cite{MAAA}). The canonical witness
+is the all-interval tetrachord pair (Figure~\ref{fig:p1-zpair}):
+$\mathrm{Homometric}\,\{0,1,4,6\}\,\{0,1,3,7\}$ (\lean{allIntervalTetrachords\_homometric}, by
+\lean{decide})\,\audio{z_pair.wav}---the Forte 4-Z15 / 4-Z29 pair, same magnitude, different phase,
+not $T/I$-related. The missing information is exactly $\varphi$.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.42,every node/.style={font=\footnotesize}]
+  % two clocks: the Z-pair
+  \begin{scope}[shift={(0,0)}]
+    \draw[gray!55] (0,0) circle (3);
+    \foreach \k in {0,...,11}{
+      \pgfmathtruncatemacro{\ina}{(\k==0||\k==1||\k==4||\k==6)?1:0}
+      \ifnum\ina=1 \filldraw[ctA] ({90-30*\k}:3) circle (0.18);
+      \else \draw[fill=white] ({90-30*\k}:3) circle (0.14); \fi}
+    \node at (0,-3.9) {$\{0,1,4,6\}$ = 4-Z15};
+  \end{scope}
+  \begin{scope}[shift={(9,0)}]
+    \draw[gray!55] (0,0) circle (3);
+    \foreach \k in {0,...,11}{
+      \pgfmathtruncatemacro{\inb}{(\k==0||\k==1||\k==3||\k==7)?1:0}
+      \ifnum\inb=1 \filldraw[ctB] ({90-30*\k}:3) circle (0.18);
+      \else \draw[fill=white] ({90-30*\k}:3) circle (0.14); \fi}
+    \node at (0,-3.9) {$\{0,1,3,7\}$ = 4-Z29};
+  \end{scope}
+  \node at (4.5,0) {\large $\overset{|\Ahat|^2}{=}$};
+\end{tikzpicture}
+\caption{The $Z$-related (homometric) pair $\{0,1,4,6\}$ and $\{0,1,3,7\}$: identical power
+spectrum $|\Ahat|^2=[16,2,4,2,4,2,4,2,4,2,4,2]$ and interval vector, yet not related by any
+transposition or inversion. The interval vector --- a function of $|\Ahat|^2$ alone --- cannot
+tell them apart; only the phase of $\Ahat$ can.}
+\label{fig:p1-zpair}
+\end{figure}
+
+\subsection{The sum vector: a first glimpse of phase}\label{sec:p1-sum}
+
+\question{P\textsubscript{4}. Can any invariant see \emph{some} of the phase the interval vector
+misses?}
+
+Where the interval vector counts tones held under transposition (the difference pairing $a-b$,
+governed by $|\Ahat|^2$), the \emph{sum / index vector} counts tones held under inversion
+$I_j:x\mapsto j-x$ (the sum pairing $a+b$): $\#(A\cap I_jA)=\mathrm{sumcorr}(A,j)$
+(\lean{commonTonesInv\_eq\_sumcorr}), and this is the inverse DFT of the squared \emph{coefficient}
+$\Ahat^2$, not the squared magnitude---so it retains phase (\lean{sumcorr\_eq\_invDFT}). It already
+splits the homometric pair: about the axis $j=0$, $\{0,1,4,6\}$\,\audio{inversion_4z15.wav} holds
+two tones and $\{0,1,3,7\}$\,\audio{inversion_4z29.wav} holds one
+(\lean{sumVector\_distinguishes\_homometric}, by \lean{decide}). The phase the interval vector
+cannot see, an inversional count can---partly.
+
+\subsection{The phase-taxonomy capstone}\label{sec:p1-capstone}
+
+\question{P\textsubscript{5}. What would it take to see \emph{all} of the phase?}
+
+The full transform. $\Ahat$ is a complete invariant: $\Ahat_A=\Ahat_B\Rightarrow A=B$
+(\lean{Ahat\_injective}), with biconditional \lean{Ahat\_eq\_iff}---the proof is short and
+classical, since \lean{ZMod.dft} is a \lean{LinearEquiv} hence injective and the indicator recovers
+membership (\lean{ind\_injective}). Passing to a set \emph{class} quotients out exactly two phase
+operations: a transposition is a frequency-linear phase ramp on $\Ahat$ (\lean{tpose\_iff\_Ahat\_ramp})
+and an inversion a conjugation-plus-ramp (\lean{inv\_iff\_Ahat\_conj\_ramp}), so $B$ lies in the
+$T/I$ orbit of $A$ iff $\Ahat_B$ equals $\Ahat_A$ up to a ramp or up to conjugation-and-ramp
+(\lean{setClass\_iff\_Ahat\_mod\_phase}). The pillar therefore closes as a ladder with two
+machine-checked boundaries certified side by side: the magnitude-only floor $|\Ahat|^2$, where
+homometry collapses distinct chords (P\textsubscript{3}), and the complete invariant $\Ahat$, where
+nothing is lost (P\textsubscript{5}). The phase is exactly the data that completes the interval
+vector to a total invariant; we return to what this says back to Pillar~2's self-duality in
+Section~\ref{sec:p2-sixthirty}.
+
+\begin{figure}[ht]
+\centering
+\resizebox{0.82\textwidth}{!}{%
+\begin{tikzpicture}[every node/.style={font=\footnotesize},>={Stealth[length=2.4mm]}]
+  \node[draw,rounded corners,fill=ctA!8,text width=8.4cm,align=center,minimum height=8mm] (l1)
+    {$|\Ahat|^2$ \;---\; magnitude only (phase-blind): homometry collapses $4$-Z15 $\equiv$ $4$-Z29};
+  \node[draw,rounded corners,fill=ctA!16,text width=8.4cm,align=center,minimum height=8mm,above=9mm of l1] (l2)
+    {$\Ahat^2$ \;---\; sum / index vector (partial phase): \emph{splits} the $Z$-pair};
+  \node[draw,rounded corners,ctB,thick,fill=ctB!10,text width=8.4cm,align=center,minimum height=8mm,above=9mm of l2] (l3)
+    {$\Ahat$ \;---\; the full transform (all phase): a \emph{complete} invariant};
+  \draw[->,thick] (l1) -- (l2) node[midway,right=1pt,font=\scriptsize]{$+$ partial phase};
+  \draw[->,thick] (l2) -- (l3) node[midway,right=1pt,font=\scriptsize]{$+$ the rest};
+\end{tikzpicture}}
+\caption{The taxonomy as a ladder of increasing information. The bottom rung, the power spectrum
+$|\Ahat|^2$, is phase-blind, and homometry collapses the $4$-Z15 / $4$-Z29 pair onto it
+(\lean{homometric\_iff\_normSq\_dft\_eq}); the squared coefficient $\Ahat^2$ restores enough phase to split
+the pair (\lean{sumVector\_distinguishes\_homometric}); the full transform $\Ahat$ is a complete invariant
+(\lean{Ahat\_injective}). The two boundaries --- magnitude-blind and complete --- are certified side by side.}
+\label{fig:p1-ladder}
+\end{figure}
+
+\begin{table}[ht]
+\centering\scriptsize\setlength{\tabcolsep}{4pt}
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}p{0.35\textwidth} p{0.57\textwidth}@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Theorem} & \textbf{Statement}\\
+\midrule
+\lean{Ahat\_zero}, \lean{Ahat\_tpose}, \lean{Ahat\_compl} & $\Ahat(0)=|A|$; transposition $=$ phase ramp; complement $=$ negation off DC.\\
+\lean{IVraw\_tpose}, \lean{IVraw\_invert} & interval vector invariant under $T$ and $I$.\\
+\lean{autocorr\_eq\_invDFT} & Wiener--Khinchin: $\mathrm{autocorr}=\Fi(|\Ahat|^2)$.\\
+\lean{IVraw\_eq\_invDFT\_power} & \textbf{keystone}: interval vector $=\Fi(|\Ahat|^2)$ regraded by class.\\
+\lean{hexachord\_powerSpec\_eq}, \lean{hexachord\_IVraw\_eq} & Babbitt: hexachord and complement share $|\Ahat|^2$, hence interval content.\\
+\lean{commonTones\_eq\_invDFT}, \lean{IVraw\_tritone} & common tones $=\Fi(|\Ahat|^2)$; tritone factor (singleton fibre).\\
+\lean{IsDeep\_iff\_commonTones\_nodup} & deep $\iff$ distinct transposition common-tone counts.\\
+\lean{rop\_iff\_autocorr\_zero}, \lean{rop\_card\_le} & rhythmic oddity $\iff \mathrm{autocorr}(\cdot,6)=0$; forces $|A|\le6$.\\
+\lean{homometric\_iff\_normSq\_dft\_eq} & homometry $\iff$ equal $|\Ahat|^2$ (the discrete phase problem).\\
+\lean{allIntervalTetrachords\_homometric} & $\{0,1,4,6\}\sim\{0,1,3,7\}$ (4-Z15 / 4-Z29), the $Z$-witness.\\
+\lean{sumcorr\_eq\_invDFT}, \lean{sumVector\_distinguishes\_homometric} & sum vector $=\Fi(\Ahat^2)$ (partial phase); splits the $Z$-pair.\\
+\lean{Ahat\_injective}, \lean{Ahat\_eq\_iff} & the full $\Ahat$ is a complete invariant.\\
+\lean{setClass\_iff\_Ahat\_mod\_phase} & set class $=\Ahat$ up to a phase ramp / conjugation-and-ramp.\\
+\bottomrule
+\end{tabular}
+\caption{Pillar~1 in \lean{Fourier.lean} / \lean{IntervalVector.lean}: the invariants on the
+ladder of phase, sorry-free with axiom audit $[\mathrm{propext},\mathrm{Classical.choice},
+\mathrm{Quot.sound}]$ (the \lean{decide} witnesses choice-free). Novelty is adjudicated in
+Section~\ref{sec:novelty}.}
+\label{tab:p1}
+\end{table}

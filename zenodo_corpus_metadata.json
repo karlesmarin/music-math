@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "upload_type": "publication",
+    "publication_type": "preprint",
+    "title": "One transform and one duality: a machine-checked core of music theory in Lean 4",
+    "creators": [
+      { "name": "Carles Marín Muñoz", "affiliation": "Independent researcher", "orcid": "0009-0007-5637-9688" }
+    ],
+    "description": "A machine-checked library, in Lean 4 on top of Mathlib, of core results in the mathematics of music theory over the chromatic universe Z_12, organized so that one object and one phenomenon do most of the work. The object is the autocorrelation, or power spectrum |A-hat|^2, of a pitch-class set: the interval vector, Babbitt's hexachord theorem, homometry and the Z-relation read as the crystallographic phase problem, deep scales, rhythmic oddity, and the common-tone theorems are all functions of it, and maximal evenness reconnects to it in the scale theory. The phenomenon is duality: the neo-Riemannian PLR group is the centralizer of the regular T/I action on the 24 triads (Crans-Fiore-Satyendra, via the regular case of Wielandt's centralizer theorem, a lemma added over Mathlib), and the same shape recurs as a tritone-centered order-12 self-duality of the Petrushka set class 6-30 and as the val-comma lattice duality of regular temperament theory. The library is organized in three pillars (Fourier invariants of pitch-class sets; transformational duality; scales and tuning), ~275 theorems and lemmas across 9 Lean files, every theorem sorry-free with a clean axiom audit (propext, Classical.choice, Quot.sound; the finite maximal-evenness censuses additionally use native_decide). The mathematics is classical; the contributions are the formalization itself - the first comprehensive one in this area, since prior proof-assistant work covers only the T/I action - an autocorrelation/DFT organizing lens, and two results that appear not to have been noted in the literature: the 6-30 self-duality and a unified phase taxonomy of the |A-hat|^2 invariants. This corpus paper is the umbrella over three notes of the Mathematics of Music series (the 6-30 self-duality, the phase taxonomy, the Tonnetz spectrum), adding the connective tissue and the scale-and-tuning pillar. Not new mathematics - a unified, certified account. This record bundles the English and Spanish versions of the paper.",
+    "keywords": [
+      "mathematical music theory",
+      "pitch-class set theory",
+      "discrete Fourier transform",
+      "interval vector",
+      "homometry",
+      "Z-relation",
+      "Babbitt hexachord theorem",
+      "neo-Riemannian theory",
+      "Tonnetz",
+      "transformational theory",
+      "Crans-Fiore-Satyendra duality",
+      "Wielandt centralizer theorem",
+      "maximal evenness",
+      "well-formed scales",
+      "three-gap theorem",
+      "regular temperament theory",
+      "Lean 4",
+      "formal verification",
+      "Mathlib"
+    ],
+    "language": "eng",
+    "license": "apache2.0",
+    "access_right": "open",
+    "related_identifiers": [
+      { "relation": "references",     "identifier": "10.5281/zenodo.20820961",                  "scheme": "doi" },
+      { "relation": "references",     "identifier": "10.5281/zenodo.20826773",                  "scheme": "doi" },
+      { "relation": "references",     "identifier": "10.5281/zenodo.20862821",                  "scheme": "doi" },
+      { "relation": "isSupplementTo", "identifier": "https://github.com/karlesmarin/music-math", "scheme": "url" }
+    ],
+    "notes": "Corpus / Lean-library paper of the Mathematics of Music series - machine-checked notes in Lean 4 (https://github.com/karlesmarin/music-math). The umbrella over Notes #1 (6-30 self-duality), #2 (phase taxonomy) and #3 (Tonnetz spectrum). Mathematics is classical; formalization and organization only. Lean 4 sources (Fourier, IntervalVector, NeoRiemannian, SixThirty, DiatonicScale, MaximalEvenness, AllPairsEvenness, Temperament, CircleOfFifths), Sage/GAP witnesses, and audio (MIDI/WAV) live in the GitHub repo. English and Spanish versions bundled. Prepared with the assistance of an AI system (Claude, Anthropic); all scope and limitation statements are the author's, and the Lean 4 kernel - not the assistant - certifies the formalized parts."
+  }
+}

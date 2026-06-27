@@ -1,0 +1,157 @@
+% pillar2_duality.tex -- Pillar 2 body of corpus_paper.tex, in the HOUSE LINE.
+% No preamble: relies on the master's macros. Honesty (the 6-30 = ours; CFS = first-formaliz.)
+% lives in the master's Novelty section (Sec. \ref{sec:novelty}) -- NO inline tags here.
+% Source of exposition: Note #1 (sixthirty_note.tex); content audited against NeoRiemannian.lean
+% and SixThirty.lean.
+
+\section{Pillar 2: Transformational duality}\label{sec:pillar2}
+
+\question{P\textsubscript{0}. A group that acts simply transitively has a \emph{dual} that mirrors
+it. What does that dual do for a triad---and what happens to it for a \emph{symmetric} chord?}
+
+The neo-Riemannian tradition reads chords not by their notes but by the group of operations
+relating them, and pairs each transformation group with a dual: two subgroups of
+$\mathrm{Sym}(\Omega)$ are \emph{dual} in Lewin's sense (\cite{Lewin}, p.~157) when each is the
+centralizer of the other and both act simply transitively. This pillar machine-checks that duality
+for the $24$ triads, then follows it into the one place it does something new---a symmetric chord,
+where the tritone is the center of the group.
+
+\subsection{The $T/I$ action on triads and the $PLR$ group}\label{sec:p2-ti}
+
+A \emph{triad} is a pair $(\mathrm{root},\mathrm{quality})\in\Ztwelve\times\mathrm{Bool}$ (major
+$\{r,r{+}4,r{+}7\}$ or minor $\{r,r{+}3,r{+}7\}$); there are $24$. The $T/I$ group is Mathlib's
+\lean{DihedralGroup}\,$12$, acting on triads simply transitively---the left regular representation
+(\lean{card\_TIgrp}\,$=24$, with \lean{MulAction}, \lean{IsPretransitive} and \lean{FaithfulSMul}
+instances). The neo-Riemannian operations $P,L,R$ are the three involutions that exchange a triad
+with the one sharing two common tones (\lean{Pf},\lean{Lf},\lean{Rf}); each commutes with every
+$T/I$ operation (\lean{Pf\_comm}, \lean{Lf\_comm}, \lean{Rf\_comm}), and each is a minimal
+voice-leading move: $P$ and $L$ shift one voice by a semitone (\lean{P\_size\_one},
+\lean{L\_size\_one}), $R$ by a whole tone (\lean{R\_size\_two}), each holding the other
+two tones fixed (\lean{P\_holds\_two}, \lean{L\_holds\_two}, \lean{R\_holds\_two})---this is the
+parsimony Cohn~\cite{Cohn} built the Tonnetz on.
+
+\subsection{$PLR$ is the centralizer of $T/I$ (Crans--Fiore--Satyendra)}\label{sec:p2-cfs}
+
+\question{P\textsubscript{1}. The triad is asymmetric, so its orbit has $24$ forms. Is the
+$PLR$ group really the \emph{whole} dual---and why?}
+
+The duality is the regular case of the classical centralizer theorem: the centralizer of a regular
+permutation group is its opposite regular representation (Dixon--Mortimer~\cite{DM} \S4.2,
+Cameron~\cite{Cam}). Its engine is a single lemma---an element of the centralizer that fixes one
+point is the identity (\lean{centralizing\_fixedPoint\_eq\_one})---which was \emph{absent} from
+Mathlib and which we supply. From it: $\langle P,L,R\rangle$ lies in the centralizer
+(\lean{PLR\_le\_centralizer}), the centralizer has at most $24$ elements and $PLR$ has exactly $24$
+(\lean{card\_PLRgrp}), and the two coincide,
+\[
+  \mathrm{centralizer}(T/I)=\langle P,L,R\rangle\qquad(\lean{centralizer\_eq\_PLR}),
+\]
+the Crans--Fiore--Satyendra duality~\cite{CFS}.
+
+\subsection{The 6-30 tritone-centered self-duality}\label{sec:p2-sixthirty}
+
+\question{P\textsubscript{2}. What happens to the dual when the object is a \emph{symmetric} chord,
+whose orbit is smaller than $24$?}
+
+A symmetric class has a nontrivial $T/I$-stabilizer, so its orbit is smaller and the action is no
+longer free; a reduced simply-transitive dual survives exactly when the stabilizer is \emph{normal}
+in $\Dgrp{12}$, and among order-$2$ symmetries that singles out the center $\{T_0,T_6\}$---the
+tritone. The unique nontrivial set class in $\Ztwelve$ with exactly that symmetry is Forte
+\textbf{6-30}$=\{0,1,3,6,7,9\}$, the set class of Stravinsky's Petrushka chord
+(Figure~\ref{fig:p2-clock}): exhaustive enumeration over the $222$ nontrivial pitch-class set
+classes of $\Ztwelve$ confirms there is no other class whose $T/I$-stabilizer is precisely
+$\{T_0,T_6\}$ (a finite check, reported in Note~\#1~\cite{Note1}). It is the union of the three
+central pairs $\{0,6\},\{1,7\},\{3,9\}$,
+so it is fixed by the tritone $T_6$ (\lean{T6\_invariant})\,\audio{t6_symmetry.wav} and has no
+inversional symmetry (\lean{not\_inversionally\_symmetric}). Its $T/I$-orbit therefore collapses to
+$12$ (\lean{card\_O}); the tritone lands in the kernel of the action on the orbit
+(\lean{Ker\_eq}\,$=\{1,r_6\}$); and the dual---the centralizer of the reduced action---has order
+$12$ (\lean{card\_Cgrp}, built as the opposite regular representation), is transitive hence regular
+(\lean{Cgrp\_transitive}), and carries the dihedral fingerprint (\lean{dihedral\_fingerprint}: an
+order-$6$ generator $s$, an involution $t\neq1$ with $tst=s^{-1}$ and $st\neq ts$), pinning it as
+dihedral of order $12$. So the twelve forms of the Petrushka chord form a single navigable harmonic
+space\,\audio{orbit_12.wav}, the symmetric-chord analogue of the $P/L/R$ network for triads---the
+tritone Stravinsky reached for by ear \emph{is} the central symmetry $T_6$, and that center is
+exactly what endows 6-30 with its order-12 self-duality.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.2,every node/.style={font=\small}]
+  \draw[thick] (0,0) circle (1);
+  \foreach \a/\b in {0/6,1/7,3/9}{
+    \draw[ctB,line width=1.3pt] ({90-30*\a}:1) -- ({90-30*\b}:1);}
+  \foreach \k in {0,...,11}{
+    \pgfmathtruncatemacro{\ina}{(\k==0||\k==1||\k==3||\k==6||\k==7||\k==9)?1:0}
+    \ifnum\ina=1 \filldraw[black] ({90-30*\k}:1) circle (0.05);
+      \node at ({90-30*\k}:1.2) {\textbf{\k}};
+    \else \draw[fill=white] ({90-30*\k}:1) circle (0.045);
+      \node[gray] at ({90-30*\k}:1.2) {\k}; \fi}
+\end{tikzpicture}
+\caption{\textbf{6-30}$=\{0,1,3,6,7,9\}$ on the pitch-class clock: the union of the three central
+pairs $\{0,6\},\{1,7\},\{3,9\}$ (heavy tritone diameters), hence fixed by $T_6$ (a $180^\circ$
+rotation) and, with no inversional symmetry, stabilized by exactly $\{T_0,T_6\}$. That central
+stabilizer is what reduces the orbit to $12$ and makes the dual dihedral of order $12$.}
+\label{fig:p2-clock}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.85,every node/.style={font=\footnotesize},>={Stealth[length=2mm]}]
+  \foreach \k in {0,...,5}{
+    \coordinate (O\k) at ({90-60*\k}:2.4);
+    \coordinate (I\k) at ({90-60*\k}:1.2);}
+  \foreach \k in {0,...,5}{
+    \pgfmathtruncatemacro{\nextk}{mod(\k+1,6)}
+    \draw[ctA,->,thick] (O\k) -- (O\nextk);
+    \draw[ctB,->,thick] (I\nextk) -- (I\k);
+    \draw[gray,dashed] (O\k) -- (I\k);}
+  \foreach \k in {0,...,5}{
+    \filldraw[fill=ctA!12,draw=ctA,thick] (O\k) circle (0.32) node[black]{$T_{\k}A$};
+    \filldraw[fill=white,draw=ctB,thick] (I\k) circle (0.32) node[black]{$I_{\k}A$};}
+\end{tikzpicture}
+\caption{The order-$12$ dual group $\Dgrp{6}$ acting simply transitively on the $12$ forms of $6$-$30$ ---
+its Cayley graph, the symmetric-chord analogue of the $P/L/R$ network for triads. Outer nodes are the six
+transposition forms $T_kA$ (with $T_kA=T_{k+6}A$ identified), inner nodes the six inversion forms $I_kA$;
+the solid arrows are an order-$6$ rotation generator (orientation reverses on the inner coset, as in any
+dihedral Cayley graph), the dashed edges an order-$2$ reflection generator. Any form of the Petrushka chord
+reaches any other by a unique dual move (\lean{Cgrp\_transitive}), so the twelve forms become a single
+navigable harmonic space.}
+\label{fig:p2-cayley}
+\end{figure}
+
+\subsection{The duality thread across pillars}\label{sec:p2-thread}
+
+The shape here---a simply transitive action and its self-centralizing mirror---returns in Pillar~3.
+There, regular temperament theory pairs the lattice of vals with the lattice of commas over
+$\mathbb{Z}$-modules: the same flavour of duality, a generated structure and its annihilator. This
+is a structural parallel, not a theorem unifying the two (Section~\ref{sec:novelty}). And the
+self-duality of a symmetric chord is, in Fourier terms, a phase fact $|\Ahat|$ cannot see
+(\S\ref{sec:p1-capstone})---$T_6$-symmetry is even-frequency support, a magnitude statement, but
+which symmetric chords are self-dual needs the phase, the same blindness as the $Z$-relation.
+
+\begin{table}[ht]
+\centering\scriptsize\setlength{\tabcolsep}{4pt}
+\rowcolors{2}{ctB!7}{white}
+\begin{tabular}{@{}p{0.37\textwidth} p{0.55\textwidth}@{}}
+\toprule
+\rowcolor{ctB!22}
+\textbf{Theorem} & \textbf{Statement}\\
+\midrule
+\multicolumn{2}{@{}l}{\emph{the duality engine, \lean{NeoRiemannian.lean}}}\\
+\lean{card\_TIgrp} & $T/I$ acts on the $24$ triads as the regular rep of $\Dgrp{12}$.\\
+\lean{Pf\_comm}, \lean{Lf\_comm}, \lean{Rf\_comm} & $P,L,R$ each commute with the $T/I$ action.\\
+\lean{P\_size\_one}, \lean{L\_size\_one}, \lean{R\_size\_two} & minimal voice-leading sizes of $P,L,R$.\\
+\lean{centralizing\_fixedPoint\_eq\_one} & Wielandt regular case (centralizer is semiregular) --- a Mathlib gap.\\
+\lean{centralizer\_eq\_PLR} & $\mathrm{centralizer}(T/I)=\langle P,L,R\rangle$ (CFS duality); \lean{card\_PLRgrp}$=24$.\\
+\multicolumn{2}{@{}l}{\emph{the 6-30 self-duality, \lean{SixThirty.lean}}}\\
+\lean{T6\_invariant}, \lean{not\_inversionally\_symmetric} & $A=\{0,1,3,6,7,9\}$ fixed by $T_6$, no inversion symmetry.\\
+\lean{card\_O}, \lean{Ker\_eq} & orbit $12$; kernel of the action $=\{T_0,T_6\}=Z(\Dgrp{12})$.\\
+\lean{card\_Cgrp}, \lean{Cgrp\_transitive} & dual (centralizer on the orbit) order $12$, regular.\\
+\lean{dihedral\_fingerprint} & order $12$; $s^6{=}1$, $t^2{=}1{\neq}t$, $tst{=}s^{-1}$, $st{\neq}ts$ (dihedral).\\
+\bottomrule
+\end{tabular}
+\caption{Pillar~2 in \lean{NeoRiemannian.lean} / \lean{SixThirty.lean}, sorry-free with axiom audit
+$[\mathrm{propext},\mathrm{Classical.choice},\mathrm{Quot.sound}]$. The 6-30 dual is the one place
+the paper goes beyond formalization; its scope and the relation to the Fiore lineage are stated in
+Section~\ref{sec:novelty}.}
+\label{tab:p2}
+\end{table}

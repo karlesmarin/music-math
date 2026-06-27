@@ -1,0 +1,428 @@
+% !TeX program = pdflatex
+% Una transformada y una dualidad: un núcleo de la teoría musical verificado por máquina en
+%   Lean 4, de los conjuntos de alturas a los retículos de afinación.  -- versión ESPAÑOLA del
+%   CORPUS PAPER (paraguas de las Notas #1/#2/#3). Traducción natural (no literal) de
+%   corpus_paper.tex, en la línea de casa de los _es de las notas. Build: pdflatex (dos pasadas).
+
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noindentfirst,es-noshorthands]{babel} % es-noshorthands: evita que `<>"` activos del español choquen con TikZ (>=...)
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,booktabs,graphicx}
+\usepackage{longtable}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage[table]{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+
+\definecolor{ctA}{HTML}{1B6F8C} % el hilo de la autocorrelación / DFT
+\definecolor{ctB}{HTML}{B5530F} % el hilo de la dualidad
+\setlength{\emergencystretch}{2em}
+
+% --- colocación de floats: que LaTeX empaquete denso y no deje blanco perdido ---
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.78}
+\setcounter{topnumber}{3}\setcounter{bottomnumber}{2}\setcounter{totalnumber}{5}
+
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{proposition}[theorem]{Proposición}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{remark}[theorem]{Observación}
+\newtheorem{definition}[theorem]{Definición}
+
+\newcommand{\lean}[1]{\texttt{#1}}
+\newcommand{\Ztwelve}{\mathbb{Z}_{12}}
+\newcommand{\Zn}[1]{\mathbb{Z}_{#1}}
+\newcommand{\Dgrp}[1]{D_{#1}}
+\newcommand{\Ahat}{\hat{A}}
+\newcommand{\Fi}{\mathcal{F}^{-1}}
+\newcommand{\Stab}{\mathrm{Stab}}
+\newcommand{\question}[1]{\smallskip\noindent\textit{#1}\smallskip}
+\newcommand{\audiobase}{https://github.com/karlesmarin/music-math/raw/main/media}
+\newcommand{\audio}[1]{\href{\audiobase/#1}{\textcolor{ctA}{\footnotesize\,[$\flat$\,audio]}}}
+
+\title{\bf Una transformada y una dualidad\\[5pt]
+  \large\rm un núcleo de la teoría musical verificado por máquina en Lean~4,\\
+  de los conjuntos de alturas a los retículos de afinación}
+\author{Carles Mar\'in\thanks{Preparado con la asistencia de un sistema de IA (Claude, Anthropic).
+La matemática es clásica; toda afirmación, delimitación de alcance y limitación es responsabilidad del
+autor. La frontera de la contribución se enuncia con claridad en la Sección~\ref{sec:novelty}, y es el
+núcleo de Lean~4 ---no el asistente--- lo que certifica las partes formalizadas.}\\[3pt]
+  \normalsize Investigador independiente\\
+  \normalsize \texttt{karlesmarin@gmail.com}}
+\date{Junio de 2026\\[3pt]\normalsize DOI: \href{https://doi.org/10.5281/zenodo.20953768}{10.5281/zenodo.20953768}\quad\textbullet\quad
+  \href{https://github.com/karlesmarin/music-math}{github.com/karlesmarin/music-math}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}\noindent
+La matemática de la teoría musical es matemática de verdad, pero casi toda vive en la prosa y en los
+ejemplos trabajados. Aquí certificamos su núcleo en Lean~4 sobre Mathlib, en el universo cromático
+$\Ztwelve$, y organizamos la biblioteca de modo que un solo objeto y un solo fenómeno hagan casi todo el
+trabajo. El objeto es la autocorrelación, o espectro de potencia $|\Ahat|^2$, de un conjunto de alturas:
+el vector de intervalos, el teorema del hexacordo de Babbitt, la homometría y la relación $Z$ leídas como
+el problema cristalográfico de la fase, las escalas profundas, la rareza rítmica y los teoremas de notas
+comunes son todos función suya, y la máxima uniformidad reconecta con él en la teoría de escalas. El
+fenómeno es la dualidad: el grupo neo-riemanniano $PLR$ es el centralizador de la acción regular de $T/I$
+sobre las $24$ tríadas (Crans--Fiore--Satyendra, vía el caso regular del teorema del centralizador de
+Wielandt, un lema que añadimos sobre Mathlib), y la misma forma reaparece como una auto-dualidad de orden
+$12$ centrada en el tritono de la clase de Petrushka $6$-$30$, y como la dualidad de retículos val--coma
+de la teoría de temperamentos regulares. Cada teorema está sin \lean{sorry} y con auditoría de axiomas
+limpia. La matemática de base es clásica. Lo que añadimos es la formalización ---que sepamos, la primera
+exhaustiva en esta área, pues el trabajo previo en asistentes de demostración cubre sólo la acción
+$T/I$---, junto con una lente organizadora de autocorrelación/DFT y dos resultados que no parecen haber
+sido señalados en la literatura: la auto-dualidad de 6-30 y una taxonomía de fase unificada de los
+invariantes de $|\Ahat|^2$.
+\end{abstract}
+
+\section{Introducción}\label{sec:intro}
+
+\question{¿Qué puede certificar un asistente de demostración sobre la matemática de la música, y cuánto de
+ella es en realidad una o dos ideas vistas desde muchos lados?}
+
+La teoría de conjuntos de alturas, la teoría transformacional y neo-riemanniana, y la teoría de escalas y
+afinación han construido, a lo largo de medio siglo, un cuerpo matemático sustancial sobre el grupo
+cíclico $\Ztwelve$, el grupo diédrico, los retículos sobre $\mathbb{Z}$ y la transformada discreta de
+Fourier: el teorema del hexacordo, la relación $Z$, la dualidad $T/I$--$PLR$, la máxima uniformidad, el
+teorema de los tres huecos, la teoría de temperamentos regulares. Las demostraciones son correctas en el
+sentido matemático corriente, pero se las \emph{cree} correctas, no se comprueban al nivel que exige un
+núcleo de demostración; y la literatura arrastra una larga cola de casi-aciertos y de folclore enunciado
+con más fuerza de la que se sostiene. Este trabajo certifica ese núcleo en Lean~4. Es el paraguas sobre
+tres notas que aparecieron por separado ---sobre la auto-dualidad de 6-30~\cite{Note1}, la taxonomía de
+fase~\cite{Note2} y el espectro del Tonnetz~\cite{Note3}--- y añade el tejido conectivo que las vuelve una
+sola biblioteca.
+
+\paragraph{Qué compra la verificación por máquina.} Nuestra motivación es un \emph{suelo de honestidad}.
+Un enunciado verificado por máquina traza una línea dura entre lo demostrado y lo meramente plausible.
+Donde un argumento clásico supone en silencio una no-degeneración, una formalización debe sacarla a la
+superficie; donde un texto afirma algo de ``una escala'' pero sólo vale para la diatónica, el enunciado en
+Lean nombra la instancia. Tratamos lo \textsc{no auditable} como información, no como fracaso: cuando sólo
+se demuestra una instancia lo decimos, y nunca inflamos una primera formalización en una afirmación de
+matemática nueva. La frontera de la contribución se traza en un solo sitio, con claridad, en la
+Sección~\ref{sec:novelty}; todo lo demás es una primera formalización de un teorema publicado.
+
+\paragraph{El modelo, el sustrato, el convenio de confianza.} Trabajamos sobre $\Ztwelve$. Un conjunto de
+alturas es un \lean{Finset}\,$\Ztwelve$; una tríada es un punto de $\Ztwelve\times\mathrm{Bool}$; una
+escala es una tupla ordenada cíclicamente. Nos apoyamos en dos piezas de Mathlib tal cual, en vez de
+reconstruirlas: la transformada discreta de Fourier \lean{ZMod.dft} (Loeffler~\cite{Loeffler}), que nos da
+$\Ahat$, el espectro de potencia, la inversión y Parseval gratis, y el grupo diédrico
+\lean{DihedralGroup}\,$12$, que \emph{es} el grupo de transposiciones e inversiones del círculo cromático.
+Cada teorema aquí está sin \lean{sorry}, y damos su auditoría de axiomas: la gran mayoría dependen sólo de
+$[\mathrm{propext},\,\mathrm{Classical.choice},\,\mathrm{Quot.sound}]$, la base estándar de Mathlib, sin
+\lean{sorryAx}; los pocos resultados de censo finito de la teoría de escalas invocan además
+\lean{native\_decide} y por tanto cargan $\mathrm{Lean.ofReduceBool}$, que señalamos en cada caso mientras
+mantenemos sin censo los motores analíticos que los rodean.
+
+\paragraph{La biblioteca de un vistazo.} Para un lector que no trabaja en Lean, la
+Tabla~\ref{tab:metrics} fija la escala de lo que aquí significa ``verificado por máquina''. Las fuentes
+completas, los guiones testigo de Sage/GAP y las figuras están en
+\url{https://github.com/karlesmarin/music-math}; cada teorema es comprobable con \lean{\#print axioms} y
+cada guion es re-ejecutable.
+
+\begin{table}[tbp]
+\centering\small
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}l r@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Métrica} & \textbf{Valor}\\
+\midrule
+Ficheros fuente de Lean (los tres pilares) & $9$\\
+Teoremas y lemas & $275$\\
+Declaraciones totales (incl.\ defs, instancias) & $372$\\
+Líneas de Lean & ${\approx}\,3{,}800$\\
+\lean{sorry} / \lean{admit} & $0$\\
+Lemas nuevos aportados a la laguna de Mathlib & $1$ (Wielandt, caso regular)\\
+Dependencia & Mathlib (Lean~4)\\
+Base de axiomas & \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}\\
+\bottomrule
+\end{tabular}
+\caption{La biblioteca verificada por máquina detrás de los tres pilares. Cada teorema está sin
+\lean{sorry}; las únicas salidas de la base de axiomas son los censos finitos por \lean{native\_decide} de
+la~\S\ref{sec:p3-me}, que añaden \lean{Lean.ofReduceBool}.}
+\label{tab:metrics}
+\end{table}
+
+\subsection{Dos ideas recurrentes}\label{sec:intro-threads}
+
+Lo que hace de esto un solo trabajo, y no un catálogo, es que dos ideas organizan buena parte, y
+reaparecen a través de los tres pilares (Figura~\ref{fig:arch}).
+
+\question{Hilo~1. ¿Y si el vector de intervalos, el teorema del hexacordo, la homometría, las escalas
+profundas, la rareza rítmica, las notas comunes y hasta la máxima uniformidad son todos el mismo objeto?}
+
+\noindent\textbf{La autocorrelación / DFT.} Un solo objeto ---el espectro de potencia $|\Ahat|^2$,
+equivalentemente la autocorrelación, equivalentemente la función de Patterson de los
+cristalógrafos--- está detrás de una amplia familia de los invariantes del Pilar~1 (\S\ref{sec:pillar1}).
+No son analogías: cada
+uno es un teorema que iguala el invariante a una DFT inversa de $|\Ahat|^2$, de modo que la homometría es
+\emph{exactamente} la pérdida de la fase y la transformada completa $\Ahat$ es exactamente la compleción
+que falta. El mismo hilo reaparece en el Pilar~3: la escala maximalmente uniforme es aquella cuyo contenido
+intervalar extremiza una energía convexa ---el maximizador del lado $|\Ahat|^2$---, de modo que la
+singularidad de la diatónica es, otra vez, un enunciado sobre su autocorrelación.
+
+\question{Hilo~2. Cuando un grupo actúa de forma simplemente transitiva, tiene un dual que es su propio
+espejo; ¿qué le da eso a un acorde, a un acorde simétrico, a una afinación?}
+
+\noindent\textbf{Dualidad: simplemente transitivo $\Rightarrow$ auto-centralizador.} El par dual de Lewin,
+el grupo $T/I$ y el grupo neo-riemanniano $PLR$ ---cada uno el centralizador del otro sobre las $24$
+tríadas--- es el teorema de Crans--Fiore--Satyendra del Pilar~2 (\S\ref{sec:pillar2}); su motor es el caso
+regular del teorema del centralizador de Wielandt. La misma forma, sobre otro objeto, da la auto-dualidad
+de orden $12$ centrada en el tritono del hexacordo $6$-$30$. Y rima una vez más en el Pilar~3, donde la
+teoría de temperamentos regulares empareja el retículo de los vals con el de las comas sobre
+$\mathbb{Z}$-módulos. Señalamos la rima pero no afirmamos un meta-teorema que unifique las dos
+dualidades; viven en categorías distintas, y no tenemos tal teorema.
+
+\begin{figure}[H]
+\centering
+\resizebox{0.8\textwidth}{!}{%
+\begin{tikzpicture}[>={Stealth[length=2.4mm]},every node/.style={font=\footnotesize},
+    box/.style={draw,rounded corners,inner sep=4pt,align=center,minimum height=8mm,text width=2.4cm},
+    root/.style={draw,very thick,rounded corners,inner sep=4pt,align=center,minimum height=9mm,text width=2.7cm}]
+  % ---- corona ----
+  \node[draw,very thick,rounded corners,fill=black!5,font=\bfseries,inner sep=7pt] (crown) at (5.1,1.5)
+       {La teoría musical en $\Ztwelve$};
+  % ---- IZQUIERDA: la autocorrelación (Hilo 1) ----
+  \node[root,ctA,fill=ctA!16] (pw) at (0.8,0) {$|\Ahat|^2$\\[-1pt]\scriptsize autocorrelación};
+  \node[box] (iv)  at (-2.8,-1.8) {vector de intervalos};
+  \node[box] (hom) at (0.8,-1.8)  {homometría / $Z$};
+  \node[box] (ct)  at (4.4,-1.8)  {notas comunes,\\ escalas profundas, rareza};
+  \node[box,ctA,fill=ctA!7] (me) at (-2.8,-3.5) {máxima uniformidad};
+  \draw[ctA,->,thick] (pw)--(iv); \draw[ctA,->,thick] (pw)--(hom); \draw[ctA,->,thick] (pw)--(ct);
+  \draw[ctA,->,thick] (iv)--(me);
+  % ---- DERECHA: la dualidad (Hilo 2) ----
+  \node[root,ctB,fill=ctB!16] (ti) at (9.6,0) {acción $T/I$\\[-1pt]\scriptsize regular};
+  \node[box] (cen) at (9.6,-1.8) {centralizador};
+  \node[box,ctB,fill=ctB!7] (plr) at (7.8,-3.5) {dualidad $PLR$};
+  \node[box,ctB,fill=ctB!7] (s30) at (11.4,-3.5) {auto-dualidad de 6-30};
+  \node[box,ctB,fill=ctB!7] (vc) at (11.4,-5.2) {dualidad val\,$\dashv$\,coma};
+  \draw[ctB,->,thick] (ti)--(cen); \draw[ctB,->,thick] (cen)--(plr); \draw[ctB,->,thick] (cen)--(s30);
+  \draw[ctB,->,thick] (s30)--(vc);
+  % ---- conectores de la corona ----
+  \draw[gray,dashed,->] (crown)--(pw); \draw[gray,dashed,->] (crown)--(ti);
+\end{tikzpicture}}
+\caption{La tesis en una imagen: el núcleo formalizado de la teoría musical en $\Ztwelve$ descansa sobre dos
+mecanismos. \emph{Izquierda} ---la autocorrelación $|\Ahat|^2$ es la raíz común del vector de intervalos, la
+homometría / la relación $Z$ y la familia de notas comunes (escalas profundas, rareza rítmica), y a través
+del vector de intervalos alcanza la máxima uniformidad (Pilares~1 y~3). \emph{Derecha} ---una acción $T/I$
+simplemente transitiva tiene un dual auto-centralizador, que se ramifica en la dualidad $PLR$ de las tríadas
+y la auto-dualidad de 6-30, esta última continuando hasta la dualidad val\,$\dashv$\,coma de la teoría de
+temperamentos (Pilares~2 y~3). Las dos columnas son estructuralmente paralelas; no afirmamos un teorema que
+las una.}
+\label{fig:arch}
+\end{figure}
+
+\paragraph{El recorrido.} El Pilar~1 (\S\ref{sec:pillar1}) desarrolla los invariantes de Fourier y cierra
+en la taxonomía de fase. El Pilar~2 (\S\ref{sec:pillar2}) desarrolla la dualidad $T/I$--$PLR$ y la
+auto-dualidad de 6-30. El Pilar~3 (\S\ref{sec:pillar3}) desarrolla escalas y afinación, donde los dos
+hilos vuelven a encontrarse. La Sección~\ref{sec:novelty} enuncia con claridad qué es nuevo y qué es
+primera formalización; la Sección~\ref{sec:frontier} recoge la frontera abierta ---lo que podemos
+enunciar pero aún no certificar en el núcleo.
+
+% ===========================================================================
+% Los tres cuerpos de pilar, en la línea de casa (español).
+% ===========================================================================
+\input{pillar1_fourier_es}     % \S\ref{sec:pillar1}
+\input{pillar2_duality_es}     % \S\ref{sec:pillar2}
+\input{pillar3_scales_tuning_es} % \S\ref{sec:pillar3}
+
+\section{Novedad, alcance, y lo que este trabajo no afirma}\label{sec:novelty}
+
+\question{¿Qué hay aquí de matemática nueva, qué es primera formalización de matemática conocida, y qué es
+mera organización? Lo respondemos en un solo sitio, sin concesiones, para que el encuadre no se desdibuje.}
+
+\paragraph{La contribución, dicha sin rodeos.} Este es un trabajo de formalización. Con las dos
+excepciones de abajo, cada resultado es una demostración verificada por máquina de un teorema
+publicado, citado a su fuente en su pilar y recogido en la Tabla~\ref{tab:ledger}. La biblioteca está sin
+\lean{sorry}; la auditoría de axiomas es $[\mathrm{propext},\,\mathrm{Classical.choice},\,
+\mathrm{Quot.sound}]$ en todo, salvo los censos finitos de máxima uniformidad, que cargan además
+$\mathrm{Lean.ofReduceBool}$ de \lean{native\_decide} ---señalado aquí como en el cuerpo, con el motor
+analítico que hay detrás (una identidad de suma por partes doble) mantenido axioma-limpio.
+
+\paragraph{Lo genuinamente nuestro (1): la auto-dualidad de 6-30.} El único punto donde creemos ir más
+allá de la formalización es la auto-dualidad de orden $12$ centrada en el tritono de la clase de Petrushka
+$6$-$30=\{0,1,3,6,7,9\}$ (\S\ref{sec:p2-sixthirty}). No es inversionalmente simétrica pero la fija el
+tritono $T_6$; su órbita $T/I$ colapsa por tanto a $12$, el tritono cae en el núcleo de la acción, y el
+centralizador de la acción reducida es diédrico de orden $12$. No conocemos una caracterización explícita
+previa de este dual, ni un dual contextual de un acorde simétrico verificado por máquina. Lo enunciamos
+\emph{con mesura}, como en la Nota~\#1~\cite{Note1}: es \emph{complementario} al linaje de Fiore, no algo que se les escapara.
+Fiore--Satyendra~\cite{FS} y Fiore--Noll~\cite{FN11,FN25} esquivan cada uno el régimen de órbita reducida
+con centro en el tritono; \cite{FN11} hasta tabula la misma clase de conjuntos como un punto y estudia su
+recubrimiento de orden $2$, sin formar nunca el dual de orden $12$ del hexacordo-como-punto.
+Berry--Fiore~\cite{BF} demuestran la misma dualidad de centralizador para ciclos hexatónicos ---otro
+objeto (estabilizador aumentado, dual $S_3$ de orden $6$). El único riesgo de colisión que queda, los
+grupos conmutantes generalizados de Peck~\cite{Peck}, lo dejamos matizado, no descartado; los grupos
+conmutantes octatónicos publicados en este linaje son de orden $8$, no $12$. Lo que afirmamos es la
+caracterización explícita y su dual verificado por máquina, no la prioridad sobre la teoría general.
+
+\paragraph{Lo genuinamente nuestro (2): la taxonomía de fase unificada.} Cada ingrediente de la taxonomía
+de fase es clásico (Patterson, Lewin, Babbitt, Amiot). Lo que creemos inédito \emph{como un solo
+enunciado} es la unificación: clavar cada invariante a la porción exacta de $\Ahat$ que retiene y
+certificar las dos fronteras de la escalera ---el colapso ciego a la magnitud (homometría) y la cúspide del
+invariante completo--- una junto a la otra, con una sola auditoría de axiomas (\S\ref{sec:p1-capstone}).
+Esto es organización, no matemática nueva; no reclamamos prioridad sobre ninguno de los resultados de base.
+
+\paragraph{Un punto de encuadre menor.} En la teoría de escalas dejamos explícito que la caracterización
+por energía convexa de la máxima uniformidad se parte en una forma de huecos-de-paso degenerada y una forma
+de todos-los-pares que sí selecciona la diatónica (\S\ref{sec:p3-me}); es una aclaración de qué objeto
+hace el trabajo, no un teorema.
+
+\paragraph{Trabajo previo en asistentes de demostración.} La única formalización musical en Lean que
+conocemos (Prismriver~\cite{Prismriver}) aborda la acción $T/I$; las tres capas de aquí ---los invariantes
+de Fourier/vector de intervalos, la dualidad neo-riemanniana, y la teoría de escalas y afinación--- son,
+que sepamos, primeras formalizaciones. Un lema de teoría de grupos reutilizable, el caso regular del
+teorema del centralizador de Wielandt (\lean{centralizing\_fixedPoint\_eq\_one}), no estaba en Mathlib y se
+aporta aquí.
+
+\begin{table}[H]
+\centering\footnotesize\setlength{\tabcolsep}{5pt}
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}p{0.37\textwidth} p{0.31\textwidth} p{0.17\textwidth}@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Resultado} & \textbf{Fuente clásica} & \textbf{Estatus}\\
+\midrule
+\multicolumn{3}{@{}l}{\emph{Pilar 1 --- invariantes de Fourier}}\\
+Vector de intervalos $=\Fi|\Ahat|^2$; notas comunes & Amiot~\cite{Amiot}; Lewin~\cite{Lewin},Rahn~\cite{Rahn} & 1.\textsuperscript{a} formaliz.\\
+Teorema del hexacordo de Babbitt & Babbitt; Lewin~\cite{Lewin1960} & 1.\textsuperscript{a} formaliz.\\
+Escalas profundas; rareza rítmica & Gamer/Browne~\cite{Browne}; Chemillier--Truchet~\cite{ChemillierTruchet} & 1.\textsuperscript{a} formaliz.\\
+Homometría $=$ problema de la fase & Patterson~\cite{Patterson}; Forte~\cite{Forte} & 1.\textsuperscript{a} formaliz.\\
+Taxonomía de fase unificada (un enunciado) & --- (este trabajo) & \textbf{nuestro: organización}\\
+\multicolumn{3}{@{}l}{\emph{Pilar 2 --- dualidad transformacional}}\\
+Rep.\ regular de $T/I$; voice-leading de $PLR$ & Lewin~\cite{Lewin}; Cohn~\cite{Cohn} & 1.\textsuperscript{a} formaliz.\\
+Lema del caso regular de Wielandt & Dixon--Mortimer~\cite{DM} & 1.\textsuperscript{a} formaliz.$^\dagger$\\
+Dualidad CFS: $PLR=$ centralizador$(T/I)$ & Crans--Fiore--Satyendra~\cite{CFS} & 1.\textsuperscript{a} formaliz.\\
+\textbf{Auto-dualidad de 6-30 con centro en el tritono} & --- (este trabajo) & \textbf{nuestro: resultado nuevo}\\
+\multicolumn{3}{@{}l}{\emph{Pilar 3 --- escalas y afinación}}\\
+Myhill; bien formada; tres huecos & Carey--Clampitt~\cite{CareyClampitt}; tres huecos & 1.\textsuperscript{a} formaliz.\\
+Evenness máxima (predicado; energía) & Clough--Douthett~\cite{CloughDouthett}; Douthett--Krantz~\cite{DouthettKrantz} & 1.\textsuperscript{a} formaliz.\\
+\quad distinción huecos-de-paso vs todos-los-pares & --- (este trabajo) & nuestro: organización\\
+Retículos de comas (pitagórica, sintónica) & teoría de temperamentos regulares & 1.\textsuperscript{a} formaliz.\\
+\bottomrule
+\end{tabular}
+\caption{El registro de honestidad. Cada fila es una primera formalización de matemática clásica, citada a
+su fuente, salvo las dos filas \textbf{nuestro} (un resultado nuevo, una de organización) y el punto de
+encuadre menor. $^\dagger$ El lema del caso regular de Wielandt no estaba en Mathlib; aportarlo es una
+pequeña contribución de formalización reutilizable más allá del contenido musical.}
+\label{tab:ledger}
+\end{table}
+
+\section{La frontera abierta}\label{sec:frontier}
+
+\question{¿Qué podemos enunciar pero aún no certificar en el núcleo, y hacia dónde apunta cada hilo?}
+
+En el espíritu del programa más amplio, tratamos la frontera de lo formalizado como un resultado, no como
+una carencia que ocultar. Quedan abiertas cuatro direcciones.
+
+\begin{itemize}\itemsep2pt
+  \item \textbf{La familia auto-dual de $n$ general.} La caracterización de dualidad reducida tras $6$-$30$
+        es independiente del universo; $6$-$30$ es la instancia no trivial mínima de una familia con dual
+        $\cong\Dgrp{n/2}$ en el universo $n$ (el conteo es OEIS A032239). Un enunciado uniforme en Lean, y
+        el isomorfismo con nombre $\Dgrp{12}/Z\cong\Dgrp{6}$ (hoy una laguna de Mathlib, atestiguada en
+        GAP), siguen abiertos.
+  \item \textbf{Evenness máxima en $(k,n)$ general.} La unicidad $V$-independiente de todos-los-pares está
+        certificada sobre $\Ztwelve$ para $k\in\{5,6,7,8\}$ por censo finito; el motor analítico (la
+        identidad de suma por partes doble) es general, pero el teorema en $(k,n)$ general necesita el
+        argumento abstracto de mayorización, y sustituir los censos por una prueba de núcleo retiraría la
+        única dependencia de \lean{Lean.ofReduceBool}.
+  \item \textbf{Fase y auto-dualidad.} La simetría $T_6$ es exactamente soporte en frecuencias pares de
+        $\Ahat$, un hecho de magnitud; pero la auto-dualidad necesita información de fase que $|\Ahat|$ no
+        puede ver ---la misma ceguera que la relación $Z$. Quedan abiertos un relato de la auto-dualidad en
+        el espacio de fase, y un teorema en Lean para la completitud de clase de conjuntos (hoy
+        computacional).
+  \item \textbf{Del análisis a la composición.} La biblioteca es un motor de análisis; el generador
+        maximalmente uniforme, el diagrama de fases de las escalas bien formadas, y la navegación por el grupo
+        dual de un acorde simétrico son constructivos y apuntan a un programa de síntesis aguas abajo.
+\end{itemize}
+
+\section*{Disponibilidad de datos y código}
+Las fuentes de Lean, los guiones testigo de Sage/GAP y las figuras acompañan a este trabajo; cada teorema
+de Lean es comprobable con \lean{\#print axioms} y cada guion es re-ejecutable. Las tres notas que lo
+componen están archivadas en Zenodo (\cite{Note1,Note2,Note3}).
+
+\begin{thebibliography}{99}
+% --- el hilo DFT / Fourier ---
+\bibitem{Loeffler} D. Loeffler, Mathlib \lean{ZMod.dft} (Apache-2.0) --- the discrete Fourier
+  transform on \lean{ZMod N} as a \lean{LinearEquiv}.
+\bibitem{Amiot} E. Amiot, \emph{Music Through Fourier Space: Discrete Fourier Transform in Music
+  Theory}, Computational Music Science, Springer, 2016.
+\bibitem{Patterson} A. L. Patterson, ``A Fourier Series Method for the Determination of the
+  Components of Interatomic Distances in Crystals,'' \emph{Phys. Rev.} \textbf{46} (1934),
+  372--376.
+\bibitem{MAAA} J. Mandereau, D. Ghisi, E. Amiot, M. Andreatta, C. Agon, ``Z-relation and
+  homometry in musical distributions,'' \emph{J. Math. \& Music} \textbf{5} (2011), no.~2,
+  83--98.
+\bibitem{Quinn} I. Quinn, ``General equal-tempered harmony,'' \emph{Perspectives of New Music}
+  \textbf{44}--\textbf{45} (2006--2007).
+% --- teoría de conjuntos / invariantes ---
+\bibitem{Forte} A. Forte, \emph{The Structure of Atonal Music}, Yale Univ. Press, 1973.
+\bibitem{Lewin} D. Lewin, \emph{Generalized Musical Intervals and Transformations}, Yale Univ.
+  Press, 1987 (reimpr.\ Oxford Univ. Press, 2007); GIS $=$ acción simplemente transitiva, p.~157.
+\bibitem{Lewin1959} D. Lewin, ``Intervallic relations between two collections of notes,''
+  \emph{J. Music Theory} \textbf{3} (1959), no.~2, 298--301.
+\bibitem{Lewin1960} D. Lewin, ``Re: The intervallic content of a collection of notes\dots,''
+  \emph{J. Music Theory} \textbf{4} (1960), no.~1, 98--101.
+\bibitem{Rahn} J. Rahn, \emph{Basic Atonal Theory}, Longman, 1980.
+\bibitem{Browne} R. Browne, ``Tonal implications of the diatonic set,'' \emph{In Theory Only}
+  \textbf{5} (1981), no.~6--7, 3--21; C. Gamer, ``Some combinational resources of equal-tempered
+  systems,'' \emph{J. Music Theory} \textbf{11} (1967), 32--59.
+\bibitem{ChemillierTruchet} M. Chemillier, C. Truchet, ``Computing the rhythmic oddity property,''
+  \emph{Inform. Process. Lett.} \textbf{86} (2003), no.~5, 255--261; G. T. Toussaint, \emph{The
+  Geometry of Musical Rhythm}, CRC Press, 2013.
+% --- transformacional / dualidad ---
+\bibitem{Cohn} R. Cohn, ``Neo-Riemannian operations, parsimonious trichords, and their Tonnetz
+  representations,'' \emph{J. Music Theory} \textbf{41} (1997), no.~1, 1--66.
+\bibitem{CFS} A. S. Crans, T. M. Fiore, R. Satyendra, ``Musical actions of dihedral groups,''
+  \emph{Amer. Math. Monthly} \textbf{116} (2009), no.~6, 479--495 (arXiv:0711.1873).
+\bibitem{DM} J. D. Dixon, B. Mortimer, \emph{Permutation Groups}, Springer GTM 163, 1996
+  (\S4.2, Theorem 4.2A).
+\bibitem{Cam} P. J. Cameron, \emph{Permutation Groups}, LMS Student Texts 45, CUP, 1999.
+\bibitem{BF} C. Berry, T. M. Fiore, ``Hexatonic systems and dual groups in mathematical music
+  theory,'' \emph{Involve} \textbf{11} (2018), no.~2, 253--270 (arXiv:1602.02577).
+\bibitem{Peck} R. W. Peck, ``Generalized commuting groups,'' \emph{J. Music Theory} \textbf{54}
+  (2010), no.~2, 143--177.
+\bibitem{FS} T. M. Fiore, R. Satyendra, ``Generalized contextual groups,'' \emph{Music Theory
+  Online} \textbf{11}.3 (2005).
+\bibitem{FN11} T. M. Fiore, T. Noll, ``Commuting groups and the topos of triads,'' in
+  \emph{Mathematics and Computation in Music} (MCM 2011), LNCS \textbf{6726}, Springer, 2011,
+  pp.~69--83 (arXiv:1102.1496).
+\bibitem{FN25} T. M. Fiore, T. Noll, \emph{et al.}, ``Transformations of triads and seventh
+  chords: group extensions and duality,'' arXiv:2507.20811 (2025).
+% --- escalas / afinación ---
+\bibitem{CareyClampitt} N. Carey, D. Clampitt, ``Aspects of well-formed scales,'' \emph{Music
+  Theory Spectrum} \textbf{11} (1989), no.~2, 187--206.
+\bibitem{CloughDouthett} J. Clough, J. Douthett, ``Maximally even sets,'' \emph{J. Music Theory}
+  \textbf{35} (1991), no.~1/2, 93--173.
+\bibitem{DouthettKrantz} J. Douthett, R. Krantz, ``Maximally even sets and configurations: common
+  threads in mathematics, physics, and music,'' \emph{J. Comb. Optim.} \textbf{14} (2007), no.~4,
+  385--410.
+\bibitem{BakBruinsma} P. Bak, R. Bruinsma, ``One-dimensional Ising model and the complete devil's
+  staircase,'' \emph{Phys. Rev. Lett.} \textbf{49} (1982), 249--251.
+\bibitem{Steinhaus} V. T. S\'os, ``On the distribution mod $1$ of the sequence $n\alpha$,''
+  \emph{Ann. Univ. Sci. Budapest. E\"otv\"os} \textbf{1} (1958), 127--134; S. \'Swierczkowski,
+  ``On successive settings of an arc on the circumference of a circle,'' \emph{Fund. Math.}
+  \textbf{46} (1959), 187--189 (teorema de los tres huecos / Steinhaus).
+\bibitem{Erlich} P. Erlich, ``A middle path between just intonation and the equal temperaments,''
+  \emph{Xenharmonik\^on} \textbf{18} (2006); teoría de temperamentos regulares (vals y comas).
+% --- asistentes de demostración / trabajo previo ---
+\bibitem{Prismriver} L. Aniva, C. Wang, \emph{Prismriver: formalization of music theory and
+  algorithmic composition in Lean~4}, arXiv:2606.19936 (2026).
+% --- nuestras notas ---
+\bibitem{Note1} C. Mar\'in, ``A tritone-centered self-duality: the set class 6-30 and its
+  order-12 neo-Riemannian dual,'' Nota~\#1 (serie music-math), 2026
+  (DOI:10.5281/zenodo.20820962).
+\bibitem{Note2} C. Mar\'in, ``The phase taxonomy of pitch-class set invariants,'' Nota~\#2
+  (serie music-math), 2026 (DOI:10.5281/zenodo.20826774).
+\bibitem{Note3} C. Mar\'in, ``Fourier spectra and pitch symmetry'' (el espectro del Tonnetz),
+  Nota~\#3 (serie music-math), 2026.
+\end{thebibliography}
+
+\end{document}

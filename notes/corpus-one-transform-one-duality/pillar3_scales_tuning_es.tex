@@ -1,0 +1,139 @@
+% pillar3_scales_tuning_es.tex -- cuerpo del Pilar 3 (español), en la línea de casa.
+% Sin preámbulo: usa las macros del maestro. La honestidad vive en la Sección \ref{sec:novelty}.
+% Término: "máxima uniformidad" = maximal evenness (glosado una vez).
+
+\section{Pilar 3: escalas y afinación}\label{sec:pillar3}
+
+\question{P\textsubscript{0}. ¿Por qué es especial la escala diatónica, y es eso un solo hecho o varios que
+casualmente coinciden?}
+
+Cuatro condiciones de regularidad sobre una escala ---estar generada por un único intervalo, ser bien
+formada, tener la propiedad de Myhill, ser de máxima uniformidad--- seleccionan la diatónica, y la última
+reconecta con la autocorrelación del Pilar~1. Este pilar verifica por máquina cada una, nombra la instancia
+allí donde sólo se demuestra una instancia, y termina en los retículos de afinación donde el hilo de la
+dualidad del Pilar~2 regresa.
+
+\subsection{Escalas generadas y bien formadas}\label{sec:p3-genwf}
+
+Apilar $k$ quintas justas desde una altura de partida y reducir módulo $12$ (\lean{stack}) genera la
+diatónica en $k=7$ (\lean{diatonic\_generated\_by\_fifth}) y la pentatónica en $k=5$
+(\lean{pentatonic\_generated\_by\_fifth}). Una escala es \emph{bien formada} cuando tiene exactamente dos
+tamaños de paso (\lean{IsWellFormed}). La diatónica lo es, con pasos $\{1,2\}$ semitonos
+(\lean{diatonic\_isWellFormed}, \lean{diatonic\_stepSizes}), y también la pentatónica, con pasos $\{2,3\}$
+(\lean{pentatonic\_isWellFormed}); apilar demasiado lo rompe --- seis quintas dan tres tamaños de paso
+(\lean{sixFifths\_not\_wellFormed}). Que una escala generada tenga a lo sumo \emph{tres} tamaños de paso es
+el teorema de los tres huecos (Steinhaus), que verificamos en $\Ztwelve$ (\lean{threeGap\_chromatic};
+Sós~\cite{Steinhaus}). La teoría de buena formación de Carey--Clampitt~\cite{CareyClampitt} es el marco.
+
+\subsection{La propiedad de Myhill}\label{sec:p3-myhill}
+
+\question{P\textsubscript{1}. La buena formación cuenta tamaños de paso. La propiedad de Myhill cuenta algo
+más fino ---y separa la diatónica de su prima uniforme.}
+
+Una escala tiene la propiedad de Myhill cuando todo intervalo genérico no nulo (segunda, tercera, \dots)
+aparece en exactamente dos tamaños específicos (\lean{HasMyhill}). La diatónica la tiene
+(\lean{diatonic\_hasMyhill}); la escala de tonos enteros \emph{no} (\lean{wholeTone\_not\_hasMyhill}), pues
+su único paso de tono colapsa la variedad. Por Carey--Clampitt, Myhill equivale a la buena formación no
+degenerada; formalizamos la instancia diatónica y el contraejemplo de tonos enteros, y señalamos la
+equivalencia general (que necesita la maquinaria de palabras de Christoffel/tres huecos, escasa en Mathlib)
+como aún no formalizada.
+
+\subsection{Máxima uniformidad}\label{sec:p3-me}
+
+\question{P\textsubscript{2}. ``Repartir $k$ notas lo más uniformemente posible'': ¿qué energía lo hace
+preciso, y singulariza de verdad la diatónica?}
+
+La máxima uniformidad (\emph{maximal evenness}, Clough--Douthett~\cite{CloughDouthett}) es la más profunda
+de las cuatro condiciones, y la formalizamos en tres capas, siendo explícitos sobre qué energía hace el
+trabajo\,\audio{modes_messiaen.wav}. \emph{(i) El predicado.} Una escala es de máxima uniformidad cuando
+cada intervalo genérico toma a lo sumo dos tamaños específicos y son enteros consecutivos
+(\lean{IsMaxEven}); la diatónica y la escala de tonos enteros lo cumplen (\lean{diatonic\_isMaxEven},
+\lean{wholeTone\_isMaxEven}), de modo que la máxima uniformidad contiene estrictamente a Myhill (la escala
+de tonos enteros es de máxima uniformidad pero, por la~\S\ref{sec:p3-myhill}, no es de Myhill). \emph{(ii)
+La energía de huecos-de-paso.} Para un potencial estrictamente convexo $V$, la energía
+$\sum_i V(\text{hueco}_i)$ sobre los huecos de paso circulares se minimiza exactamente en las
+configuraciones \emph{balanceadas}, $\max-\min\le1$ (\lean{isMinimizer\_iff\_balanced}), vía un lema de
+intercambio por convexidad estricta y un descenso bien fundado. Esto caracteriza el multiconjunto de pasos
+balanceado ---condición \emph{necesaria} para la máxima uniformidad, pero no suficiente, y lo decimos en la
+Sección~\ref{sec:novelty}. \emph{(iii) La energía de todos-los-pares.} La energía que sí selecciona la
+diatónica de forma única es el hamiltoniano de todos-los-pares de Douthett--Krantz
+$E(V,A)=\sum_{a<b}V(\mathrm{cdist}(a,b))$ sobre todas las distancias por pares. Para todo $V$ convexo
+decreciente la diatónica lo minimiza, y para todo $V$ estrictamente tal es el minimizador \emph{único}
+salvo transposición e inversión (\lean{diatonic\_ground\_state}, \lean{diatonic\_unique}) ---un solo
+enunciado que vale a la vez para todos los potenciales admisibles, la $V$-independencia. El motor es una
+identidad de suma por partes doble (\lean{abel\_bridge}): dos $k$-subconjuntos tienen iguales totales de
+vector de intervalos $\binom{k}{2}$, así que su diferencia suma cero y el salto de energía colapsa a una
+suma de sumas doblemente acumuladas contra la convexidad de $V$. El mismo teorema vale para las demás
+cardinalidades de máxima uniformidad en $\Ztwelve$ ---pentatónica ($k=5$), tonos enteros ($k=6$),
+octatónica ($k=8$), que se unen a la diatónica ($k=7$)--- (\lean{pentatonic\_unique},
+\lean{wholetone\_unique}, \lean{octatonic\_unique}), vía un núcleo independiente de la cardinalidad.
+(Equivalentemente, la diatónica maximiza de forma única $|\Ahat(5)|$, Quinn~\cite{Quinn} ---el hilo de la
+autocorrelación del Pilar~1, que regresa.)
+
+\subsection{Teoría de temperamentos regulares: vals y retículos de comas}\label{sec:p3-rtt}
+
+\question{P\textsubscript{3}. Doce quintas casi cierran la octava; el hueco es la coma pitagórica. ¿Cuál es
+el álgebra de ese ``casi''?}
+
+Modela una altura por sus exponentes en los generadores primos: un val es un mapa $\mathbb{Z}$-lineal que
+manda los generadores a cuentas de paso (\lean{v12}, \lean{v5}, \lean{v7}). Doce quintas menos siete
+octavas es la coma pitagórica $\mathrm{pc}$ (\lean{closure\_defect\_eq\_pc}); el temperamento igual de doce
+tonos es exactamente el val que la anula, y la coma genera todo el núcleo de rango $1$,
+$\ker v_{12}=\mathbb{Z}\cdot\mathrm{pc}$ (\lean{ker\_v12\_eq\_span\_pc}), siendo el val de $12$ el único que
+la mata (\lean{only\_twelve\_tempers\_pc}). En el límite de $5$ entra la coma sintónica: el temperamento
+igual de $12$ la tempera (\lean{v12\_5\_tempers\_syntonic}), cuatro quintas igualan una tercera mayor salvo
+esa coma (\lean{meantone\_defect\_eq\_syntonic}) ---así que el temperamento igual de $12$ es mesotónico---
+y el núcleo de comas es de rango $2$, generado por las comas sintónica y pitagórica
+(\lean{ker\_v12\_5\_eq\_span}). Reducir la quinta módulo $12$ cierra el círculo de quintas sobre las doce
+clases de altura (\lean{circle\_of\_fifths\_complete}, Figura~\ref{fig:p3-fifths}), y cuatro quintas se
+reducen a la tercera mayor (\lean{four\_fifths\_eq\_major\_third}). El emparejamiento val--coma ---un
+retículo generado y su anulador--- es el eco en $\mathbb{Z}$-módulos de la dualidad de centralizador del
+Pilar~2, la rima de la~\S\ref{sec:p2-thread}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.2,every node/.style={font=\small}]
+  \draw[gray!55] (0,0) circle (1);
+  \foreach \i in {0,...,11}{
+    \pgfmathtruncatemacro{\pc}{mod(7*\i,12)}
+    \coordinate (n\i) at ({90-30*\i}:1);
+    \filldraw[ctA] (n\i) circle (0.035);
+    \node at ({90-30*\i}:1.18) {\pc};}
+  \foreach \i in {0,...,11}{
+    \draw[ctA,->,>=Stealth,thin] ({90-30*\i}:0.92) arc ({90-30*\i}:{90-30*\i-26}:0.92);}
+\end{tikzpicture}
+\caption{El círculo de quintas: avanzar por la quinta reducida ($7$ semitonos) visita las doce clases de
+altura (\lean{circle\_of\_fifths\_complete}); las etiquetas de los nodos son las clases de altura
+alcanzadas en orden de quintas. El cierre es el núcleo de comas de rango $1$ de
+\lean{ker\_v12\_eq\_span\_pc}.}
+\label{fig:p3-fifths}
+\end{figure}
+
+\begin{table}[ht]
+\centering\scriptsize\setlength{\tabcolsep}{4pt}
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}p{0.40\textwidth} p{0.52\textwidth}@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Teorema} & \textbf{Enunciado}\\
+\midrule
+\lean{diatonic\_generated\_by\_fifth}, \lean{pentatonic\_generated\_by\_fifth} & diatónica / pentatónica generadas por quintas apiladas.\\
+\lean{diatonic\_isWellFormed}, \lean{sixFifths\_not\_wellFormed} & bien formada $=$ dos tamaños de paso; el límite.\\
+\lean{threeGap\_chromatic} & teorema de los tres huecos / Steinhaus en $\Ztwelve$.\\
+\lean{diatonic\_hasMyhill}, \lean{wholeTone\_not\_hasMyhill} & propiedad de Myhill: diatónica sí, tonos enteros no.\\
+\lean{diatonic\_isMaxEven}, \lean{wholeTone\_isMaxEven} & máxima uniformidad (predicado); máx.\ unif.\ $\supsetneq$ Myhill.\\
+\lean{isMinimizer\_iff\_balanced} & minimizador de energía de huecos $\iff$ multiconjunto balanceado (necesario, no suficiente).\\
+\lean{diatonic\_ground\_state}, \lean{diatonic\_unique} & energía de todos-los-pares: diatónica el minimizador único salvo $T/I$, $\forall$ $V$ admisible.\\
+\lean{pentatonic\_unique}, \lean{wholetone\_unique}, \lean{octatonic\_unique} & lo mismo, en $k\in\{5,6,8\}$, vía \lean{abel\_bridge}.\\
+\lean{closure\_defect\_eq\_pc}, \lean{ker\_v12\_eq\_span\_pc} & coma pitagórica $=$ defecto de cierre; núcleo de rango $1$.\\
+\lean{meantone\_defect\_eq\_syntonic}, \lean{ker\_v12\_5\_eq\_span} & coma sintónica / mesotónico; núcleo de rango $2$ en el límite de $5$.\\
+\lean{circle\_of\_fifths\_complete}, \lean{four\_fifths\_eq\_major\_third} & doce quintas generan $\Ztwelve$; $4$ quintas $=$ tercera mayor.\\
+\bottomrule
+\end{tabular}
+\caption{El Pilar~3 en \lean{DiatonicScale.lean}, \lean{MaximalEvenness.lean},
+\lean{AllPairsEvenness.lean}, \lean{Temperament.lean}, \lean{CircleOfFifths.lean}, sin \lean{sorry};
+auditoría de axiomas $[\mathrm{propext},\mathrm{Classical.choice},\mathrm{Quot.sound}]$, salvo los censos
+finitos de todos-los-pares, que cargan además $\mathrm{Lean.ofReduceBool}$ (\lean{native\_decide}),
+señalado en la Sección~\ref{sec:novelty}.}
+\label{tab:p3}
+\end{table}

@@ -1,0 +1,190 @@
+% pillar1_fourier_es.tex -- cuerpo del Pilar 1 (español), en la línea de casa.
+% Sin preámbulo: usa las macros del maestro. La honestidad vive en la Sección \ref{sec:novelty}.
+
+\section{Pilar 1: invariantes de Fourier de los conjuntos de alturas}\label{sec:pillar1}
+
+\question{P\textsubscript{0}. El vector de intervalos, el teorema del hexacordo, la homometría, las
+escalas profundas, la rareza rítmica, las notas comunes: ¿y si fueran todos un mismo objeto, visto
+desde pliegues distintos?}
+
+Codifica un conjunto de alturas $A\subseteq\Ztwelve$ por su indicadora $0/1$ y toma su transformada
+discreta de Fourier $\Ahat=\mathcal{F}(\mathrm{ind}\,A)$, construida sobre la \lean{ZMod.dft} de Mathlib
+(Loeffler~\cite{Loeffler}): $\Ahat(t)=\sum_{a\in A}e^{-2\pi i\,at/12}$ (\lean{Ahat}). Escribe
+$\Ahat=|\Ahat|\,e^{i\varphi}$. La tesis de este pilar es que el \emph{espectro de potencia} $|\Ahat|^2$
+(\lean{powerSpec}) ---equivalentemente la autocorrelación, equivalentemente la función de Patterson de los
+cristalógrafos--- es un solo objeto detrás de una amplia familia de los invariantes clásicos, y que la
+frontera de lo que puede ver es \emph{exactamente} la fase $\varphi$. Cada enunciado de abajo es un teorema en
+\lean{Fourier.lean}/\lean{IntervalVector.lean} (Tabla~\ref{tab:p1}), sin \lean{sorry} y axioma-limpio.
+
+\subsection{El vector de intervalos es la autocorrelación}\label{sec:p1-ivkey}
+
+\question{P\textsubscript{1}. ¿Por qué es invariante el vector de intervalos bajo transposición e
+inversión, y qué es, espectralmente?}
+
+El vector de intervalos cuenta, para cada clase de intervalo $k$, los pares ordenados de $A$ con esa clase
+de diferencia (\lean{IVraw}); es invariante bajo transposición (\lean{IVraw\_tpose}) y bajo inversión
+(\lean{IVraw\_invert}) porque ambas sólo permutan diferencias. Su identidad espectral es el eje del pilar.
+Con la autocorrelación $\mathrm{autocorr}(A,d)=\#\{(a,b)\in A^2:a-b=d\}$ (\lean{autocorr}), el teorema de
+Wiener--Khinchin vale al pie de la letra, $\mathrm{autocorr}(A,d)=\Fi(|\Ahat|^2)(d)$
+(\lean{autocorr\_eq\_invDFT}), y reagrupar por clase de intervalo da la pieza clave
+\[
+  \mathrm{IVraw}(A,k)=\textstyle\sum_{\mathrm{ivc}\,d=k}\Fi(|\Ahat|^2)(d)
+  \qquad(\lean{IVraw\_eq\_invDFT\_power}).
+\]
+El vector de intervalos es, por tanto, función de $|\Ahat|^2$ \emph{solo}: no puede ver la fase. Todo lo de
+la subsección siguiente cabalga sobre esto.
+
+\subsection{La familia ciega a la fase: hexacordo, notas comunes, escalas profundas, rareza rítmica}
+\label{sec:p1-family}
+
+\question{P\textsubscript{2}. ¿Cuánto del piso clásico se desprende de ``es función de $|\Ahat|^2$''?}
+
+\emph{El teorema del hexacordo de Babbitt.} Para $|A|=6$ y todo $t\neq0$, $A$ y su complemento tienen
+transformadas opuestas (\lean{Ahat\_compl}), luego iguales espectros de potencia
+(\lean{hexachord\_powerSpec\_eq}) y, por la pieza clave, igual contenido intervalar,
+$\mathrm{IVraw}(A,k)=\mathrm{IVraw}(A^{\mathsf c},k)$ (\lean{hexachord\_IVraw\_eq}): un hexacordo y su
+complemento tienen el mismo vector de intervalos (Babbitt; la prueba por DFT es de Amiot~\cite{Amiot}).
+
+\emph{Notas comunes y el tritono.} Las alturas que quedan fijas bajo $T_k$ son exactamente la
+autocorrelación, $\#(A\cap T_kA)=\Fi(|\Ahat|^2)(k)$ (\lean{commonTones\_eq\_invDFT}); sobre una clase de
+intervalo $1\le k\le5$ la fibra es un par, así que $\mathrm{IVraw}(A,k)=2\,\#(A\cap T_kA)$, mientras que
+sobre la clase del tritono $6$ es un singleton y el factor $2$ desaparece (\lean{IVraw\_tritone}). El
+tritono $T_6$ es el mismo elemento central que organiza el Pilar~2.
+
+\emph{Escalas profundas y rareza rítmica.} Una escala es \emph{profunda} cuando sus seis multiplicidades de
+clase de intervalo son distintas (\lean{IsDeep}) ---por la identidad del tritono, exactamente cuando cada
+transposición retiene un número distinto de notas (\lean{IsDeep\_iff\_commonTones\_nodup}); la diatónica es
+profunda, la tríada aumentada no (\lean{diatonic\_isDeep}, \lean{augmented\_not\_isDeep}). Un ritmo cíclico
+tiene la propiedad de rareza rítmica cuando no hay dos ataques a un tritono de distancia, es decir, cuando
+la autocorrelación se anula en $6$ (\lean{rop\_iff\_autocorr\_zero}), lo que fuerza $|A|\le6$
+(\lean{rop\_card\_le}).
+
+\subsection{Homometría: la fase que el vector de intervalos no puede ver}\label{sec:p1-homometry}
+
+\question{P\textsubscript{3}. Si el vector de intervalos es ciego a la fase, dos conjuntos pueden
+compartirlo y aun así diferir. ¿Cuál es la información que falta?}
+
+Dos conjuntos son \emph{homométricos} cuando comparten la autocorrelación (\lean{Homometric});
+equivalentemente, tienen el mismo espectro de potencia (\lean{homometric\_iff\_powerSpec\_eq}),
+equivalentemente la misma intensidad de difracción $|\Ahat|^2$ en cada frecuencia
+(\lean{homometric\_iff\_normSq\_dft\_eq}). Esto es, al pie de la letra, el problema de la fase de la
+cristalografía de rayos X: la autocorrelación es la función de \emph{Patterson} (\lean{Patterson};
+Patterson 1934~\cite{Patterson}), $|\Ahat|^2$ la intensidad medida, las estructuras homométricas los
+acordes $Z$-relacionados (Forte~\cite{Forte}; la correspondencia $Z\leftrightarrow$Patterson es de
+Mandereau et al.~\cite{MAAA}). El testigo canónico es el par de tetracordes de todos los intervalos
+(Figura~\ref{fig:p1-zpair}): $\mathrm{Homometric}\,\{0,1,4,6\}\,\{0,1,3,7\}$
+(\lean{allIntervalTetrachords\_homometric}, por \lean{decide})\,\audio{z_pair.wav} ---el par 4-Z15 / 4-Z29
+de Forte, misma magnitud, fase distinta, no $T/I$-relacionados. La información que falta es exactamente
+$\varphi$.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.42,every node/.style={font=\footnotesize}]
+  \begin{scope}[shift={(0,0)}]
+    \draw[gray!55] (0,0) circle (3);
+    \foreach \k in {0,...,11}{
+      \pgfmathtruncatemacro{\ina}{(\k==0||\k==1||\k==4||\k==6)?1:0}
+      \ifnum\ina=1 \filldraw[ctA] ({90-30*\k}:3) circle (0.18);
+      \else \draw[fill=white] ({90-30*\k}:3) circle (0.14); \fi}
+    \node at (0,-3.9) {$\{0,1,4,6\}$ = 4-Z15};
+  \end{scope}
+  \begin{scope}[shift={(9,0)}]
+    \draw[gray!55] (0,0) circle (3);
+    \foreach \k in {0,...,11}{
+      \pgfmathtruncatemacro{\inb}{(\k==0||\k==1||\k==3||\k==7)?1:0}
+      \ifnum\inb=1 \filldraw[ctB] ({90-30*\k}:3) circle (0.18);
+      \else \draw[fill=white] ({90-30*\k}:3) circle (0.14); \fi}
+    \node at (0,-3.9) {$\{0,1,3,7\}$ = 4-Z29};
+  \end{scope}
+  \node at (4.5,0) {\large $\overset{|\Ahat|^2}{=}$};
+\end{tikzpicture}
+\caption{El par $Z$-relacionado (homométrico) $\{0,1,4,6\}$ y $\{0,1,3,7\}$: idéntico espectro de potencia
+$|\Ahat|^2=[16,2,4,2,4,2,4,2,4,2,4,2]$ e idéntico vector de intervalos, y sin embargo no relacionados por
+ninguna transposición ni inversión. El vector de intervalos ---función de $|\Ahat|^2$ solo--- no los puede
+distinguir; sólo la fase de $\Ahat$ puede.}
+\label{fig:p1-zpair}
+\end{figure}
+
+\subsection{El vector de sumas: un primer atisbo de la fase}\label{sec:p1-sum}
+
+\question{P\textsubscript{4}. ¿Puede algún invariante ver \emph{algo} de la fase que el vector de
+intervalos pierde?}
+
+Donde el vector de intervalos cuenta notas fijas bajo \emph{transposición} (el emparejamiento por
+diferencia $a-b$, gobernado por $|\Ahat|^2$), el \emph{vector de sumas / índices} cuenta notas fijas bajo
+\emph{inversión} $I_j:x\mapsto j-x$ (el emparejamiento por suma $a+b$): $\#(A\cap I_jA)=\mathrm{sumcorr}(A,j)$
+(\lean{commonTonesInv\_eq\_sumcorr}), y esto es la DFT inversa del \emph{coeficiente} al cuadrado $\Ahat^2$,
+no de la magnitud al cuadrado ---así que retiene fase (\lean{sumcorr\_eq\_invDFT}). Ya parte el par
+homométrico: en torno al eje $j=0$, $\{0,1,4,6\}$\,\audio{inversion_4z15.wav} retiene dos notas y
+$\{0,1,3,7\}$\,\audio{inversion_4z29.wav} retiene una (\lean{sumVector\_distinguishes\_homometric}, por
+\lean{decide}). La fase que el vector de intervalos no ve, un conteo inversional la ve ---en parte.
+
+\subsection{La cúspide: la taxonomía de fase}\label{sec:p1-capstone}
+
+\question{P\textsubscript{5}. ¿Qué haría falta para ver \emph{toda} la fase?}
+
+La transformada completa. $\Ahat$ es un invariante completo: $\Ahat_A=\Ahat_B\Rightarrow A=B$
+(\lean{Ahat\_injective}), con bicondicional \lean{Ahat\_eq\_iff} ---la prueba es corta y clásica, pues
+\lean{ZMod.dft} es una \lean{LinearEquiv}, luego inyectiva, y la indicadora recupera la pertenencia
+(\lean{ind\_injective}). Pasar a una clase de conjuntos cocienta exactamente dos operaciones de fase: una
+transposición es una rampa de fase lineal en frecuencia sobre $\Ahat$ (\lean{tpose\_iff\_Ahat\_ramp}) y una
+inversión una conjugación-más-rampa (\lean{inv\_iff\_Ahat\_conj\_ramp}), de modo que $B$ está en la órbita
+$T/I$ de $A$ syss $\Ahat_B$ iguala a $\Ahat_A$ salvo una rampa, o salvo conjugación-y-rampa
+(\lean{setClass\_iff\_Ahat\_mod\_phase}). El pilar cierra, pues, como una escalera con dos fronteras
+verificadas por máquina, una junto a otra: el piso de sólo magnitud $|\Ahat|^2$, donde la homometría
+colapsa acordes distintos (P\textsubscript{3}), y el invariante completo $\Ahat$, donde nada se pierde
+(P\textsubscript{5}). La fase es exactamente el dato que completa el vector de intervalos hasta un
+invariante total; volvemos a lo que esto le dice a la auto-dualidad del Pilar~2 en
+la~\S\ref{sec:p2-sixthirty}.
+
+\begin{figure}[ht]
+\centering
+\resizebox{0.82\textwidth}{!}{%
+\begin{tikzpicture}[every node/.style={font=\footnotesize},>={Stealth[length=2.4mm]}]
+  \node[draw,rounded corners,fill=ctA!8,text width=8.6cm,align=center,minimum height=8mm] (l1)
+    {$|\Ahat|^2$ \;---\; sólo magnitud (ciego a la fase): la homometría colapsa $4$-Z15 $\equiv$ $4$-Z29};
+  \node[draw,rounded corners,fill=ctA!16,text width=8.6cm,align=center,minimum height=8mm,above=9mm of l1] (l2)
+    {$\Ahat^2$ \;---\; vector de sumas / índices (fase parcial): \emph{parte} el par $Z$};
+  \node[draw,rounded corners,ctB,thick,fill=ctB!10,text width=8.6cm,align=center,minimum height=8mm,above=9mm of l2] (l3)
+    {$\Ahat$ \;---\; la transformada completa (toda la fase): un invariante \emph{completo}};
+  \draw[->,thick] (l1) -- (l2) node[midway,right=1pt,font=\scriptsize]{$+$ fase parcial};
+  \draw[->,thick] (l2) -- (l3) node[midway,right=1pt,font=\scriptsize]{$+$ el resto};
+\end{tikzpicture}}
+\caption{La taxonomía como una escalera de información creciente. El peldaño inferior, el espectro de
+potencia $|\Ahat|^2$, es ciego a la fase, y la homometría colapsa sobre él el par $4$-Z15 / $4$-Z29
+(\lean{homometric\_iff\_normSq\_dft\_eq}); el coeficiente al cuadrado $\Ahat^2$ restaura fase suficiente
+para partir el par (\lean{sumVector\_distinguishes\_homometric}); la transformada completa $\Ahat$ es un
+invariante completo (\lean{Ahat\_injective}). Las dos fronteras ---ciega a la magnitud y completa--- se
+certifican una junto a otra.}
+\label{fig:p1-ladder}
+\end{figure}
+
+\begin{table}[ht]
+\centering\scriptsize\setlength{\tabcolsep}{4pt}
+\rowcolors{2}{ctA!7}{white}
+\begin{tabular}{@{}p{0.35\textwidth} p{0.57\textwidth}@{}}
+\toprule
+\rowcolor{ctA!22}
+\textbf{Teorema} & \textbf{Enunciado}\\
+\midrule
+\lean{Ahat\_zero}, \lean{Ahat\_tpose}, \lean{Ahat\_compl} & $\Ahat(0)=|A|$; transposición $=$ rampa de fase; complemento $=$ negación fuera de DC.\\
+\lean{IVraw\_tpose}, \lean{IVraw\_invert} & vector de intervalos invariante bajo $T$ e $I$.\\
+\lean{autocorr\_eq\_invDFT} & Wiener--Khinchin: $\mathrm{autocorr}=\Fi(|\Ahat|^2)$.\\
+\lean{IVraw\_eq\_invDFT\_power} & \textbf{pieza clave}: vector de intervalos $=\Fi(|\Ahat|^2)$ reagrupado por clase.\\
+\lean{hexachord\_powerSpec\_eq}, \lean{hexachord\_IVraw\_eq} & Babbitt: hexacordo y complemento comparten $|\Ahat|^2$, luego el contenido intervalar.\\
+\lean{commonTones\_eq\_invDFT}, \lean{IVraw\_tritone} & notas comunes $=\Fi(|\Ahat|^2)$; factor del tritono (fibra singleton).\\
+\lean{IsDeep\_iff\_commonTones\_nodup} & profunda $\iff$ conteos de notas comunes por transposición distintos.\\
+\lean{rop\_iff\_autocorr\_zero}, \lean{rop\_card\_le} & rareza rítmica $\iff \mathrm{autocorr}(\cdot,6)=0$; fuerza $|A|\le6$.\\
+\lean{homometric\_iff\_normSq\_dft\_eq} & homometría $\iff$ igual $|\Ahat|^2$ (el problema discreto de la fase).\\
+\lean{allIntervalTetrachords\_homometric} & $\{0,1,4,6\}\sim\{0,1,3,7\}$ (4-Z15 / 4-Z29), el testigo $Z$.\\
+\lean{sumcorr\_eq\_invDFT}, \lean{sumVector\_distinguishes\_homometric} & vector de sumas $=\Fi(\Ahat^2)$ (fase parcial); parte el par $Z$.\\
+\lean{Ahat\_injective}, \lean{Ahat\_eq\_iff} & la transformada completa $\Ahat$ es un invariante completo.\\
+\lean{setClass\_iff\_Ahat\_mod\_phase} & clase de conjuntos $=\Ahat$ salvo una rampa de fase / conjugación-y-rampa.\\
+\bottomrule
+\end{tabular}
+\caption{El Pilar~1 en \lean{Fourier.lean} / \lean{IntervalVector.lean}: los invariantes de la escalera de
+la fase, sin \lean{sorry} y con auditoría de axiomas $[\mathrm{propext},\mathrm{Classical.choice},
+\mathrm{Quot.sound}]$ (los testigos por \lean{decide} libres de elección). La novedad se adjudica en la
+Sección~\ref{sec:novelty}.}
+\label{tab:p1}
+\end{table}

@@ -1,0 +1,154 @@
+% pillar2_duality_es.tex -- cuerpo del Pilar 2 (español), en la línea de casa.
+% Sin preámbulo: usa las macros del maestro. La honestidad vive en la Sección \ref{sec:novelty}.
+
+\section{Pilar 2: dualidad transformacional}\label{sec:pillar2}
+
+\question{P\textsubscript{0}. Un grupo que actúa de forma simplemente transitiva tiene un \emph{dual} que
+lo refleja. ¿Qué le da ese dual a una tríada, y qué le pasa ante un acorde \emph{simétrico}?}
+
+La tradición neo-riemanniana lee los acordes no por sus notas sino por el grupo de operaciones que los
+relaciona, y empareja cada grupo de transformaciones con un dual: dos subgrupos de $\mathrm{Sym}(\Omega)$
+son \emph{duales} en el sentido de Lewin (\cite{Lewin}, p.~157) cuando cada uno es el centralizador del
+otro y ambos actúan de forma simplemente transitiva. Este pilar verifica por máquina esa dualidad para las
+$24$ tríadas, y luego la sigue al único sitio donde hace algo nuevo ---un acorde simétrico, donde el
+tritono es el centro del grupo.
+
+\subsection{La acción de $T/I$ sobre las tríadas y el grupo $PLR$}\label{sec:p2-ti}
+
+Una \emph{tríada} es un par $(\mathrm{fundamental},\mathrm{calidad})\in\Ztwelve\times\mathrm{Bool}$ (mayor
+$\{r,r{+}4,r{+}7\}$ o menor $\{r,r{+}3,r{+}7\}$); hay $24$. El grupo $T/I$ es el \lean{DihedralGroup}\,$12$
+de Mathlib, que actúa sobre las tríadas de forma simplemente transitiva ---la representación regular por la
+izquierda (\lean{card\_TIgrp}\,$=24$, con las instancias \lean{MulAction}, \lean{IsPretransitive} y
+\lean{FaithfulSMul}). Las operaciones neo-riemannianas $P,L,R$ son las tres involuciones que intercambian
+una tríada con la que comparte dos notas comunes (\lean{Pf},\lean{Lf},\lean{Rf}); cada una conmuta con toda
+operación de $T/I$ (\lean{Pf\_comm}, \lean{Lf\_comm}, \lean{Rf\_comm}), y cada una es un movimiento de
+conducción de voces mínimo: $P$ y $L$ mueven una voz un semitono (\lean{P\_size\_one},
+\lean{L\_size\_one}), $R$ un tono entero (\lean{R\_size\_two}), reteniendo cada una las otras dos
+notas (\lean{P\_holds\_two}, \lean{L\_holds\_two}, \lean{R\_holds\_two}) ---la parsimonia sobre la que Cohn
+\cite{Cohn} construyó el Tonnetz.
+
+\subsection{$PLR$ es el centralizador de $T/I$ (Crans--Fiore--Satyendra)}\label{sec:p2-cfs}
+
+\question{P\textsubscript{1}. La tríada es asimétrica, así que su órbita tiene $24$ formas. ¿Es de verdad
+el grupo $PLR$ el dual \emph{entero}, y por qué?}
+
+La dualidad es el caso regular del teorema clásico del centralizador: el centralizador de un grupo de
+permutaciones regular es su representación regular opuesta (Dixon--Mortimer~\cite{DM} \S4.2,
+Cameron~\cite{Cam}). Su motor es un solo lema ---un elemento del centralizador que fija un punto es la
+identidad (\lean{centralizing\_fixedPoint\_eq\_one})--- que \emph{no estaba} en Mathlib y que aportamos. De
+él: $\langle P,L,R\rangle$ está en el centralizador (\lean{PLR\_le\_centralizer}), el centralizador tiene a
+lo sumo $24$ elementos y $PLR$ tiene exactamente $24$ (\lean{card\_PLRgrp}), y ambos coinciden,
+\[
+  \mathrm{centralizador}(T/I)=\langle P,L,R\rangle\qquad(\lean{centralizer\_eq\_PLR}),
+\]
+la dualidad de Crans--Fiore--Satyendra~\cite{CFS}.
+
+\subsection{La auto-dualidad de 6-30 centrada en el tritono}\label{sec:p2-sixthirty}
+
+\question{P\textsubscript{2}. ¿Qué le pasa al dual cuando el objeto es un acorde \emph{simétrico}, cuya
+órbita es menor que $24$?}
+
+Una clase simétrica tiene estabilizador $T/I$ no trivial, así que su órbita es menor y la acción deja de
+ser libre; un dual reducido simplemente transitivo sobrevive exactamente cuando el estabilizador es
+\emph{normal} en $\Dgrp{12}$, y entre las simetrías de orden $2$ eso singulariza el centro $\{T_0,T_6\}$
+---el tritono. La única clase de conjuntos no trivial en $\Ztwelve$ con justo esa simetría es la
+\textbf{6-30} de Forte $=\{0,1,3,6,7,9\}$, la clase del acorde de Petrushka de Stravinsky
+(Figura~\ref{fig:p2-clock}): una enumeración exhaustiva de las $222$ clases de conjuntos no triviales de
+$\Ztwelve$ confirma que no hay otra clase cuyo estabilizador $T/I$ sea exactamente $\{T_0,T_6\}$ (una
+comprobación finita, recogida en la Nota~\#1~\cite{Note1}). Es la unión de los tres pares centrales
+$\{0,6\},\{1,7\},\{3,9\}$, así que la
+fija el tritono $T_6$ (\lean{T6\_invariant})\,\audio{t6_symmetry.wav} y no tiene simetría inversional
+(\lean{not\_inversionally\_symmetric}). Su órbita $T/I$ colapsa por tanto a $12$ (\lean{card\_O}); el
+tritono cae en el núcleo de la acción sobre la órbita (\lean{Ker\_eq}\,$=\{1,r_6\}$); y el dual ---el
+centralizador de la acción reducida--- tiene orden $12$ (\lean{card\_Cgrp}, construido como la
+representación regular opuesta), es transitivo y por tanto regular (\lean{Cgrp\_transitive}), y lleva la
+huella diédrica (\lean{dihedral\_fingerprint}: un generador $s$ de orden $6$, una involución $t\neq1$ con
+$tst=s^{-1}$ y $st\neq ts$), fijándolo como diédrico de orden $12$. Así, las doce formas del acorde de
+Petrushka forman un único espacio armónico navegable\,\audio{orbit_12.wav}, el análogo para acordes
+simétricos de la red $P/L/R$ de las tríadas ---el tritono que Stravinsky buscó de oído \emph{es} la
+simetría central $T_6$, y ese centro es exactamente lo que dota a 6-30 de su auto-dualidad de orden 12.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.2,every node/.style={font=\small}]
+  \draw[thick] (0,0) circle (1);
+  \foreach \a/\b in {0/6,1/7,3/9}{
+    \draw[ctB,line width=1.3pt] ({90-30*\a}:1) -- ({90-30*\b}:1);}
+  \foreach \k in {0,...,11}{
+    \pgfmathtruncatemacro{\ina}{(\k==0||\k==1||\k==3||\k==6||\k==7||\k==9)?1:0}
+    \ifnum\ina=1 \filldraw[black] ({90-30*\k}:1) circle (0.05);
+      \node at ({90-30*\k}:1.2) {\textbf{\k}};
+    \else \draw[fill=white] ({90-30*\k}:1) circle (0.045);
+      \node[gray] at ({90-30*\k}:1.2) {\k}; \fi}
+\end{tikzpicture}
+\caption{La \textbf{6-30}$=\{0,1,3,6,7,9\}$ en el reloj de clases de altura: la unión de los tres pares
+centrales $\{0,6\},\{1,7\},\{3,9\}$ (diámetros gruesos de tritono), por lo que la fija $T_6$ (una rotación
+de $180^\circ$) y, sin simetría inversional, la estabiliza exactamente $\{T_0,T_6\}$. Ese estabilizador
+central es lo que reduce la órbita a $12$ y vuelve diédrico de orden $12$ al dual.}
+\label{fig:p2-clock}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.85,every node/.style={font=\footnotesize},>={Stealth[length=2mm]}]
+  \foreach \k in {0,...,5}{
+    \coordinate (O\k) at ({90-60*\k}:2.4);
+    \coordinate (I\k) at ({90-60*\k}:1.2);}
+  \foreach \k in {0,...,5}{
+    \pgfmathtruncatemacro{\nextk}{mod(\k+1,6)}
+    \draw[ctA,->,thick] (O\k) -- (O\nextk);
+    \draw[ctB,->,thick] (I\nextk) -- (I\k);
+    \draw[gray,dashed] (O\k) -- (I\k);}
+  \foreach \k in {0,...,5}{
+    \filldraw[fill=ctA!12,draw=ctA,thick] (O\k) circle (0.32) node[black]{$T_{\k}A$};
+    \filldraw[fill=white,draw=ctB,thick] (I\k) circle (0.32) node[black]{$I_{\k}A$};}
+\end{tikzpicture}
+\caption{El grupo dual de orden $12$, $\Dgrp{6}$, actuando de forma simplemente transitiva sobre las $12$
+formas de $6$-$30$ ---su grafo de Cayley, el análogo para acordes simétricos de la red $P/L/R$ de las
+tríadas. Los nodos exteriores son las seis formas de transposición $T_kA$ (con $T_kA=T_{k+6}A$
+identificadas), los interiores las seis de inversión $I_kA$; las flechas sólidas son un generador de
+rotación de orden $6$ (la orientación se invierte en la clase interior, como en todo grafo de Cayley
+diédrico), las aristas discontinuas un generador de reflexión de orden $2$. Cualquier forma del acorde de
+Petrushka alcanza cualquier otra por un movimiento dual único (\lean{Cgrp\_transitive}), así que las doce
+formas se vuelven un único espacio armónico navegable.}
+\label{fig:p2-cayley}
+\end{figure}
+
+\subsection{El hilo de la dualidad entre pilares}\label{sec:p2-thread}
+
+La forma de aquí ---una acción simplemente transitiva y su espejo auto-centralizador--- vuelve en el
+Pilar~3. Allí, la teoría de temperamentos regulares empareja el retículo de los vals con el de las comas
+sobre $\mathbb{Z}$-módulos: la misma clase de dualidad, una estructura generada y su anulador.
+Es un paralelismo estructural, no un teorema que unifique las dos (Sección~\ref{sec:novelty}). Y la
+auto-dualidad de un acorde simétrico es, en términos de Fourier, un hecho de fase que $|\Ahat|$ no puede
+ver (\S\ref{sec:p1-capstone}) ---la simetría $T_6$ es soporte en frecuencias pares, un enunciado de
+magnitud, pero qué acordes simétricos son auto-duales necesita la fase, la misma ceguera que la relación
+$Z$.
+
+\begin{table}[ht]
+\centering\scriptsize\setlength{\tabcolsep}{4pt}
+\rowcolors{2}{ctB!7}{white}
+\begin{tabular}{@{}p{0.37\textwidth} p{0.55\textwidth}@{}}
+\toprule
+\rowcolor{ctB!22}
+\textbf{Teorema} & \textbf{Enunciado}\\
+\midrule
+\multicolumn{2}{@{}l}{\emph{el motor de dualidad, \lean{NeoRiemannian.lean}}}\\
+\lean{card\_TIgrp} & $T/I$ actúa sobre las $24$ tríadas como la rep.\ regular de $\Dgrp{12}$.\\
+\lean{Pf\_comm}, \lean{Lf\_comm}, \lean{Rf\_comm} & $P,L,R$ conmutan cada uno con la acción de $T/I$.\\
+\lean{P\_size\_one}, \lean{L\_size\_one}, \lean{R\_size\_two} & tamaños de conducción de voces mínimos de $P,L,R$.\\
+\lean{centralizing\_fixedPoint\_eq\_one} & caso regular de Wielandt (el centralizador es semirregular) --- laguna de Mathlib.\\
+\lean{centralizer\_eq\_PLR} & $\mathrm{centralizador}(T/I)=\langle P,L,R\rangle$ (dualidad CFS); \lean{card\_PLRgrp}$=24$.\\
+\multicolumn{2}{@{}l}{\emph{la auto-dualidad de 6-30, \lean{SixThirty.lean}}}\\
+\lean{T6\_invariant}, \lean{not\_inversionally\_symmetric} & $A=\{0,1,3,6,7,9\}$ fija por $T_6$, sin simetría de inversión.\\
+\lean{card\_O}, \lean{Ker\_eq} & órbita $12$; núcleo de la acción $=\{T_0,T_6\}=Z(\Dgrp{12})$.\\
+\lean{card\_Cgrp}, \lean{Cgrp\_transitive} & dual (centralizador sobre la órbita) orden $12$, regular.\\
+\lean{dihedral\_fingerprint} & orden $12$; $s^6{=}1$, $t^2{=}1{\neq}t$, $tst{=}s^{-1}$, $st{\neq}ts$ (diédrico).\\
+\bottomrule
+\end{tabular}
+\caption{El Pilar~2 en \lean{NeoRiemannian.lean} / \lean{SixThirty.lean}, sin \lean{sorry} y con auditoría
+de axiomas $[\mathrm{propext},\mathrm{Classical.choice},\mathrm{Quot.sound}]$. El dual de 6-30 es el único
+punto donde el trabajo va más allá de la formalización; su alcance y la relación con el linaje de Fiore se
+enuncian en la Sección~\ref{sec:novelty}.}
+\label{tab:p2}
+\end{table}

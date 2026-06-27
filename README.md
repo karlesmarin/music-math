@@ -3,6 +3,7 @@
 [![Note 1 — DOI](https://img.shields.io/badge/Note_1-10.5281%2Fzenodo.20820961-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20820961)
 [![Note 2 — DOI](https://img.shields.io/badge/Note_2-10.5281%2Fzenodo.20826773-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20826773)
 [![Note 3 — DOI](https://img.shields.io/badge/Note_3-10.5281%2Fzenodo.20862821-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20862821)
+[![Corpus paper — DOI](https://img.shields.io/badge/Corpus_paper-10.5281%2Fzenodo.20953768-B5530F?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20953768)
 [![License](https://img.shields.io/badge/License-Apache_2.0-B5530F)](LICENSE)
 [![Lean 4 + Mathlib](https://img.shields.io/badge/Lean_4-Mathlib-2C2C2C)](https://leanprover.github.io/)
 [![Source](https://img.shields.io/badge/source-karlesmarin%2Fmusic--math-1B6F8C?logo=github&logoColor=white)](https://github.com/karlesmarin/music-math)
@@ -10,9 +11,18 @@
 A machine-checked formalization in **Lean 4 / Mathlib** of classical mathematical music theory — every
 headline theorem `sorry`-free (`#print axioms` reports only `propext`, `Classical.choice`, `Quot.sound`).
 This is a **growing series** of focused, self-contained notes, each backed by a Lean formalization and
-reproducible Sage/GAP witnesses, accreting toward a corpus / Lean-library paper and, eventually, a
+reproducible Sage/GAP witnesses, now consolidated in a **corpus / Lean-library paper** and heading toward a
 constraint-search composition program built on the verified invariants. New notes are added under
-`notes/` over time; each note also carries its own Zenodo DOI.
+`notes/` over time; each carries its own Zenodo DOI.
+
+- 📚 **Corpus paper — *One transform and one duality*** (the umbrella over Notes #1–#3)
+  ([`corpus_paper.pdf`](notes/corpus-one-transform-one-duality/corpus_paper.pdf) · EN;
+  [ES](notes/corpus-one-transform-one-duality/corpus_paper_es.pdf)):
+  A machine-checked library of core music theory in $\mathbb{Z}_{12}$, organized so that **one object**
+  (the autocorrelation $|\hat A|^2$) and **one phenomenon** (simply-transitive ⇒ self-centralizing duality)
+  do most of the work — across three pillars (Fourier invariants · transformational duality · scales and
+  tuning), ~275 theorems, every one `sorry`-free. Formalization + organization, not new mathematics. DOI
+  [10.5281/zenodo.20953768](https://doi.org/10.5281/zenodo.20953768).
 
 - 🎵 **Note 1 — *A tritone-centered self-duality***
   ([`sixthirty_note.pdf`](notes/sixthirty-tritone-self-duality/sixthirty_note.pdf) · EN;

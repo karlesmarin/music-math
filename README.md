@@ -192,12 +192,17 @@ import SixThirty; import Fourier; import TonnetzSpectrum; import TonnetzComplete
 
 ## 🔊 Audio and numerical cross-checks
 
-The notes' claims can be **heard** (`media/`, MIDI + WAV): Note 1 — the Petrushka chord, the `T₆`
+The claims can be **heard** (`media/`, MIDI + WAV): Note 1 — the Petrushka chord, the `T₆`
 invariance, a traversal of all twelve forms; Note 2 — the homometric `Z`-pair the bispectrum separates
 (`inversion_4z15`, `inversion_4z29`, `z_pair`); Note 3 — the augmented `a₃` cycle, the Tonnetz hexatonic
-walk, and a 24-EDO microtonal realization (`microtonal_z24`). And **re-verified** (`sage/`, Sage 10.8 +
-GAP): the order-12 `D₆` dual and the A032239 counts (Note 1), the exact Tonnetz characteristic polynomial
-and the `ℤ₂₄` saturation table (Note 3).
+walk, and a 24-EDO microtonal realization (`microtonal_z24`); **Corpus (Pillar 3)** — the maximally even
+scales (`diatonic_scale`, `pentatonic_scale`), the diatonic-vs-cluster contrast that the all-pairs energy
+resolves (`even_vs_cluster`), the closing circle of fifths (`circle_of_fifths`), and the **audible commas**,
+built from exact frequency ratios: twelve pure fifths vs seven octaves (`pythagorean_comma`, ≈23.5 cents)
+and four fifths vs a pure major third (`syntonic_comma`, ≈21.5 cents). And **re-verified** (`sage/`, Sage
+10.8 + GAP): the order-12 `D₆` dual and the A032239 counts (Note 1), the exact Tonnetz characteristic
+polynomial and the `ℤ₂₄` saturation table (Note 3), and the T/I set-class enumeration behind 6-30's
+uniqueness (`tisetclasses.py`).
 
 ## 📚 Citing
 

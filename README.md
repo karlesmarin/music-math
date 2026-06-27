@@ -1,4 +1,4 @@
-# 🎼 Mathematics of Music — Machine-Checked Notes in Lean 4
+# 🎼 Mathematics of Music — a Machine-Checked Library in Lean 4
 
 [![Note 1 — DOI](https://img.shields.io/badge/Note_1-10.5281%2Fzenodo.20820961-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20820961)
 [![Note 2 — DOI](https://img.shields.io/badge/Note_2-10.5281%2Fzenodo.20826773-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20826773)
@@ -125,15 +125,40 @@ named factored characteristic polynomial and its multiplicities is the exact Sag
 (`sage/tonnetz_cayley_spectrum.py`). The microtonal `sage/z24_saturation.sage` verifies the 24-EDO
 saturation table by exact cyclotomic arithmetic.
 
+### 🎼 Corpus paper — the scales-and-tuning pillar (Pillar 3)
+
+The corpus paper *One transform and one duality* consolidates Notes #1–#3 (Pillars 1–2: Fourier invariants
+and transformational duality) and adds a third pillar — **scales and tuning** — in six new Lean files
+(`IntervalVector`, `DiatonicScale`, `MaximalEvenness`, `AllPairsEvenness`, `Temperament`, `CircleOfFifths`).
+All `sorry`-free and axiom-clean (the all-pairs censuses additionally use `native_decide`, adding
+`Lean.ofReduceBool`).
+
+| Theorem | Statement |
+|---|---|
+| `DiatonicScale.diatonic_hasMyhill`, `wholeTone_not_hasMyhill` | Myhill's property: the diatonic has it, the whole-tone scale does not. |
+| `DiatonicScale.threeGap_chromatic`, `diatonic_isWellFormed` | the three-gap (Steinhaus) theorem in ℤ₁₂; well-formed = two step sizes. |
+| `MaximalEvenness.isMinimizer_iff_balanced` | the **step-gap** convex energy is minimized exactly at the balanced step-multiset — a *necessary-not-sufficient*, degenerate cousin of maximal evenness. |
+| `AllPairsEvenness.diatonic_unique` | the **all-pairs** convex-energy theorem (Douthett–Krantz): the diatonic is the *unique* minimizer up to T/I, simultaneously for **every** admissible potential (V-independent) — extended to `k ∈ {5,6,7,8}` (pentatonic, whole-tone, octatonic). |
+| `AllPairsEvenness.abel_bridge` | the double summation-by-parts engine behind it (axiom-clean). |
+| `Temperament.ker_v12_eq_span_pc`, `meantone_defect_eq_syntonic`, `ker_v12_5_eq_span` | regular temperament theory: the Pythagorean comma generates the rank-1 val kernel; 12-ET is meantone; the 5-limit comma lattice has rank 2. |
+| `CircleOfFifths.circle_of_fifths_complete`, `four_fifths_eq_major_third` | twelve fifths generate ℤ₁₂; four fifths = a major third. |
+
+The all-pairs uniqueness is, to our knowledge, the **first ITP formalization** of the Douthett–Krantz
+theorem; the step-gap form is the strictly weaker, degenerate cousin. The corpus also fixes the two
+unifying threads in one picture — the autocorrelation `|Â|²` and the simply-transitive ⇒ self-centralizing
+duality. Formalization + organization, not new mathematics.
+
 ## 🗂️ Repository layout
 
 ```
-notes/   — one folder per note: PDF (EN + ES), LaTeX source, per-note README
+notes/   — one folder per note / paper: PDF (EN + ES), LaTeX source, README
+  ├── corpus-one-transform-one-duality/      — Corpus paper (the umbrella; EN + ES)
   ├── sixthirty-tritone-self-duality/        — Note 1 (6-30 / Petrushka tritone self-duality)
   ├── phase-taxonomy-pitch-class-invariants/ — Note 2 (the phase taxonomy)
   └── fourier-spectra-pitch-symmetry/        — Note 3 (the Tonnetz spectrum)
-lean/    — Lean 4 sources (NeoRiemannian, SixThirty, Fourier,
-           CycleGraphSpectrum, InversionDFT, TonnetzSpectrum, TonnetzCompleteness)
+lean/    — Lean 4 sources. Notes: NeoRiemannian, SixThirty, Fourier, CycleGraphSpectrum,
+           InversionDFT, TonnetzSpectrum, TonnetzCompleteness. Corpus Pillar 3 (new):
+           IntervalVector, DiatonicScale, MaximalEvenness, AllPairsEvenness, Temperament, CircleOfFifths
 sage/    — Sage/GAP witness scripts, each re-runnable
 media/   — audio companions (MIDI + WAV) and the generators make_audio*.py
 viz/     — figure scripts (gear train, CRT torus, dyadic solenoid)
@@ -146,18 +171,23 @@ Requires [`elan`](https://github.com/leanprover/elan). The toolchain is pinned i
 
 ```bash
 lake exe cache get      # prebuilt Mathlib oleans (recommended)
-lake build              # all notes: NeoRiemannian, SixThirty, Fourier,
-                        # CycleGraphSpectrum, InversionDFT, TonnetzSpectrum, TonnetzCompleteness
+lake build              # notes:  NeoRiemannian, SixThirty, Fourier, CycleGraphSpectrum,
+                        #         InversionDFT, TonnetzSpectrum, TonnetzCompleteness
+                        # corpus: IntervalVector, DiatonicScale, MaximalEvenness,
+                        #         AllPairsEvenness, Temperament, CircleOfFifths
 ```
 
-Axiom footprint — one headline theorem per note:
+Axiom footprint — one headline theorem per note, and the corpus' Pillar 3:
 
 ```lean
-import SixThirty; import Fourier; import TonnetzSpectrum; import TonnetzCompleteness
+import SixThirty; import Fourier; import TonnetzSpectrum; import TonnetzCompleteness; import AllPairsEvenness
 #print axioms SixThirty.dihedral_fingerprint           -- Note 1: 6-30's dual is dihedral D₆
 #print axioms Ahat_eq_iff                              -- Note 2: the full Â is a complete invariant
 #print axioms tonnetz_spectrum_complete_unconditional  -- Note 3: the Tonnetz spectrum is complete
+#print axioms AllPairsEvenness.abel_bridge             -- Corpus: the all-pairs energy engine (axiom-clean)
 -- each: propext, Classical.choice, Quot.sound
+-- (the all-pairs maximal-evenness censuses, e.g. AllPairsEvenness.diatonic_unique, additionally use
+--  native_decide, adding Lean.ofReduceBool)
 ```
 
 ## 🔊 Audio and numerical cross-checks
@@ -171,10 +201,15 @@ and the `ℤ₂₄` saturation table (Note 3).
 
 ## 📚 Citing
 
-Cite the specific note you use; each `doi` below is the **concept DOI** (always resolves to the latest
-version).
+Cite the **corpus paper** for the whole library, or the specific note for an individual result.
 
 ```bibtex
+@misc{Marin2026MusicCorpus,
+  author = {Mar\'in Mu\~noz, Carles},
+  title  = {One Transform and One Duality: a Machine-Checked Core of Music Theory in {Lean}~4},
+  year   = {2026}, doi = {10.5281/zenodo.20953768},
+  note   = {Corpus paper, Mathematics of Music series. \url{https://github.com/karlesmarin/music-math}}
+}
 @misc{Marin2026SixThirty,
   author = {Mar\'in, Carles},
   title  = {A Tritone-Centered Self-Duality: the Set Class 6-30 and its Order-12 Neo-Riemannian Dual},
@@ -197,8 +232,9 @@ version).
 
 Each note is archived on Zenodo with a concept DOI (all versions) and a version DOI:
 
-| Note | Concept DOI (cite this) | This version |
+| Work | Concept DOI (cite this) | This version |
 |---|---|---|
+| **Corpus paper** — *One transform and one duality* | [10.5281/zenodo.20953768](https://doi.org/10.5281/zenodo.20953768) | [20953768](https://doi.org/10.5281/zenodo.20953768) |
 | 1 — 6-30 self-duality | [10.5281/zenodo.20820961](https://doi.org/10.5281/zenodo.20820961) | [20820962](https://doi.org/10.5281/zenodo.20820962) |
 | 2 — phase taxonomy | [10.5281/zenodo.20826773](https://doi.org/10.5281/zenodo.20826773) | [20826774](https://doi.org/10.5281/zenodo.20826774) |
 | 3 — Tonnetz spectrum | [10.5281/zenodo.20862821](https://doi.org/10.5281/zenodo.20862821) | [20862822](https://doi.org/10.5281/zenodo.20862822) |

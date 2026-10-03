@@ -4,6 +4,7 @@
 [![Note 2 — DOI](https://img.shields.io/badge/Note_2-10.5281%2Fzenodo.20826773-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20826773)
 [![Note 3 — DOI](https://img.shields.io/badge/Note_3-10.5281%2Fzenodo.20862821-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20862821)
 [![Note 4 — DOI](https://img.shields.io/badge/Note_4-10.5281%2Fzenodo.20971089-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20971089)
+[![Note 5 — DOI](https://img.shields.io/badge/Note_5_v1.1-10.5281%2Fzenodo.23123219-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.23123219)
 [![Corpus paper — DOI](https://img.shields.io/badge/Corpus_paper-10.5281%2Fzenodo.20953768-B5530F?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20953768)
 [![License](https://img.shields.io/badge/License-Apache_2.0-B5530F)](LICENSE)
 [![Lean 4 + Mathlib](https://img.shields.io/badge/Lean_4-Mathlib-2C2C2C)](https://leanprover.github.io/)
@@ -17,6 +18,24 @@ This is a **growing series** of focused, self-contained notes, each backed by a 
 reproducible Sage/GAP witnesses, now consolidated in a **corpus / Lean-library paper** and heading toward a
 constraint-search composition program built on the verified invariants. New notes are added under
 `notes/` over time; each carries its own Zenodo DOI.
+
+## 🆕 Current status — 3 October 2026
+
+- **Published papers:** [Note 5 v1.1](https://doi.org/10.5281/zenodo.23123219) and
+  [Note 3 v1.1](https://doi.org/10.5281/zenodo.23121105), each with English and Spanish PDFs below.
+- **Completed connected proofs:** general weighted-kernel and translation-invariant
+  complement-energy identities, with homometry connections. See the
+  [connection map](verification/CONNECTIONS_2026-10-03.md).
+- **In progress: Huddling for arbitrary cyclic order.**
+  [CyclicHuddling.lean](lean/CyclicHuddling.lean) connects Mathlib's DFT to arcs,
+  projections, complementation, and primitive frequencies;
+  [CyclicHuddlingGeometry.lean](lean/CyclicHuddlingGeometry.lean) proves the cosine
+  comparisons and existence of an angular grid cut. These modules compile without
+  proof holes, but **the general Huddling theorem and its equality case remain unfinished**.
+  See the [Mathlib/prior-art audit and exact remaining obligation](research/CYCLIC_HUDDLING_MATHLIB_AUDIT_2026-10-03.md)
+  and the [compilation report](verification/cyclic_huddling_build_report.json).
+
+## 📚 Papers and connected formalizations
 
 - 🆕 **Version 1.1 — Huddling, diatonic and pentatonic scales in ℤ₁₂: Fourier maxima and convex-energy minima formalized in Lean 4**
   ([EN](notes/huddling-diatonic-pentatonic-extremality/huddling_note.pdf),

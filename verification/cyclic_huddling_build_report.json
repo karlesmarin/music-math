@@ -1,0 +1,182 @@
+{
+  "generated_utc": "2026-10-03T16:03:29.7333512Z",
+  "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
+  "mathlib_revision": "701fb6e9c3b9285968b375d19886bfc5ca134840",
+  "options": [
+    "autoImplicit=false",
+    "relaxedAutoImplicit=false"
+  ],
+  "method": "Direct Lean compilation in dependency order using an existing external dependency cache; not a fresh Lake dependency download",
+  "modules": [
+    {
+      "module": "CyclicHuddling",
+      "source_sha256": "8c154c03b42e3ed0c94df426a0d651aa126a534c2b9a69a7af2d992c54345c41",
+      "exit_code": 0,
+      "seconds": 8.08,
+      "axiom_reports": [
+        {
+          "declaration": "CyclicHuddling.Ahat_tpose",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.Ahat_eq_dft",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.Ahat_compl",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.norm_Ahat_le_card",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.sum_le_of_threshold",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.sum_lt_of_strict_threshold",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.card_arc",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.Ahat_arc",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.Ahat_arc_geom",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.Ahat_arc_mul_sub",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.re_amplitude_le_of_threshold",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.re_amplitude_lt_of_strict_threshold",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.exists_phase_real_eq_norm",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.norm_Ahat_one_le_arc_of_geometric_selector",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.Ahat_unit_frequency",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.norm_Ahat_unit_le_arc_of_geometric_selector",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_file": "CyclicHuddling.log"
+    },
+    {
+      "module": "CyclicHuddlingGeometry",
+      "source_sha256": "27a79c18bf3d13d75e6b03aa4774d1a53d49b909066b6740afe8421756abc936",
+      "exit_code": 0,
+      "seconds": 8.71,
+      "axiom_reports": [
+        {
+          "declaration": "CyclicHuddling.cos_ge_of_between",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.cos_le_of_between",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.exists_grid_cut",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_file": "CyclicHuddlingGeometry.log"
+    }
+  ]
+}

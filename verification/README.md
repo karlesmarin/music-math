@@ -1,7 +1,9 @@
 # 🧪 Verification record — 2026-10-03
 
-`library_compile_manifest.json` records the source hashes of all 21 substantive Lean modules,
-each compiled successfully against the pinned dependency cache. `extremality_build_report.json`
+`library_compile_manifest.json` records the source hashes of the 21 substantive Lean modules
+in the initial audit, each compiled successfully against the pinned dependency cache.
+Later additions have separate reports below; the initial manifest is not the current module inventory.
+`extremality_build_report.json`
 contains a subsequent successful run of the six-module dependency closure of the new note,
 including its per-theorem axiom reports. The manifest explains the initial reporting-only failure.
 Individual compiler logs are included here.
@@ -14,6 +16,12 @@ The later connected continuation is summarized in [CONNECTIONS_2026-10-03.md](CO
 Its new translation-invariant and homometry/complement declarations were compiled directly with
 the same pinned Lean and Mathlib cache; their axiom reports contain only `propext`,
 `Classical.choice`, and `Quot.sound`.
+
+`cyclic_huddling_build_report.json` records the compiled research modules
+`CyclicHuddling.lean` and `CyclicHuddlingGeometry.lean`, including source hashes and
+axiom reports. Every listed result uses only the three ordinary foundational axioms.
+The geometric selector and the equality classification remain unfinished; successful
+compilation of the partial development does not certify the full general theorem.
 
 The diatonic and pentatonic Fourier–energy equivalences each use the ordinary foundational axioms
 and two native census dependencies. `ExtremalityConnections.energy_compl` and

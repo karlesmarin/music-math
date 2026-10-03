@@ -8,11 +8,11 @@ authors:
     email: "karlesmarin@gmail.com"
     affiliation: "Independent researcher"
 abstract: >-
-  Honest, machine-checked results in mathematical music theory: focused research
-  notes backed by Lean 4 / Mathlib formalizations (sorry-free, axiom-clean) and
-  reproducible Sage/GAP witnesses. Prepared with the assistance of an AI system
-  (Claude, Anthropic); the mathematics is classical and the scope of each note is
-  stated explicitly.
+  Machine-checked results in mathematical music theory: focused research notes
+  backed by Lean 4 / Mathlib formalizations and reproducible Sage/GAP witnesses.
+  Symbolic proofs use ordinary foundational axioms; finite census results also
+  use compiled evaluation. The scope and unfinished generalizations are stated
+  explicitly. Prepared with the assistance of an AI system.
 keywords:
   - mathematical music theory
   - pitch-class set theory
@@ -20,6 +20,5 @@ keywords:
   - Lean 4
   - formalization of mathematics
 license: Apache-2.0
-version: "3.0.0"
-doi: 10.5281/zenodo.20820962
-date-released: 2026-06-25
+repository-code: "https://github.com/karlesmarin/music-math"
+url: "https://github.com/karlesmarin/music-math"

@@ -4,7 +4,7 @@
     "upload_type": "publication",
     "publication_type": "preprint",
     "publication_date": "2026-10-03",
-    "version": "1.0",
+    "version": "1.1",
     "creators": [
       {
         "name": "Carles Marín Muñoz",
@@ -62,6 +62,6 @@
         "scheme": "url"
       }
     ],
-    "notes": "Note 5 of the Mathematics of Music series. EN + ES (Spanish typeset with Babel). Classical mathematics with a connected Lean 4 formalization; the final equivalences inherit two explicitly reported native census dependencies. Includes exact Python/Sage checks, bilingual figures, source files and dated literature/formalization audits. A separate ComplementEnergy.lean module develops the classical general finite weighted-kernel mechanism behind the complement identity; it uses no enumeration and is not an additional theorem claimed by this paper."
+    "notes": "Note 5 of the Mathematics of Music series, version 1.1. EN + ES (Spanish typeset with Babel). Classical mathematics with a connected Lean 4 formalization; the final equivalences inherit two explicitly reported native census dependencies. Includes exact Python/Sage checks, bilingual figures, source files and dated literature/formalization audits. This revision adds the finite-group complement-energy normal form, its twelve-tone and hexachord specialization, and a symbolic homometry-complement bridge. The general results are classical and introduce no new finite census. Previous published version: 10.5281/zenodo.23121104."
   }
 }

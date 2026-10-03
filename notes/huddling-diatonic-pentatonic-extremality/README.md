@@ -1,12 +1,14 @@
 # 🎼 Huddling, diatonic and pentatonic scales in Z12
 
-**Fourier maxima and convex-energy minima formalized in Lean 4** — October 2026, version 1.0.
+**Fourier maxima and convex-energy minima formalized in Lean 4** — October 2026, version 1.1.
 
 📄 [English PDF](huddling_note.pdf) · 📄 [PDF castellano](huddling_note_es.pdf) ·
 📝 [English LaTeX](huddling_note.tex) · 📝 [LaTeX castellano](huddling_note_es.tex).
 
-Note 5 of the Mathematics of Music series. Zenodo draft prepared for the author's publication:
-reserved DOI **10.5281/zenodo.23121104** (not yet registered by publication).
+Note 5 of the Mathematics of Music series. Version 1.0 was published as
+[10.5281/zenodo.23121104](https://doi.org/10.5281/zenodo.23121104).
+Version 1.1 is prepared as an unpublished Zenodo draft, with reserved DOI
+**10.5281/zenodo.23123219**.
 The Spanish version uses Babel, including Spanish table captions; both versions share colored tables.
 
 The note follows one question: why do the diatonic white keys maximize a Fourier magnitude

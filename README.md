@@ -26,13 +26,16 @@ constraint-search composition program built on the verified invariants. New note
 - **Completed connected proofs:** general weighted-kernel and translation-invariant
   complement-energy identities, with homometry connections. See the
   [connection map](verification/CONNECTIONS_2026-10-03.md).
-- **In progress: Huddling for arbitrary cyclic order.**
+- **Completed: Huddling for arbitrary cyclic order, including equality.**
   [CyclicHuddling.lean](lean/CyclicHuddling.lean) connects Mathlib's DFT to arcs,
   projections, complementation, and primitive frequencies;
-  [CyclicHuddlingGeometry.lean](lean/CyclicHuddlingGeometry.lean) proves the cosine
-  comparisons and existence of an angular grid cut. These modules compile without
-  proof holes, but **the general Huddling theorem and its equality case remain unfinished**.
-  See the [Mathlib/prior-art audit and exact remaining obligation](research/CYCLIC_HUDDLING_MATHLIB_AUDIT_2026-10-03.md)
+  [CyclicHuddlingGeometry.lean](lean/CyclicHuddlingGeometry.lean) proves the sharp
+  Fourier bound for every nonzero `N`, characterizes all equality cases as arcs,
+  and transports both results to every primitive frequency. Empty/full sets and
+  projection ties are covered. The proof is symbolic, without enumeration or
+  `native_decide`; its axiom reports contain only the ordinary foundational axioms.
+  This formalizes classical mathematics. See the
+  [Mathlib/prior-art audit and exact scope](research/CYCLIC_HUDDLING_MATHLIB_AUDIT_2026-10-03.md)
   and the [compilation report](verification/cyclic_huddling_build_report.json).
 
 ## 📚 Papers and connected formalizations
@@ -330,8 +333,8 @@ Cite the **corpus paper** for the whole library, or the specific note for an ind
 @misc{Marin2026TonnetzSpectrum,
   author = {Mar\'in, Carles},
   title  = {The Tonnetz Spectrum is the Generating Triad's Fourier Balance Profile},
-  year   = {2026}, doi = {10.5281/zenodo.20862821},
-  note   = {Note 3, Mathematics of Music series. \url{https://github.com/karlesmarin/music-math}}
+  year   = {2026}, doi = {10.5281/zenodo.23121105},
+  note   = {Note 3, version 1.1, Mathematics of Music series. \url{https://github.com/karlesmarin/music-math}}
 }
 @misc{Marin2026PerVoice,
   author = {Mar\'in Mu\~noz, Carles},
@@ -339,17 +342,24 @@ Cite the **corpus paper** for the whole library, or the specific note for an ind
   year   = {2026}, doi = {10.5281/zenodo.20971089},
   note   = {Note 4, Mathematics of Music series. \url{https://github.com/karlesmarin/music-math}}
 }
+@misc{Marin2026Huddling,
+  author = {Mar\'in Mu\~noz, Carles},
+  title  = {Huddling, Diatonic and Pentatonic Scales in {Z12}: Fourier Maxima and Convex-Energy Minima Formalized in {Lean} 4},
+  year   = {2026}, doi = {10.5281/zenodo.23123219},
+  note   = {Note 5, version 1.1, Mathematics of Music series. \url{https://github.com/karlesmarin/music-math}}
+}
 ```
 
 Each note is archived on Zenodo with a concept DOI (all versions) and a version DOI:
 
-| Work | Concept DOI (cite this) | This version |
+| Work | Concept DOI (all versions) | Current paper version |
 |---|---|---|
-| **Corpus paper** — *One transform and one duality* | [10.5281/zenodo.20953768](https://doi.org/10.5281/zenodo.20953768) | [20953768](https://doi.org/10.5281/zenodo.20953768) |
+| **Corpus paper** — *One transform and one duality* | [10.5281/zenodo.20953767](https://doi.org/10.5281/zenodo.20953767) | [20953768](https://doi.org/10.5281/zenodo.20953768) |
 | 1 — 6-30 self-duality | [10.5281/zenodo.20820961](https://doi.org/10.5281/zenodo.20820961) | [20820962](https://doi.org/10.5281/zenodo.20820962) |
 | 2 — phase taxonomy | [10.5281/zenodo.20826773](https://doi.org/10.5281/zenodo.20826773) | [20826774](https://doi.org/10.5281/zenodo.20826774) |
-| 3 — Tonnetz spectrum | [10.5281/zenodo.20862821](https://doi.org/10.5281/zenodo.20862821) | [20862822](https://doi.org/10.5281/zenodo.20862822) |
+| 3 — Tonnetz spectrum | [10.5281/zenodo.20862821](https://doi.org/10.5281/zenodo.20862821) | [23121105 (v1.1)](https://doi.org/10.5281/zenodo.23121105) |
 | 4 — per-voice Fourier signature | [10.5281/zenodo.20971089](https://doi.org/10.5281/zenodo.20971089) | [20971090](https://doi.org/10.5281/zenodo.20971090) |
+| 5 — Huddling, diatonic and pentatonic extremality | [10.5281/zenodo.23121103](https://doi.org/10.5281/zenodo.23121103) | [23123219 (v1.1)](https://doi.org/10.5281/zenodo.23123219) |
 
 ## ⚖️ Author and license
 

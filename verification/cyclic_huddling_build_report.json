@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-03T16:03:29.7333512Z",
+  "generated_utc": "2026-10-03T16:29:44.4846500Z",
   "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
   "mathlib_revision": "701fb6e9c3b9285968b375d19886bfc5ca134840",
   "options": [
@@ -10,9 +10,9 @@
   "modules": [
     {
       "module": "CyclicHuddling",
-      "source_sha256": "8c154c03b42e3ed0c94df426a0d651aa126a534c2b9a69a7af2d992c54345c41",
+      "source_sha256": "6db955052e46d4a392dcd549dbcd2e066c24bd2c8c3b2a854e0d8a6f119d766d",
       "exit_code": 0,
-      "seconds": 8.08,
+      "seconds": 8.1,
       "axiom_reports": [
         {
           "declaration": "CyclicHuddling.Ahat_tpose",
@@ -147,9 +147,9 @@
     },
     {
       "module": "CyclicHuddlingGeometry",
-      "source_sha256": "27a79c18bf3d13d75e6b03aa4774d1a53d49b909066b6740afe8421756abc936",
+      "source_sha256": "9e6747c902c59fae54b54b43698e86c99b157ee1e9c99424085e43724d7fa3f6",
       "exit_code": 0,
-      "seconds": 8.71,
+      "seconds": 10.0,
       "axiom_reports": [
         {
           "declaration": "CyclicHuddling.cos_ge_of_between",
@@ -169,6 +169,54 @@
         },
         {
           "declaration": "CyclicHuddling.exists_grid_cut",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.geometric_selector",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.norm_Ahat_one_le_arc",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.norm_Ahat_unit_le_arc",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.norm_Ahat_one_eq_arc_iff",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.norm_Ahat_unit_eq_arc_iff",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "CyclicHuddling.maximizer_unit_iff",
           "axioms": [
             "propext",
             "Classical.choice",

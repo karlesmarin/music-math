@@ -17,11 +17,13 @@ Its new translation-invariant and homometry/complement declarations were compile
 the same pinned Lean and Mathlib cache; their axiom reports contain only `propext`,
 `Classical.choice`, and `Quot.sound`.
 
-`cyclic_huddling_build_report.json` records the compiled research modules
+`cyclic_huddling_build_report.json` records the compiled general Huddling modules
 `CyclicHuddling.lean` and `CyclicHuddlingGeometry.lean`, including source hashes and
 axiom reports. Every listed result uses only the three ordinary foundational axioms.
-The geometric selector and the equality classification remain unfinished; successful
-compilation of the partial development does not certify the full general theorem.
+The final declarations `norm_Ahat_one_le_arc`, `norm_Ahat_unit_le_arc`,
+`norm_Ahat_one_eq_arc_iff`, `norm_Ahat_unit_eq_arc_iff`, and `maximizer_unit_iff`
+are unconditional apart from the explicit nonzero-order and unit-frequency
+assumptions. The geometric selector is proved, not left as a hypothesis.
 
 The diatonic and pentatonic Fourier–energy equivalences each use the ordinary foundational axioms
 and two native census dependencies. `ExtremalityConnections.energy_compl` and

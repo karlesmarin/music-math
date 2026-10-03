@@ -32,24 +32,51 @@ that the frequency-one arc bound follows if every unit projection of the roots
 admits a translated arc separated from its complement by a score threshold;
 the same bound then transfers to every unit frequency.
 
-`lean/CyclicHuddlingGeometry.lean` additionally proves the two cosine comparisons
-that separate a circular arc from its complement, and the existence of an
-integer grid cut placing any phase in a prescribed angular cell. Connecting
-these real-angle lemmas to the finite `ZMod N` selector remains to be done.
+`lean/CyclicHuddlingGeometry.lean` closes the geometric selector and the complete
+equality analysis. The proof chooses an angular grid cut using the ceiling
+function, applies cosine monotonicity to the arc and its complement, and uses
+finite exchange. At equality only the two boundary vertices can differ;
+exchanging them produces the adjacent arc. Empty and full sets are handled
+explicitly. The final results do not assume the selector.
 
-## Exact remaining obligation
+## Completed general theorem
 
-Prove the geometric selector at frequency `1`, then handle threshold ties to
-classify equality. For a **primitive frequency** `k` (equivalently, `k`
-coprime to `N`), the maximizing pitch set is a pullback of a consecutive arc
-under multiplication by `k`; it need not itself be consecutive in pitch order.
-The arc bound is false for arbitrary nonzero `k`: in `ZMod 12` at frequency `2`,
-the three consecutive pitches `{0,1,2}` have Fourier magnitude `2`, while
-`{0,1,6}` has magnitude `√7`. The latter set repeats one character value,
-which is possible because multiplication by `2` is not a permutation of
-`ZMod 12`. Thus the primitive-frequency hypothesis is mathematically
-necessary for the present consecutive-pitch formulation.
+For every `N > 0`, every subset `B` of `ZMod N`, `m = B.card`, and every unit
+frequency `k`, the bound is
 
-This work is research-stage and is included in the GitHub sources with this
-status made explicit. It has not been added to the published Note 5 or presented
-as a complete general Huddling formalization.
+\[
+  |\widehat B(k)| \leq
+  \left|\sum_{j=0}^{m-1} \exp(-2\pi i j/N)\right|.
+\]
+
+Equality holds exactly when `k B` is a translated consecutive arc. This also
+characterizes the maximizers among all subsets of the same cardinality.
+
+| Lean declaration | Certified statement |
+|---|---|
+| `geometric_selector_with_boundary` | A projection threshold selects an arc, with at most its two boundary vertices tied. |
+| `norm_Ahat_one_le_arc` | Sharp frequency-one inequality for every nonzero cyclic order. |
+| `norm_Ahat_unit_le_arc` | The same bound for every unit frequency. |
+| `norm_Ahat_one_eq_arc_iff` | Equality exactly for translated arcs, including empty and full sets. |
+| `norm_Ahat_unit_eq_arc_iff` | Equality exactly when the frequency image is a translated arc. |
+| `maximizer_unit_iff` | Equivalent characterization as a global maximum at fixed cardinality. |
+
+All printed axiom reports contain only `propext`, `Classical.choice`, and
+`Quot.sound`. There is no `sorry`, added mathematical axiom, `native_decide`,
+or finite census in this proof. The precise dependency revision, source hashes,
+and compiler results are recorded in `verification/cyclic_huddling_build_report.json`.
+
+## Scope and next connection
+
+For a primitive frequency other than 1, the maximizing pitch set is a pullback
+of an arc under multiplication by that frequency. It need not be consecutive
+in pitch order. The unit-frequency restriction is essential: in `ZMod 12`,
+`B = {0,6}` at frequency `2` has magnitude `2`, exceeding the frequency-one
+two-point arc magnitude `sqrt(2 + sqrt(3))`. Repeated character values are
+possible because multiplication by `2` is not a permutation of `ZMod 12`.
+
+The proof is complete for the inequality and equality statements above.
+Connecting it to the existing twelve-tone radical constants can replace the
+old Huddling census; that integration is separate work. The published Note 5
+PDF and its existing native proof dependencies have not been revised by this
+source-code addition. No universal first-formalization claim is made.

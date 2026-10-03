@@ -13,8 +13,9 @@ import Mathlib.Data.Complex.BigOperators
 # Cyclic Fourier amplitudes: structural preparation for Huddling
 
 This file lifts the elementary Fourier and arc interfaces of the twelve-tone
-`Huddling.lean` to an arbitrary nonzero cyclic order. It does not yet assert
-the general Huddling inequality or its equality case.
+`Huddling.lean` to an arbitrary nonzero cyclic order. The companion module
+`CyclicHuddlingGeometry.lean` proves the general inequality and its equality case
+using this interface and a geometric selector.
 -/
 
 open Finset ZMod AddChar Complex

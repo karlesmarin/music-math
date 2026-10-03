@@ -18,7 +18,7 @@ reproducible Sage/GAP witnesses, now consolidated in a **corpus / Lean-library p
 constraint-search composition program built on the verified invariants. New notes are added under
 `notes/` over time; each carries its own Zenodo DOI.
 
-- 🆕 **Version 1.1 draft — Huddling, diatonic and pentatonic scales in ℤ₁₂: Fourier maxima and convex-energy minima formalized in Lean 4**
+- 🆕 **Version 1.1 — Huddling, diatonic and pentatonic scales in ℤ₁₂: Fourier maxima and convex-energy minima formalized in Lean 4**
   ([EN](notes/huddling-diatonic-pentatonic-extremality/huddling_note.pdf),
   [ES](notes/huddling-diatonic-pentatonic-extremality/huddling_note_es.pdf),
   [source and reproduction](notes/huddling-diatonic-pentatonic-extremality/README.md)).
@@ -27,7 +27,7 @@ constraint-search composition program built on the verified invariants. New note
   homometry (Note 2), the generating triad's fifth coefficient (Note 3), parity (Note 4),
   and central tritone transposition (Note 1). Classical mathematics, connected formalization;
   version 1.0 [published](https://doi.org/10.5281/zenodo.23121104); version 1.1
-  reserved DOI **10.5281/zenodo.23123219**, with publication pending the author.
+  [published at 10.5281/zenodo.23123219](https://doi.org/10.5281/zenodo.23123219).
   Two native census dependencies are exposed in the axiom report.
 
   The general weighted-kernel complement mechanism is developed separately in

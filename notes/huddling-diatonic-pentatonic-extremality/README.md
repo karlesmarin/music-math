@@ -7,8 +7,7 @@
 
 Note 5 of the Mathematics of Music series. Version 1.0 was published as
 [10.5281/zenodo.23121104](https://doi.org/10.5281/zenodo.23121104).
-Version 1.1 is prepared as an unpublished Zenodo draft, with reserved DOI
-**10.5281/zenodo.23123219**.
+Version 1.1 is [published at 10.5281/zenodo.23123219](https://doi.org/10.5281/zenodo.23123219).
 The Spanish version uses Babel, including Spanish table captions; both versions share colored tables.
 
 The note follows one question: why do the diatonic white keys maximize a Fourier magnitude

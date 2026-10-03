@@ -10,6 +10,11 @@ Individual compiler logs are included here.
 finite weighted-kernel module `ComplementEnergy.lean`. Its five audited statements use only
 `propext`, `Classical.choice`, and `Quot.sound`, without native evaluation or enumeration.
 
+The later connected continuation is summarized in [CONNECTIONS_2026-10-03.md](CONNECTIONS_2026-10-03.md).
+Its new translation-invariant and homometry/complement declarations were compiled directly with
+the same pinned Lean and Mathlib cache; their axiom reports contain only `propext`,
+`Classical.choice`, and `Quot.sound`.
+
 The diatonic and pentatonic Fourier–energy equivalences each use the ordinary foundational axioms
 and two native census dependencies. `ExtremalityConnections.energy_compl` and
 `energy_eq_of_homometric` use only `propext`, `Classical.choice`, and `Quot.sound`.

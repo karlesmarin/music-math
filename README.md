@@ -32,6 +32,9 @@ constraint-search composition program built on the verified invariants. New note
   The general weighted-kernel complement mechanism is developed separately in
   [`ComplementEnergy.lean`](lean/ComplementEnergy.lean), without enumeration;
   see its [scope and antecedents](complement_energy_audit_2026-10-03.json).
+  The [translation-invariant sequel](lean/TranslationInvariantEnergy.lean) gives the
+  single-scalar complement formula and its six-note corollary; the
+  [connection map](verification/CONNECTIONS_2026-10-03.md) also links complement and homometry.
 
 - 📚 **Corpus paper — *One transform and one duality*** (the umbrella over Notes #1–#3)
   ([`corpus_paper.pdf`](notes/corpus-one-transform-one-duality/corpus_paper.pdf) · EN;

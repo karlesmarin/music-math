@@ -334,6 +334,20 @@ $i_6(A^c)-i_6(A)=6-|A|$. Multiplying by the potential gives
 \end{equation}
 No convexity is needed for this identity. It is the $C_{12}$ instance of the stronger
 distance-degree-regular graph theorem of Bushaw, Cody, and Leffler~\cite[Theorem~3.5]{BCL}.
+The new formal bridge exposes why the correction depends only on cardinality.
+For a finite abelian group $G$ and an even potential $f(x)=f(-x)$, set
+$E_f(A)=\frac12\sum_{a,b\in A}f(b-a)$. Translation makes every row sum equal to
+$R_f=\sum_{x\in G}f(x)$, and hence
+\begin{equation}\label{eq:groupcompl}
+ E_f(A^c)-E_f(A)=\left(\frac{|G|}{2}-|A|\right)R_f.
+\end{equation}
+Equal-size sets therefore retain their energy gap under complementation; in particular,
+complementation transports cardinality-constrained minimizers. For $G=\Ztwelve$,
+$R_f=V(0)+2\sum_{j=1}^5V(j)+V(6)$. Our interval energy $E_V$ omits the diagonal;
+setting $V(0)=0$ identifies its complement difference with
+Equation~\eqref{eq:groupcompl}. A six-note set has the same energy as its complement
+for every circular-distance potential. These are classical consequences of symmetry,
+now linked to the exact twelve-tone convention in Lean.
 For $|A|=5$, comparison with $D$ and $D^c=T_6P$ yields the exact gap identity
 \[
  E_V(A)-E_V(P)=E_V(A^c)-E_V(D).
@@ -367,6 +381,11 @@ Equation~\eqref{eq:energy} proves
  \quad\text{for every }V.
 \]
 This is a consequence of the classical equivalent descriptions of homometry~\cite{AS}.
+Moreover, homometry survives complementation: the autocorrelation identity above
+changes every nonzero displacement count by the same cardinality-dependent constant.
+Thus homometric $A,B$ also have homometric complements, whose pair energies agree
+for every potential. This joins the phase question to the complement bridge without
+an additional finite census.
 For general sets, pair energies cannot recover phase or distinguish a nontrivial
 homometric pair. At the diatonic extremum, however, spectral uniqueness implies
 \[
@@ -444,6 +463,12 @@ the connections in Sections~\ref{sec:complements}--\ref{sec:earlier}:
 \lean{energy\_compl}, \lean{pentatonic\_energy\_gap};\\
 \lean{pentatonic\_spectral\_energy\_equivalence}.
 \end{quote}
+The same file also proves \lean{homometric\_compl} and
+\lean{energy\_compl\_eq\_of\_homometric}. The separate
+\lean{TranslationInvariantEnergy.lean} proves the finite-group normal form
+\lean{energy\_compl\_card} and \lean{energy\_gap\_compl}; its
+\lean{PitchClassEnergy} specialization checks the row-sum formula,
+the bridge to $E_V$, and complementary hexachord energy equality.
 
 The development pins Lean~4.30.0-rc2 and Mathlib commit
 \href{https://github.com/leanprover-community/mathlib4/tree/701fb6e9c3b9285968b375d19886bfc5ca134840}{\lean{701fb6e9c3b9}}

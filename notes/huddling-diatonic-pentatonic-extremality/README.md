@@ -29,6 +29,7 @@ found no matching implementation in its bounded search; it does not establish un
 | [Huddling.lean](../../lean/Huddling.lean) | All-cardinality maximum and equality class in ZMod 12. |
 | [DiatonicExtremality.lean](../../lean/DiatonicExtremality.lean) | Seven-note Fourier–energy equivalence for strict admissible potentials. |
 | [ExtremalityConnections.lean](../../lean/ExtremalityConnections.lean) | Symbolic complement-energy identity, pentatonic transport, homometry, parity, tritone. |
+| [TranslationInvariantEnergy.lean](../../lean/TranslationInvariantEnergy.lean) | Finite-group complement normal form, energy-gap transport, and the twelve-tone hexachord bridge. |
 
 The development reuses `Fourier.lean` and the symbolic Abel engine in `AllPairsEvenness.lean`.
 The two finite extremality certificates use `native_decide`. Their compiled-evaluation
@@ -70,8 +71,10 @@ is a separate reproducibility route. Recorded reports are in [verification](../.
 The separate [ComplementEnergy.lean](../../lean/ComplementEnergy.lean) module proves the
 classical general finite weighted-kernel mechanism behind complement transport without
 enumeration. Its scope and prior-art check are recorded in
-[the addendum](../../complement_energy_audit_2026-10-03.json). The paper's specialized
-proof currently uses `ExtremalityConnections.energy_compl`, rather than importing this module.
+[the addendum](../../complement_energy_audit_2026-10-03.json). The paper now states the
+finite-group normal form and its twelve-tone specialization. Its pentatonic proof uses
+`ExtremalityConnections.energy_compl`; `TranslationInvariantEnergy.lean` proves that
+the general mechanism agrees with it when the diagonal potential is zero.
 
 ## 📜 License
 

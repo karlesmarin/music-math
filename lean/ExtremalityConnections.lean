@@ -97,6 +97,26 @@ theorem commonTones_compl (A : Finset (ZMod 12)) (t : ZMod 12) :
   unfold Fourier.commonTones
   omega
 
+/-- Homometry survives complementation: the zero autocorrelation fixes cardinality,
+    and every other autocorrelation receives the same complement correction. -/
+theorem homometric_compl (A B : Finset (ZMod 12)) (h : Fourier.Homometric A B) :
+    Fourier.Homometric Aᶜ Bᶜ := by
+  have hcard : A.card = B.card := by
+    have h0 := h 0
+    simpa only [Fourier.autocorr_zero] using h0
+  intro t
+  have ha := commonTones_compl A t
+  have hb := commonTones_compl B t
+  simp only [Fourier.commonTones_eq_autocorr] at ha hb
+  have ht := h t
+  omega
+
+/-- The homometry/complement square commutes for every all-pairs potential. -/
+theorem energy_compl_eq_of_homometric (V : ℕ → ℝ)
+    (A B : Finset (ZMod 12)) (h : Fourier.Homometric A B) :
+    E V Aᶜ = E V Bᶜ :=
+  energy_eq_of_homometric V Aᶜ Bᶜ (homometric_compl A B h)
+
 theorem iv_eq_commonTones (A : Finset (ZMod 12)) (k : ℕ) (h1 : 1 ≤ k) (h5 : k ≤ 5) :
     iv A k = Fourier.commonTones A (k : ZMod 12) := by
   rw [iv_eq_raw_div_two, Fourier.IVraw_eq_two_commonTones A k h1 h5]
@@ -198,6 +218,8 @@ theorem pentatonic_spectral_energy_equivalence (V : ℕ → ℝ)
     linarith
 
 #print axioms energy_eq_of_homometric
+#print axioms homometric_compl
+#print axioms energy_compl_eq_of_homometric
 #print axioms diatonic_homometric_iff
 #print axioms m5_preserves_a6
 #print axioms m5_commutes_tritone

@@ -349,6 +349,21 @@ $i_6(A^c)-i_6(A)=6-|A|$. Multiplicar por el potencial da
 \end{equation}
 Esta identidad no requiere convexidad. Es el caso $C_{12}$ del teorema más general de
 Bushaw, Cody y Leffler sobre grafos regulares en grado por distancia~\cite[Teorema~3.5]{BCL}.
+El nuevo enlace formal muestra por qué la corrección solo depende de la cardinalidad.
+Para un grupo abeliano finito $G$ y un potencial par $f(x)=f(-x)$, definamos
+$E_f(A)=\frac12\sum_{a,b\in A}f(b-a)$. La traslación hace constante la suma de cada fila:
+$R_f=\sum_{x\in G}f(x)$. En consecuencia,
+\begin{equation}\label{eq:groupcompl}
+ E_f(A^c)-E_f(A)=\left(\frac{|G|}{2}-|A|\right)R_f.
+\end{equation}
+Los conjuntos de igual tamaño conservan por tanto su diferencia de energía al tomar
+complementos; en particular, la complementación transporta los mínimos a cardinalidad
+fija. En $G=\Ztwelve$, $R_f=V(0)+2\sum_{j=1}^5V(j)+V(6)$.
+Nuestra energía interválica $E_V$ omite la diagonal: con $V(0)=0$, su diferencia entre
+complementos coincide con la Ecuación~\eqref{eq:groupcompl}. Un conjunto de seis notas
+tiene la misma energía que su complemento para cualquier potencial de distancia circular.
+Son consecuencias clásicas de la simetría, enlazadas ahora en Lean con la convención
+exacta de doce clases.
 Para $|A|=5$, comparar con $D$ y $D^c=T_6P$ produce la identidad exacta de diferencias
 \[
  E_V(A)-E_V(P)=E_V(A^c)-E_V(D).
@@ -382,6 +397,11 @@ no ordenados de la Ecuación~\eqref{eq:energy} demuestra
  \quad\text{para cada }V.
 \]
 Es una consecuencia de las descripciones clásicas equivalentes de la homometría~\cite{AS}.
+Además, la homometría se conserva al tomar complementos: la identidad de autocorrelación
+anterior cambia cada recuento de desplazamiento no nulo en una constante que depende solo
+de la cardinalidad. Por ello, si $A,B$ son homométricos, sus complementos también lo son
+y sus energías entre pares coinciden para cualquier potencial. Así se une la pregunta
+sobre la fase con el enlace por complementación sin otro censo finito.
 Para conjuntos generales, las energías de pares no recuperan la fase ni distinguen un
 par homométrico no trivial. En el extremo diatónico, sin embargo, la unicidad espectral implica
 \[
@@ -458,6 +478,12 @@ Secciones~\ref{sec:complements}--\ref{sec:earlier}:
 \lean{energy\_compl}, \lean{pentatonic\_energy\_gap};\\
 \lean{pentatonic\_spectral\_energy\_equivalence}.
 \end{quote}
+El mismo archivo demuestra también \lean{homometric\_compl} y
+\lean{energy\_compl\_eq\_of\_homometric}. El archivo separado
+\lean{TranslationInvariantEnergy.lean} demuestra la forma normal para grupos finitos
+\lean{energy\_compl\_card} y \lean{energy\_gap\_compl}; su especialización
+\lean{PitchClassEnergy} comprueba la suma de fila, el enlace con $E_V$ y la igualdad
+de energía entre hexacordos complementarios.
 
 El desarrollo fija Lean~4.30.0-rc2 y el commit de Mathlib
 \href{https://github.com/leanprover-community/mathlib4/tree/701fb6e9c3b9285968b375d19886bfc5ca134840}{\lean{701fb6e9c3b9}}

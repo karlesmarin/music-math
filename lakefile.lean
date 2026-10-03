@@ -22,4 +22,5 @@ lean_lib «MusicMath» where
     `DiatonicScale, `Fourier, `IntervalVector, `InversionDFT, `MaximalEvenness,
     `MelodicWord, `MTransform, `NeoRiemannian, `ParityA6, `SixThirty,
     `Temperament, `Tiling, `TonnetzCompleteness, `TonnetzSpectrum,
-    `Huddling, `DiatonicExtremality, `ExtremalityConnections, `ComplementEnergy]
+    `Huddling, `DiatonicExtremality, `ExtremalityConnections, `ComplementEnergy,
+    `TranslationInvariantEnergy]

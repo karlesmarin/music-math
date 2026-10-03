@@ -24,17 +24,28 @@ found no matching implementation in its bounded search; it does not establish un
 
 ## 🧩 Formal statements
 
+**Current-source update (3 October 2026):** the general cyclic Huddling theorem
+and its equality case are now proved symbolically and used by the twelve-tone
+library. Euler's formula gives the explicit sine-ratio constant, with
+`sin(7π/12)/sin(π/12) = sin(5π/12)/sin(π/12) = 2 + sqrt(3)`.
+See the [connection and trust update](../../research/EULER_TO_HUDDLING_2026-10-03.md).
+The archived v1.1 PDFs describe the earlier implementation.
+
 | File | Main role |
 |---|---|
 | [MTransform.lean](../../lean/MTransform.lean) | Fourier index permutation; exact comparison in Z[sqrt(3)]. |
 | [Huddling.lean](../../lean/Huddling.lean) | All-cardinality maximum and equality class in ZMod 12. |
+| [CyclicHuddlingGeometry.lean](../../lean/CyclicHuddlingGeometry.lean) | General nonzero cyclic order: sharp inequality and full equality classification. |
+| [CyclicHuddlingClosedForm.lean](../../lean/CyclicHuddlingClosedForm.lean) | Euler's chord-length formula gives the sine-ratio bound and complement symmetry. |
 | [DiatonicExtremality.lean](../../lean/DiatonicExtremality.lean) | Seven-note Fourier–energy equivalence for strict admissible potentials. |
 | [ExtremalityConnections.lean](../../lean/ExtremalityConnections.lean) | Symbolic complement-energy identity, pentatonic transport, homometry, parity, tritone. |
 | [TranslationInvariantEnergy.lean](../../lean/TranslationInvariantEnergy.lean) | Finite-group complement normal form, energy-gap transport, and the twelve-tone hexachord bridge. |
 
 The development reuses `Fourier.lean` and the symbolic Abel engine in `AllPairsEvenness.lean`.
-The two finite extremality certificates use `native_decide`. Their compiled-evaluation
-dependencies appear in the axiom report alongside the ordinary foundational axioms.
+The current spectral proofs use only the ordinary foundational axioms. The finite
+energy certificate still uses `native_decide`, and the Fourier–energy equivalences
+inherit that one compiled-evaluation dependency. The historical name
+`Huddling.huddling_census` is retained for compatibility, with a structural proof.
 The symbolic complement-energy and homometry-to-energy bridges introduce no new census.
 Strictness is required for the shared equality class; weak convexity/decrease gives only a minimum.
 

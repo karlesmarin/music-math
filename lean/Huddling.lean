@@ -1,19 +1,25 @@
 /- Huddling.lean — consecutive pitch classes maximize the first Fourier magnitude in ZMod 12.
-   Author: Carles Marín Muñoz (with Codex, OpenAI, as assistant).
+   Author: Carles Marín Muñoz (with AI assistance).
 
    Classical mathematics: Amiot, Discrete Fourier Transform and Bach's Good Temperament
    (Music Theory Online 15.2, 2009), Lemma 2. This file formalizes the fixed twelve-tone case,
-   including equality, then transports the result through M5. It does not prove the general
-   roots-of-unity theorem for arbitrary n. See the dated prior-art audit for bounded overlap checks.
+   including equality, by specializing the general structural proof in
+   CyclicHuddlingGeometry. It then transports the result through M5.
+   See the dated prior-art audit for bounded overlap checks.
 
    The exact spectrum/order bridge is reused from MTransform; no floating-point comparisons.
 -/
 import MTransform
+import CyclicHuddlingGeometry
 import Mathlib.Data.Finset.Powerset
 
 open Finset
 
 namespace Huddling
+
+/-- The twelve-tone Fourier interface agrees with the general set-sum interface. -/
+theorem Ahat_eq_cyclic (A : Finset (ZMod 12)) (k : ZMod 12) :
+    Fourier.Ahat A k = CyclicHuddling.Ahat A k := Fourier.Ahat_apply A k
 
 /-- The consecutive collection C_k = {0,...,k-1} in ZMod 12. -/
 def arc (k : ℕ) : Finset (ZMod 12) := (range k).image (fun x : ℕ => (x : ZMod 12))
@@ -101,37 +107,36 @@ theorem powerSpec_one_re_eq_iff (A B : Finset (ZMod 12)) :
     rw [MTransform.toReal_psZ, MTransform.toReal_psZ] at h'
     linarith
 
-set_option maxHeartbeats 0 in
-set_option maxRecDepth 65536 in
-/-- Exact finite Huddling certificate, all 4096 subsets and all cardinalities of ZMod 12.
-    Uses native_decide; the compiled-evaluation dependency is exposed by #print axioms. -/
-theorem huddling_census :
-    ∀ A ∈ (univ : Finset (ZMod 12)).powerset,
-      MTransform.psZ A ≤ MTransform.psZ (arc A.card) ∧
-        (MTransform.psZ A = MTransform.psZ (arc A.card) → A ∈ orbitT (arc A.card)) := by
-  native_decide
-
 /-- Huddling inequality: the consecutive collection maximizes a1 at fixed cardinality. -/
 theorem arc_maximizes_power (A : Finset (ZMod 12)) :
     (Fourier.powerSpec A 1).re ≤ (Fourier.powerSpec (arc A.card) 1).re := by
-  exact (MTransform.powerSpec_one_re_le_iff _ _).mpr
-    (huddling_census A (mem_powerset.mpr (subset_univ A))).1
+  have h : ‖Fourier.Ahat A 1‖ ≤ ‖Fourier.Ahat (arc A.card) 1‖ := by
+    simpa only [Ahat_eq_cyclic] using CyclicHuddling.norm_Ahat_one_le_arc A
+  rw [powerSpec_re_eq_norm_sq, powerSpec_re_eq_norm_sq]
+  exact pow_le_pow_left₀ (norm_nonneg _) h 2
 
 /-- Equality in Huddling holds precisely for the transposes of the consecutive collection. -/
 theorem arc_unique (A : Finset (ZMod 12)) :
     (Fourier.powerSpec A 1).re = (Fourier.powerSpec (arc A.card) 1).re ↔
       A ∈ orbitT (arc A.card) := by
-  constructor
-  · intro h
-    exact (huddling_census A (mem_powerset.mpr (subset_univ A))).2
-      ((powerSpec_one_re_eq_iff A (arc A.card)).mp h)
-  · intro h
-    obtain ⟨s, _, hs⟩ := mem_image.mp h
-    calc
-      (Fourier.powerSpec A 1).re =
-          (Fourier.powerSpec (Fourier.tpose s (arc A.card)) 1).re :=
-        congrArg (fun B => (Fourier.powerSpec B 1).re) hs.symm
-      _ = (Fourier.powerSpec (arc A.card) 1).re := powerSpec_tpose_re s _ 1
+  rw [powerSpec_re_eq_norm_sq, powerSpec_re_eq_norm_sq,
+    sq_eq_sq₀ (norm_nonneg _) (norm_nonneg _), Ahat_eq_cyclic, Ahat_eq_cyclic]
+  change (‖CyclicHuddling.Ahat A 1‖ =
+    ‖CyclicHuddling.Ahat (CyclicHuddling.arc A.card) 1‖) ↔ _
+  rw [CyclicHuddling.norm_Ahat_one_eq_arc_iff]
+  simp only [orbitT, mem_image, mem_univ, true_and]
+  exact exists_congr (fun s => eq_comm)
+
+/-- Backward-compatible finite certificate, now derived from the structural
+    theorem. Despite its historical name, no census is evaluated. -/
+theorem huddling_census :
+    ∀ A ∈ (univ : Finset (ZMod 12)).powerset,
+      MTransform.psZ A ≤ MTransform.psZ (arc A.card) ∧
+        (MTransform.psZ A = MTransform.psZ (arc A.card) → A ∈ orbitT (arc A.card)) := by
+  intro A _
+  refine ⟨(MTransform.powerSpec_one_re_le_iff _ _).mp (arc_maximizes_power A), ?_⟩
+  intro he
+  exact (arc_unique A).mp ((powerSpec_one_re_eq_iff A (arc A.card)).mpr he)
 
 /-- The same maximum in the magnitude formulation used by Amiot. -/
 theorem arc_maximizes_norm (A : Finset (ZMod 12)) :

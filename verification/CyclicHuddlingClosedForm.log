@@ -1,0 +1,4 @@
+'CyclicHuddling.norm_Ahat_arc_sine_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicHuddling.norm_Ahat_unit_le_sine_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicHuddling.norm_Ahat_unit_eq_sine_ratio_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CyclicHuddling.sine_ratio_complement' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -3,8 +3,8 @@
 `library_compile_manifest.json` records the source hashes of the 21 substantive Lean modules
 in the initial audit, each compiled successfully against the pinned dependency cache.
 Later additions have separate reports below; the initial manifest is not the current module inventory.
-`extremality_build_report.json`
-contains a subsequent successful run of the six-module dependency closure of the new note,
+The historical `extremality_build_report.json`
+contains a successful run of the original six-module dependency closure of the new note,
 including its per-theorem axiom reports. The manifest explains the initial reporting-only failure.
 Individual compiler logs are included here.
 
@@ -25,8 +25,21 @@ The final declarations `norm_Ahat_one_le_arc`, `norm_Ahat_unit_le_arc`,
 are unconditional apart from the explicit nonzero-order and unit-frequency
 assumptions. The geometric selector is proved, not left as a hypothesis.
 
-The diatonic and pentatonic Fourier–energy equivalences each use the ordinary foundational axioms
-and two native census dependencies. `ExtremalityConnections.energy_compl` and
+`euler_huddling_build_report.json` supersedes the old extremality report for the
+current source files. It recompiles the full dependency closure through
+`ExtremalityConnections`, including the new sine-ratio module and the structural
+replacement of the twelve-tone Huddling certificate. Its source hashes and logs
+record the exact checked sources.
+`source_sha256` hashes the actual compiler input. `source_lf_sha256` hashes the
+same bytes after replacing CRLF with LF, matching Git's text normalization.
+This records Windows/Linux line-ending differences explicitly rather than
+treating them as changes to the Lean proof.
+
+The current Huddling and diatonic spectral results use only ordinary foundational
+axioms. The diatonic and pentatonic Fourier–energy equivalences each retain one
+native dependency, from `DiatonicExtremality.energy_census`. The published v1.1
+paper and its historical report describe the previous two-census implementation.
+`ExtremalityConnections.energy_compl` and
 `energy_eq_of_homometric` use only `propext`, `Classical.choice`, and `Quot.sound`.
 No axiom report contains `sorryAx`.
 

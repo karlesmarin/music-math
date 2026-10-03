@@ -60,9 +60,18 @@ foreach ($moduleName in $order) {
     $axioms = @([regex]::Matches($log, "(?s)'([^']+)' depends on axioms:\s*\[([^\]]*)\]") | ForEach-Object {
         [ordered]@{ declaration = $_.Groups[1].Value; axioms = @($_.Groups[2].Value -split ',' | ForEach-Object { $_.Trim() }) }
     })
+    # Git can normalize CRLF to LF; retain both the actual compiler-input hash
+    # and the hash of the same UTF-8 bytes with only CRLF replaced by LF.
+    $sourceBytes = [IO.File]::ReadAllBytes($sourceFile)
+    $lfBytes = [Text.Encoding]::UTF8.GetBytes(
+        [Text.Encoding]::UTF8.GetString($sourceBytes).Replace("`r`n", "`n"))
+    $hashAlgorithm = [Security.Cryptography.SHA256]::Create()
+    $lfHash = [BitConverter]::ToString($hashAlgorithm.ComputeHash($lfBytes)).Replace('-', '').ToLowerInvariant()
+    $hashAlgorithm.Dispose()
     $records.Add([ordered]@{
         module = $moduleName
         source_sha256 = (Get-FileHash -LiteralPath $sourceFile -Algorithm SHA256).Hash.ToLower()
+        source_lf_sha256 = $lfHash
         exit_code = $exitCode
         seconds = [math]::Round(((Get-Date) - $started).TotalSeconds, 2)
         axiom_reports = $axioms
@@ -83,6 +92,7 @@ $report = [ordered]@{
     mathlib_revision = $mathlibRev
     options = @('autoImplicit=false', 'relaxedAutoImplicit=false')
     method = 'Direct Lean compilation in dependency order using an existing external dependency cache; not a fresh Lake dependency download'
+    source_hash_convention = 'source_sha256 hashes the exact compiler input; source_lf_sha256 normalizes CRLF to LF for comparison with Git blobs'
     modules = @($records.ToArray())
 }
 $report | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath (Join-Path $BuildDir 'build_report.json') -Encoding utf8

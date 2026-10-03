@@ -1,11 +1,7 @@
-'DiatonicExtremality.diatonic_norm_max' depends on axioms: [propext,
- Classical.choice,
- Quot.sound,
- Huddling.huddling_census._native.native_decide.ax_1_1]
-'DiatonicExtremality.diatonic_norm_unique' depends on axioms: [propext,
- Classical.choice,
- Quot.sound,
- Huddling.huddling_census._native.native_decide.ax_1_1]
+'DiatonicExtremality.diatonic_norm_max' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DiatonicExtremality.diatonic_norm_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DiatonicExtremality.diatonic_sine_ratio_value' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DiatonicExtremality.pentatonic_sine_ratio_value' depends on axioms: [propext, Classical.choice, Quot.sound]
 'DiatonicExtremality.energy_census' depends on axioms: [propext,
  Classical.choice,
  Quot.sound,
@@ -17,5 +13,4 @@
 'DiatonicExtremality.spectral_energy_equivalence' depends on axioms: [propext,
  Classical.choice,
  Quot.sound,
- energy_census._native.native_decide.ax_1_1,
- Huddling.huddling_census._native.native_decide.ax_1_1]
+ energy_census._native.native_decide.ax_1_1]

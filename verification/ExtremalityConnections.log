@@ -1,13 +1,11 @@
 'ExtremalityConnections.energy_eq_of_homometric' depends on axioms: [propext, Classical.choice, Quot.sound]
-'ExtremalityConnections.diatonic_homometric_iff' depends on axioms: [propext,
- Classical.choice,
- Quot.sound,
- Huddling.huddling_census._native.native_decide.ax_1_1]
+'ExtremalityConnections.homometric_compl' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ExtremalityConnections.energy_compl_eq_of_homometric' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ExtremalityConnections.diatonic_homometric_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
 'ExtremalityConnections.m5_preserves_a6' depends on axioms: [propext, Classical.choice, Quot.sound]
 'ExtremalityConnections.m5_commutes_tritone' depends on axioms: [propext, Classical.choice, Quot.sound]
 'ExtremalityConnections.energy_compl' depends on axioms: [propext, Classical.choice, Quot.sound]
 'ExtremalityConnections.pentatonic_spectral_energy_equivalence' depends on axioms: [propext,
  Classical.choice,
  Quot.sound,
- DiatonicExtremality.energy_census._native.native_decide.ax_1_1,
- Huddling.huddling_census._native.native_decide.ax_1_1]
+ DiatonicExtremality.energy_census._native.native_decide.ax_1_1]

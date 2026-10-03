@@ -1,5 +1,5 @@
 /- DiatonicExtremality.lean — Huddling -> M5 -> the diatonic Fourier / energy connection.
-   Author: Carles Marín Muñoz (with Codex, OpenAI, as assistant).
+   Author: Carles Marín Muñoz (with AI assistance).
 
    Reuses Huddling's exact first-frequency maximum and AllPairsEvenness's symbolic Abel engine.
    All statements concern unweighted seven-element subsets of ZMod 12. The energy equivalence
@@ -7,6 +7,7 @@
    establish a minimum, and do not give uniqueness.
 -/
 import Huddling
+import CyclicHuddlingClosedForm
 import AllPairsEvenness
 
 open Finset AllPairsEvenness
@@ -67,6 +68,26 @@ theorem diatonic_norm_value : ‖Fourier.Ahat D 5‖ = 2 + Real.sqrt 3 := by
   rw [Huddling.powerSpec_re_eq_norm_sq] at h
   have hs : Real.sqrt 3 ^ 2 = 3 := Real.sq_sqrt (by norm_num)
   nlinarith [norm_nonneg (Fourier.Ahat D 5), Real.sqrt_nonneg 3]
+
+/-- Euler's sine ratio equals the exact seven-note constant used by the library. -/
+theorem diatonic_sine_ratio_value :
+    Real.sin (Real.pi * 7 / 12) / Real.sin (Real.pi / 12) = 2 + Real.sqrt 3 := by
+  have hphase : ‖Fourier.Ahat (Huddling.m5 D) 1‖ =
+      ‖Fourier.Ahat (Huddling.arc 7) 1‖ := by
+    rw [m5_diatonic, Huddling.norm_tpose]
+  have hM : Fourier.Ahat (Huddling.m5 D) 1 = Fourier.Ahat D 5 := MTransform.Ahat_M5 D
+  rw [hM, diatonic_norm_value] at hphase
+  have hr := CyclicHuddling.norm_Ahat_arc_sine_ratio (N := 12) (by norm_num) 7 (by norm_num)
+  norm_num only [Nat.cast_ofNat] at hr
+  rw [← hr]
+  simpa only [Huddling.Ahat_eq_cyclic] using hphase.symm
+
+/-- Five- and seven-note maxima share one constant by sine complementation. -/
+theorem pentatonic_sine_ratio_value :
+    Real.sin (Real.pi * 5 / 12) / Real.sin (Real.pi / 12) = 2 + Real.sqrt 3 := by
+  have hc := CyclicHuddling.sine_ratio_complement (N := 12) 7 (by norm_num)
+  norm_num only [Nat.reduceSub, Nat.cast_ofNat] at hc
+  rw [hc, diatonic_sine_ratio_value]
 
 theorem diatonic_norm_max (A : Finset (ZMod 12)) (hA : A.card = 7) :
     ‖Fourier.Ahat A 5‖ ≤ 2 + Real.sqrt 3 := by
@@ -136,6 +157,8 @@ theorem spectral_energy_equivalence (V : ℕ → ℝ) (hV : StrictAdmissible V)
 
 #print axioms diatonic_norm_max
 #print axioms diatonic_norm_unique
+#print axioms diatonic_sine_ratio_value
+#print axioms pentatonic_sine_ratio_value
 #print axioms energy_census
 #print axioms diatonic_energy_unique
 #print axioms spectral_energy_equivalence

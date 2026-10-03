@@ -37,6 +37,14 @@ constraint-search composition program built on the verified invariants. New note
   This formalizes classical mathematics. See the
   [Mathlib/prior-art audit and exact scope](research/CYCLIC_HUDDLING_MATHLIB_AUDIT_2026-10-03.md)
   and the [compilation report](verification/cyclic_huddling_build_report.json).
+- **Euler's formula → explicit sharp constants → twelve-tone integration.**
+  [CyclicHuddlingClosedForm.lean](lean/CyclicHuddlingClosedForm.lean) proves the
+  sine-ratio bound `sin(πm/N)/sin(π/N)` for `N > 1`, including equality and
+  complementary cardinalities. The current twelve-tone Huddling, diatonic Fourier
+  maximum and equality proofs now derive from the general theorem, without a native
+  Huddling census. The energy side retains its separate census. See the
+  [Euler connection and trust update](research/EULER_TO_HUDDLING_2026-10-03.md)
+  and the [current compilation report](verification/euler_huddling_build_report.json).
 
 ## 📚 Papers and connected formalizations
 
@@ -50,7 +58,9 @@ constraint-search composition program built on the verified invariants. New note
   and central tritone transposition (Note 1). Classical mathematics, connected formalization;
   version 1.0 [published](https://doi.org/10.5281/zenodo.23121104); version 1.1
   [published at 10.5281/zenodo.23123219](https://doi.org/10.5281/zenodo.23123219).
-  Two native census dependencies are exposed in the axiom report.
+  The published v1.1 PDFs describe two native census dependencies. In the current
+  source code the Huddling dependency has been replaced by the general symbolic
+  proof; the Fourier–energy equivalences retain the single energy-census dependency.
 
   The general weighted-kernel complement mechanism is developed separately in
   [`ComplementEnergy.lean`](lean/ComplementEnergy.lean), without enumeration;

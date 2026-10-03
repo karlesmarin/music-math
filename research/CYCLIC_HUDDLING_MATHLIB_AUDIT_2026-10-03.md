@@ -76,7 +76,9 @@ two-point arc magnitude `sqrt(2 + sqrt(3))`. Repeated character values are
 possible because multiplication by `2` is not a permutation of `ZMod 12`.
 
 The proof is complete for the inequality and equality statements above.
-Connecting it to the existing twelve-tone radical constants can replace the
-old Huddling census; that integration is separate work. The published Note 5
-PDF and its existing native proof dependencies have not been revised by this
-source-code addition. No universal first-formalization claim is made.
+The subsequent [Euler connection](EULER_TO_HUDDLING_2026-10-03.md) also proves
+the explicit sine-ratio constant and integrates the general theorem into the
+twelve-tone library, replacing its native Huddling census. The current
+Fourier–energy equivalences retain only the separate energy census. The
+published Note 5 v1.1 PDFs describe the earlier implementation. No universal
+first-formalization claim is made.

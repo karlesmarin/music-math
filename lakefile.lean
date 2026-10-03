@@ -23,4 +23,5 @@ lean_lib «MusicMath» where
     `MelodicWord, `MTransform, `NeoRiemannian, `ParityA6, `SixThirty,
     `Temperament, `Tiling, `TonnetzCompleteness, `TonnetzSpectrum,
     `Huddling, `DiatonicExtremality, `ExtremalityConnections, `ComplementEnergy,
-    `TranslationInvariantEnergy, `CyclicHuddling, `CyclicHuddlingGeometry]
+    `TranslationInvariantEnergy, `CyclicHuddling, `CyclicHuddlingGeometry,
+    `CyclicHuddlingClosedForm]

@@ -1,16 +1,4 @@
-'Huddling.huddling_census' depends on axioms: [propext,
- Classical.choice,
- Quot.sound,
- huddling_census._native.native_decide.ax_1_1]
-'Huddling.arc_maximizes_power' depends on axioms: [propext,
- Classical.choice,
- Quot.sound,
- huddling_census._native.native_decide.ax_1_1]
-'Huddling.arc_unique' depends on axioms: [propext,
- Classical.choice,
- Quot.sound,
- huddling_census._native.native_decide.ax_1_1]
-'Huddling.fifth_frequency_unique' depends on axioms: [propext,
- Classical.choice,
- Quot.sound,
- huddling_census._native.native_decide.ax_1_1]
+'Huddling.huddling_census' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Huddling.arc_maximizes_power' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Huddling.arc_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Huddling.fifth_frequency_unique' depends on axioms: [propext, Classical.choice, Quot.sound]

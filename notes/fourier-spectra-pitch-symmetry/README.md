@@ -8,8 +8,8 @@
 > Note #3 in the *Mathematics of Music* series (companions: Note #1, the 6-30 tritone self-duality; Note #2, the phase taxonomy).
 
 These PDFs are correction version 1.1 (October 2026), in English and Spanish.
-The new-version Zenodo draft has reserved DOI **10.5281/zenodo.23121105** and awaits the
-author's publication. The published original remains unchanged. See [the change list](CHANGES_v1.1.txt).
+Correction version 1.1 is [published at 10.5281/zenodo.23121105](https://doi.org/10.5281/zenodo.23121105).
+The original version remains available. See [the change list](CHANGES_v1.1.txt).
 
 A focused, machine-checked research note. The twelve pitch classes $\mathbb{Z}_{12}$ carry both the discrete
 Fourier transform (the Lewin–Quinn *Fourier balances* $a_k$) and the geometry of the chromatic cycle graph

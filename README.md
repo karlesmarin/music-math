@@ -85,8 +85,8 @@ constraint-search composition program built on the verified invariants. New note
   [10.5281/zenodo.20862822](https://doi.org/10.5281/zenodo.20862822).
 
   The repository PDFs now contain correction version 1.1; the original published record remains
-  available at the DOI above. The new Zenodo version is awaiting the author's publication,
-  with reserved DOI **10.5281/zenodo.23121105**. See the
+  available at the DOI above. The new Zenodo version is
+  [published at 10.5281/zenodo.23121105](https://doi.org/10.5281/zenodo.23121105). See the
   [bilingual change list](notes/fourier-spectra-pitch-symmetry/CHANGES_v1.1.txt).
 
 - 🎵 **Note 4 — *The per-voice Fourier signature: the bass is the spectrally purest voice***

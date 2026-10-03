@@ -641,6 +641,35 @@ theorem A_mulVec_negJ5 :
           • (signMul (uG z5 (1 + I * z5 - I) ((Real.sqrt (2 + Real.sqrt 3) : ℝ) : ℂ))) :=
   bipartite_neg_eigen _ _ A_mulVec_j5
 
+/-! ### Ramanujan bound. The PLR/Tonnetz graph is 3-regular (`nbhd_card`), so its degree is
+`d = 3` and the Ramanujan threshold for a `d`-regular graph is `2√(d−1) = 2√2`. Among the
+non-trivial eigenvalues (i.e. excluding the Perron pair `±3`) the one of largest modulus is the
+golden eigenvalue `√5 = 2φ−1` (the j = 3 dihedral irrep, `A_mulVec_golden`). The core arithmetic
+fact is that `√5` lies strictly below the bound `2√2 = √8` (since `5 < 8`); hence the PLR graph
+satisfies the Ramanujan inequality `λ_nontrivial ≤ 2√(d−1)`.
+
+Graph: Douthett–Steinbach 1998 (chicken-wire torus / PLR cycles). Identification PLR ≅ D₂₄ =
+Cay(D₂₄, {P,L,R}): Crans–Fiore–Satyendra, "Musical actions of dihedral groups", AMM 116 (2009).
+Ramanujan graphs / the `2√(d−1)` bound: Lubotzky–Phillips–Sarnak, "Ramanujan graphs",
+Combinatorica 8 (1988).
+
+This corollary certifies the controlling inequality `√5 < 2√2` and relies on the explicit
+eigenvectors above for the eigenvalue facts. That `±{3, √5, 2cos(π/12), √3, 1, 2cos(5π/12)}` is the
+*complete* spectrum — and hence that `√5` really is the largest non-trivial modulus — is the
+basis-count / D₁₂-irrep-decomposition statement left as the frontier (Sage-witnessed,
+sage/tonnetz_cayley_spectrum.py; Mathlib lacks the dihedral irrep classification). -/
+
+/-- **The Ramanujan inequality for the PLR/Tonnetz graph (core).** The golden eigenvalue `√5`
+    (the largest non-trivial PLR-graph eigenvalue) lies strictly below the 3-regular Ramanujan
+    bound `2√(d−1) = 2√2`. Arithmetic core: `2√2 = √8` and `5 < 8`. -/
+theorem golden_lt_ramanujan_bound : Real.sqrt 5 < 2 * Real.sqrt 2 := by
+  have hsqrt4 : Real.sqrt 4 = 2 := by
+    rw [show (4 : ℝ) = 2 ^ 2 from by norm_num, Real.sqrt_sq (by norm_num)]
+  have hbound : (2 : ℝ) * Real.sqrt 2 = Real.sqrt 8 := by
+    rw [show (8 : ℝ) = 4 * 2 from by norm_num, Real.sqrt_mul (by norm_num) 2, hsqrt4]
+  rw [hbound]
+  exact Real.sqrt_lt_sqrt (by norm_num) (by norm_num)
+
 /-! ### Axiom audit — every shipped theorem must be `[propext, Classical.choice, Quot.sound]`-clean
     (no `sorryAx`). -/
 
@@ -666,5 +695,6 @@ theorem A_mulVec_negJ5 :
 #print axioms A_mulVec_negJ2
 #print axioms A_mulVec_negJ1
 #print axioms A_mulVec_negJ5
+#print axioms golden_lt_ramanujan_bound
 
 end TonnetzSpectrum

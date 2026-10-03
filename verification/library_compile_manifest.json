@@ -1,0 +1,134 @@
+{
+  "audit_date": "2026-10-03",
+  "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
+  "mathlib_revision": "701fb6e9c3b9285968b375d19886bfc5ca134840",
+  "method": "Direct Lean compilation of all 21 modules with autoImplicit=false and relaxedAutoImplicit=false; every compiler invocation exited 0. The first reporting harness failed after compiling the original 20 modules when git rejected ownership of the external cache. Command-scoped safe.directory corrected reporting; the six-module extremality dependency closure was then recompiled successfully and its structured report saved separately. ComplementEnergy was compiled in a separate clean build directory; its structured report is complement_build_report.json.",
+  "modules": [
+    {
+      "module": "AllPairsEvenness",
+      "source_sha256": "75b32e7b1c3ddda54e13662a52fbabbd936458ed307dcbede1a720c6adbd0470",
+      "compiler_exit_code": 0,
+      "log_file": "AllPairsEvenness.log"
+    },
+    {
+      "module": "CircleOfFifths",
+      "source_sha256": "ce11a8fc67a0ee33e4f234968f3ed91cca85e7ce840af526235430a172f69e7b",
+      "compiler_exit_code": 0,
+      "log_file": "CircleOfFifths.log"
+    },
+    {
+      "module": "ComplementEnergy",
+      "source_sha256": "23099a4b3b136d56cf8d3ca99f57243bb3f7d7e49b4c0aac9911a88f61a55f9d",
+      "compiler_exit_code": 0,
+      "log_file": "ComplementEnergy.log"
+    },
+    {
+      "module": "CycleGraphSpectrum",
+      "source_sha256": "29066925e316b42af05096015bb1fca8823dd59f115aefce53651525c0038017",
+      "compiler_exit_code": 0,
+      "log_file": "CycleGraphSpectrum.log"
+    },
+    {
+      "module": "DiatonicExtremality",
+      "source_sha256": "b504092fe80b80a4a4ee927bbdb2e73ee72da1007febbccb8494e61c5ecc475e",
+      "compiler_exit_code": 0,
+      "log_file": "DiatonicExtremality.log"
+    },
+    {
+      "module": "DiatonicScale",
+      "source_sha256": "bfb95e2af882b46610ff2cead6d51a9186c0cfba7a6e7061ed2c2c2c08af2fa1",
+      "compiler_exit_code": 0,
+      "log_file": "DiatonicScale.log"
+    },
+    {
+      "module": "ExtremalityConnections",
+      "source_sha256": "bccfd527f625043db0897433017762140f37fc9ecaa6390ae1b3cce87c2b71e0",
+      "compiler_exit_code": 0,
+      "log_file": "ExtremalityConnections.log"
+    },
+    {
+      "module": "Fourier",
+      "source_sha256": "988230aac15b0e77686d39b827844eb9412540d28bff6dc987110bc438ba6983",
+      "compiler_exit_code": 0,
+      "log_file": "Fourier.log"
+    },
+    {
+      "module": "Huddling",
+      "source_sha256": "dc24c305a97b61db8dd524099f7ca9aa6b7548d013e426e33f80de9f772aa513",
+      "compiler_exit_code": 0,
+      "log_file": "Huddling.log"
+    },
+    {
+      "module": "IntervalVector",
+      "source_sha256": "bcfca4a8f97c6d1c8912a9cafebd9d6c20a214152fbb392eff0449effc2b5a3d",
+      "compiler_exit_code": 0,
+      "log_file": "IntervalVector.log"
+    },
+    {
+      "module": "InversionDFT",
+      "source_sha256": "7d9e17bda9af1da260f274a7b115dde208be97f0a144f1581b62e97aeb8672eb",
+      "compiler_exit_code": 0,
+      "log_file": "InversionDFT.log"
+    },
+    {
+      "module": "MaximalEvenness",
+      "source_sha256": "223224c4f2e3faed039ec0509dfbe10b0dede54c5ea36cfca74bc2c67ae8fc3d",
+      "compiler_exit_code": 0,
+      "log_file": "MaximalEvenness.log"
+    },
+    {
+      "module": "MelodicWord",
+      "source_sha256": "9324a65128996518da2b5b354da1a5e3a52da36df16e815fc1620807aaa341ee",
+      "compiler_exit_code": 0,
+      "log_file": "MelodicWord.log"
+    },
+    {
+      "module": "MTransform",
+      "source_sha256": "e3c972e4f02992c61ff9bb70d4b9f9d6ef26128c47ab63e70e12f07d37021045",
+      "compiler_exit_code": 0,
+      "log_file": "MTransform.log"
+    },
+    {
+      "module": "NeoRiemannian",
+      "source_sha256": "0001b802edeb0c3b44d8ecc3c9df8f1fd4b0caea745f79cc63a8559ee6e430ab",
+      "compiler_exit_code": 0,
+      "log_file": "NeoRiemannian.log"
+    },
+    {
+      "module": "ParityA6",
+      "source_sha256": "2a1e2aae5619556fa9e1c794e0c0ae75a38a8114c305c153ebe5a3a911a4d6d2",
+      "compiler_exit_code": 0,
+      "log_file": "ParityA6.log"
+    },
+    {
+      "module": "SixThirty",
+      "source_sha256": "0c5ce379f5f75556725d80e9c3f64f5d6bf7479ca2f1f77fdd62b62c1daac64e",
+      "compiler_exit_code": 0,
+      "log_file": "SixThirty.log"
+    },
+    {
+      "module": "Temperament",
+      "source_sha256": "fab02cfbeb599a808e6e9dc0044a07e46fcf0aa0af16b48558ec0871c2f30541",
+      "compiler_exit_code": 0,
+      "log_file": "Temperament.log"
+    },
+    {
+      "module": "Tiling",
+      "source_sha256": "d9be132607a2f19337ae310b7b3a6abfa65f7f8a97a8885e357ca4a12eb9aac3",
+      "compiler_exit_code": 0,
+      "log_file": "Tiling.log"
+    },
+    {
+      "module": "TonnetzCompleteness",
+      "source_sha256": "86dc00c35e788ccf64b1b552f3eb8ccf96353a3ff97eec5e0b4b04372c4ad997",
+      "compiler_exit_code": 0,
+      "log_file": "TonnetzCompleteness.log"
+    },
+    {
+      "module": "TonnetzSpectrum",
+      "source_sha256": "b8c1a40dde0ebc8aa5b9ff1ae56fffe4c3045000dca4f6253afb8470770ec8ee",
+      "compiler_exit_code": 0,
+      "log_file": "TonnetzSpectrum.log"
+    }
+  ]
+}

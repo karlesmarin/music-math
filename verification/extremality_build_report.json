@@ -1,0 +1,815 @@
+{
+  "generated_utc": "2026-10-03T08:37:45.0452723Z",
+  "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
+  "mathlib_revision": "701fb6e9c3b9285968b375d19886bfc5ca134840",
+  "options": [
+    "autoImplicit=false",
+    "relaxedAutoImplicit=false"
+  ],
+  "method": "Direct Lean compilation in dependency order using an existing external dependency cache; not a fresh Lake dependency download",
+  "modules": [
+    {
+      "module": "Fourier",
+      "source_sha256": "988230aac15b0e77686d39b827844eb9412540d28bff6dc987110bc438ba6983",
+      "exit_code": 0,
+      "seconds": 8.51,
+      "axiom_reports": [
+        {
+          "declaration": "Fourier.Ahat_zero",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.Ahat_tpose",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.Ahat_compl",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.autocorr_eq_invDFT",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.IVraw_eq_invDFT_power",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.commonTones_eq_autocorr",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.commonTones_eq_invDFT",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.commonTones_zero",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.autocorr_neg",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.IVraw_eq_two_commonTones",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.IVraw_tritone",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.Ahat_neg",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.powerSpec_neg",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.IVraw_eq_powerSpec_conjPair",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.IVraw_list_eq_commonTones",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.IsDeep_iff_commonTones_nodup",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.diatonic_isDeep",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.augmented_not_isDeep",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.homometric_iff_powerSpec_eq",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.homometric_iff_normSq_dft_eq",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.allIntervalTetrachords_homometric",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.ind_injective",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.Ahat_injective",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.Ahat_eq_iff",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.commonTonesInv_eq_sumcorr",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.sumcorr_eq_invDFT",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.commonTonesInv_eq_invDFT",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.sqSpec_eq_sq",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.sumVector_distinguishes_homometric",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.rop_iff_commonTones_zero",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.rop_iff_autocorr_zero",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.rop_iff_IVraw_tritone_zero",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.rop_card_le",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.hexachord_abs_eq",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.hexachord_powerSpec_eq",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.hexachord_powerSpec_eq_all",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.hexachord_IVraw_eq",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.hexachord_IVraw_eq_nat",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.Ahat_inv",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.tpose_iff_Ahat_ramp",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.inv_iff_Ahat_conj_ramp",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.setClass_iff_Ahat_mod_phase",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.triple_tpose_invariant",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.carterPair_triple_distinct",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.triple_not_inversionInvariant",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.sum_sumcorr_eq",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.sum_autocorr_eq",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.sum_evenSet_sumcorr_eq_autocorr",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.sum_oddSet_sumcorr_eq_autocorr",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.autocorr_zero",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.sumcorr_odd_marginal",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.sumcorr_even_marginal",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.stdAddChar_six",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.Ahat_six_real",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.powerSpec_eq_dft_autocorr",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.powerSpec_zero_eq_sum_autocorr",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.powerSpec_six_eq_signed_autocorr",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.sumcorr_even_marginal_phaseblind",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.sumcorr_odd_marginal_phaseblind",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.carterPair_sumcorr_differs",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.carterPair_even_marginal_agree",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "Fourier.carterPair_odd_marginal_agree",
+          "axioms": [
+            "propext",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_file": "Fourier.log"
+    },
+    {
+      "module": "MTransform",
+      "source_sha256": "e3c972e4f02992c61ff9bb70d4b9f9d6ef26128c47ab63e70e12f07d37021045",
+      "exit_code": 0,
+      "seconds": 8.35,
+      "axiom_reports": [],
+      "log_file": "MTransform.log"
+    },
+    {
+      "module": "Huddling",
+      "source_sha256": "dc24c305a97b61db8dd524099f7ca9aa6b7548d013e426e33f80de9f772aa513",
+      "exit_code": 0,
+      "seconds": 18.32,
+      "axiom_reports": [
+        {
+          "declaration": "Huddling.huddling_census",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "huddling_census._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "Huddling.arc_maximizes_power",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "huddling_census._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "Huddling.arc_unique",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "huddling_census._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "Huddling.fifth_frequency_unique",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "huddling_census._native.native_decide.ax_1_1"
+          ]
+        }
+      ],
+      "log_file": "Huddling.log"
+    },
+    {
+      "module": "AllPairsEvenness",
+      "source_sha256": "75b32e7b1c3ddda54e13662a52fbabbd936458ed307dcbede1a720c6adbd0470",
+      "exit_code": 0,
+      "seconds": 78.31,
+      "axiom_reports": [
+        {
+          "declaration": "AllPairsEvenness.abel_bridge",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.abel_nonneg",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.abel_pos",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.item1_min",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "item1_min._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.item1_unique",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "item1_unique._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.diatonic_ground_state",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "census_DD._native.native_decide.ax_1_1",
+            "census_hsum._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.diatonic_unique",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "census_DD._native.native_decide.ax_1_1",
+            "census_hsum._native.native_decide.ax_1_1",
+            "census_offorbit._native.native_decide.ax_1_1",
+            "census_onorbit._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.pentatonic_ground_state",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "census_DD_P._native.native_decide.ax_1_1",
+            "census_hsum_P._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.pentatonic_unique",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "census_DD_P._native.native_decide.ax_1_1",
+            "census_hsum_P._native.native_decide.ax_1_1",
+            "census_offorbit_P._native.native_decide.ax_1_1",
+            "census_onorbit_P._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.octatonic_ground_state",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "census_DD_O._native.native_decide.ax_1_1",
+            "census_hsum_O._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.octatonic_unique",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "census_DD_O._native.native_decide.ax_1_1",
+            "census_hsum_O._native.native_decide.ax_1_1",
+            "census_offorbit_O._native.native_decide.ax_1_1",
+            "census_onorbit_O._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.wholetone_ground_state",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "census_DD_W._native.native_decide.ax_1_1",
+            "census_hsum_W._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "AllPairsEvenness.wholetone_unique",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "census_DD_W._native.native_decide.ax_1_1",
+            "census_hsum_W._native.native_decide.ax_1_1",
+            "census_offorbit_W._native.native_decide.ax_1_1",
+            "census_onorbit_W._native.native_decide.ax_1_1"
+          ]
+        }
+      ],
+      "log_file": "AllPairsEvenness.log"
+    },
+    {
+      "module": "DiatonicExtremality",
+      "source_sha256": "b504092fe80b80a4a4ee927bbdb2e73ee72da1007febbccb8494e61c5ecc475e",
+      "exit_code": 0,
+      "seconds": 31.36,
+      "axiom_reports": [
+        {
+          "declaration": "DiatonicExtremality.diatonic_norm_max",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "Huddling.huddling_census._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "DiatonicExtremality.diatonic_norm_unique",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "Huddling.huddling_census._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "DiatonicExtremality.energy_census",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "energy_census._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "DiatonicExtremality.diatonic_energy_unique",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "energy_census._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "DiatonicExtremality.spectral_energy_equivalence",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "energy_census._native.native_decide.ax_1_1",
+            "Huddling.huddling_census._native.native_decide.ax_1_1"
+          ]
+        }
+      ],
+      "log_file": "DiatonicExtremality.log"
+    },
+    {
+      "module": "ExtremalityConnections",
+      "source_sha256": "bccfd527f625043db0897433017762140f37fc9ecaa6390ae1b3cce87c2b71e0",
+      "exit_code": 0,
+      "seconds": 8.02,
+      "axiom_reports": [
+        {
+          "declaration": "ExtremalityConnections.energy_eq_of_homometric",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "ExtremalityConnections.diatonic_homometric_iff",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "Huddling.huddling_census._native.native_decide.ax_1_1"
+          ]
+        },
+        {
+          "declaration": "ExtremalityConnections.m5_preserves_a6",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "ExtremalityConnections.m5_commutes_tritone",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "ExtremalityConnections.energy_compl",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "ExtremalityConnections.pentatonic_spectral_energy_equivalence",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound",
+            "DiatonicExtremality.energy_census._native.native_decide.ax_1_1",
+            "Huddling.huddling_census._native.native_decide.ax_1_1"
+          ]
+        }
+      ],
+      "log_file": "ExtremalityConnections.log"
+    }
+  ]
+}

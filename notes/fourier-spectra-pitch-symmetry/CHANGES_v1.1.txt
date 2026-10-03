@@ -1,0 +1,23 @@
+Note 3 — revision 1.1, October 2026
+New-version Zenodo draft; reserved DOI 10.5281/zenodo.23121105.
+The published original, DOI 10.5281/zenodo.20862822, remains unchanged.
+
+English and Spanish versions:
+- Correct the reference-table value for the seven-note diatonic collection to
+  |a_5| = 2 + sqrt(3). The value 2 cos(pi/12) belongs to the generating triad.
+- State the unit-frequency, fixed-cardinality Huddling maximizer as a translated
+  inverse-unit image of a consecutive arc. The maximizer at frequency one is a
+  cluster; maximal evenness does not describe every unit-frequency maximizer.
+- Clarify that the audio reference collection is not a certificate that the entire
+  duration-weighted recording attains the binary-set equality bound.
+- Review Spanish Babel settings, captions and layout.
+- Use a generic AI-assistance acknowledgement without naming brands or models.
+
+The Tonnetz spectral theorem and its Lean proof are unchanged.
+The original Apache 2.0 license is retained.
+
+Nota 3 — revisión 1.1, octubre de 2026
+La colección diatónica de siete notas tiene |a_5| = 2 + sqrt(3); la constante
+2 cos(pi/12) corresponde a la tríada generadora. Se corrige también la descripción
+del maximizador para frecuencias invertibles y se sincronizan ambas traducciones.
+El teorema espectral del Tonnetz no cambia. La versión publicada anterior se conserva.

@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-10-03T12:24:20.4638936Z",
+  "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
+  "mathlib_revision": "701fb6e9c3b9285968b375d19886bfc5ca134840",
+  "options": [
+    "autoImplicit=false",
+    "relaxedAutoImplicit=false"
+  ],
+  "method": "Direct Lean compilation in dependency order using an existing external dependency cache; not a fresh Lake dependency download",
+  "modules": [
+    {
+      "module": "ComplementEnergy",
+      "source_sha256": "23099a4b3b136d56cf8d3ca99f57243bb3f7d7e49b4c0aac9911a88f61a55f9d",
+      "exit_code": 0,
+      "seconds": 5.15,
+      "axiom_reports": [
+        {
+          "declaration": "ComplementEnergy.energy_compl_sub",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "ComplementEnergy.energy_gap_compl",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "ComplementEnergy.minimizer_compl_iff",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "ComplementEnergy.regular_iff_complement_gaps",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "declaration": "ComplementEnergy.regular_iff_complement_minimizers",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ],
+      "log_file": "ComplementEnergy.log"
+    }
+  ]
+}

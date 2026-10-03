@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "title": "Huddling, diatonic and pentatonic scales in Z12: Fourier maxima and convex-energy minima formalized in Lean 4",
+    "upload_type": "publication",
+    "publication_type": "preprint",
+    "publication_date": "2026-10-03",
+    "version": "1.0",
+    "creators": [
+      {
+        "name": "Carles Marín Muñoz",
+        "affiliation": "Independent researcher",
+        "orcid": "0009-0007-5637-9688"
+      }
+    ],
+    "access_right": "open",
+    "license": "cc-by-4.0",
+    "language": "eng",
+    "description": "<p>Note 5 of the <em>Mathematics of Music</em> series. English and Spanish versions, with reproducible source files, figures and a Lean 4 formalization.</p><p>Why do the seven white keys maximize a Fourier magnitude and minimize a repulsive pair energy? The twelve-tone Huddling theorem identifies consecutive pitch-class clusters as the first-frequency maximizers at every cardinality, with a complete equality class. Multiplication by five transports this result to frequency five; at cardinality seven the equality class is precisely the twelve transpositions of the diatonic collection. Double Abel summation identifies the same orbit as the unique energy-minimizing orbit for every strictly decreasing, strictly discretely convex potential. Thus, for every seven-note set A, |Ahat(5)| = 2 + sqrt(3) if and only if E_V(A) = E_V(D), under the stated strict hypotheses. Weak admissibility still gives a minimum, but does not guarantee this equality class.</p><p>A symbolic complement-energy identity transfers both optimization problems to five-note anhemitonic pentatonic sets without another census. Homometry, tritone transposition and the parity coefficient connect the result to Notes 1–4. The mathematics is classical: the contribution is a connected, explicit formalization, with exact arithmetic and complete twelve-tone equality conditions. The literature and proof-assistant overlap audits are included; their bounded searches do not establish universal priority.</p><p>The Lean development pins Lean 4.30.0-rc2 and Mathlib revision 701fb6e9c3b9285968b375d19886bfc5ca134840. Two finite certificates use native_decide, adding trusted compiled-evaluation dependencies to the ordinary foundational axioms. The symbolic transport and complement bridges require no new census. Independent Python and SageMath checks cover all 4096 subsets and all 792 seven-note frequency-five cases. No sorry, admit or handwritten mathematical axiom is used. Prepared with the assistance of artificial intelligence tools; statements, attribution and interpretation remain the author’s responsibility.</p><p>The papers and their figures are CC BY 4.0, following Note 4. The accompanying software retains the repository’s Apache 2.0 license; see the included LICENSE and the note README.</p>",
+    "keywords": [
+      "mathematical music theory",
+      "Huddling lemma",
+      "diatonic scale",
+      "pentatonic scale",
+      "discrete Fourier transform",
+      "pitch-class set theory",
+      "maximal evenness",
+      "convex energy",
+      "homometry",
+      "Lean 4",
+      "formalization",
+      "interactive theorem proving"
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "10.5281/zenodo.20971089",
+        "relation": "continues",
+        "scheme": "doi"
+      },
+      {
+        "identifier": "10.5281/zenodo.20820962",
+        "relation": "references",
+        "scheme": "doi"
+      },
+      {
+        "identifier": "10.5281/zenodo.20826774",
+        "relation": "references",
+        "scheme": "doi"
+      },
+      {
+        "identifier": "10.5281/zenodo.20862822",
+        "relation": "references",
+        "scheme": "doi"
+      },
+      {
+        "identifier": "10.5281/zenodo.20971090",
+        "relation": "references",
+        "scheme": "doi"
+      },
+      {
+        "identifier": "https://github.com/karlesmarin/music-math",
+        "relation": "isSupplementedBy",
+        "scheme": "url"
+      }
+    ],
+    "notes": "Note 5 of the Mathematics of Music series. EN + ES (Spanish typeset with Babel). Classical mathematics with a connected Lean 4 formalization; the final equivalences inherit two explicitly reported native census dependencies. Includes exact Python/Sage checks, bilingual figures, source files and dated literature/formalization audits. A separate ComplementEnergy.lean module develops the classical general finite weighted-kernel mechanism behind the complement identity; it uses no enumeration and is not an additional theorem claimed by this paper."
+  }
+}

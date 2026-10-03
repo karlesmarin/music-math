@@ -1,6 +1,6 @@
 % !TeX program = pdflatex
 % From the chromatic circle to the Tonnetz: the DFT as the eigenbasis of pitch-class symmetry.
-% Author: Carles Marin (with Claude, Anthropic, as AI assistant).
+% Author: Carles Marin (with AI assistance).
 % Style: first-tier mathematical-music-theory note -- restrained, question-driven, ONE BASIS as the
 % connecting thread; plain booktabs tables with sparing semantic spot color; one-column serif.
 % Note #3 in the music-math series (companion to sixthirty_note.tex and phase_taxonomy_note.tex).
@@ -35,13 +35,13 @@
 
 \title{\bf The Tonnetz spectrum is the generating triad's\\ Fourier balance profile\\[5pt]
 \large\rm a machine-checked DFT account of pitch-class symmetry,\\ from the chromatic circle to the neo-Riemannian Tonnetz}
-\author{Carles Mar\'in\thanks{Prepared with the assistance of an AI system (Claude, Anthropic).
+\author{Carles Mar\'in\thanks{Prepared with the assistance of artificial intelligence tools.
 The mathematics is classical; every claim, scope statement, and limitation is the author's
 responsibility, and the Lean~4 kernel---not the assistant---is what certifies the formalized parts.
 The boundary of the contribution is stated plainly in Section~\ref{sec:novelty}.}\\[3pt]
   \normalsize Independent researcher\\
   \normalsize \texttt{karlesmarin@gmail.com}}
-\date{June 2026\\[3pt]\normalsize DOI: \href{https://doi.org/10.5281/zenodo.20862822}{10.5281/zenodo.20862822}
+\date{June 2026; revised October 2026 (v1.1)\\[3pt]\normalsize DOI: \href{https://doi.org/10.5281/zenodo.23121105}{10.5281/zenodo.23121105}
 \quad\textbullet\quad \href{https://github.com/karlesmarin/music-math}{github.com/karlesmarin/music-math}}
 
 \begin{document}
@@ -524,15 +524,16 @@ phases coincide, i.e.\ $k\!\cdot\!A$ is constant in $\Zn{N}$ --- iff $A$ lies in
 So the \emph{maximal}-$|a_k|$ set of cardinality $\gcd(N,k)$ is exactly a coset $c+H_k$, and its balance is
 $|a_k|=\gcd(N,k)$. In $\Zn{12}$ this is precisely Messiaen's catalogue of \emph{modes of limited
 transposition}~\cite{Messiaen}: $H_3=\{0,4,8\}$ the augmented triad, $H_4=\{0,3,6,9\}$ the diminished
-seventh, $H_6=\{0,2,4,6,8,10\}$ the whole-tone scale. When $\gcd(N,k)=1$ (e.g.\ $k{=}5,1$ in $\Zn{12}$)
-there is no nontrivial coset, and the maximiser of $|a_k|$ over a chosen cardinality is instead the
-\emph{maximally even} set (Clough--Douthett~\cite{CloughDouthett}; Amiot) --- the diatonic for $k{=}5$.
+seventh, $H_6=\{0,2,4,6,8,10\}$ the whole-tone scale. When $\gcd(N,k)=1$ (e.g.\ $k{=}5,1$ in $\Zn{12}$),
+Huddling gives the maximiser at cardinality $d$ as a translate of
+$k^{-1}\{0,1,\ldots,d-1\}$. For $k=1$ this is a chromatic cluster; for $N=12$, $k=5$, $d=7$
+it is the diatonic. An arbitrary unit frequency and cardinality need not select a maximally even set.
 
 \textbf{Algorithm (reproducible).}
 \begin{enumerate}\setlength\itemsep{0pt}
   \item Pick a colour $k\in\Zn{N}$ and a length $L$.
   \item If $\gcd(N,k)>1$: seed $\leftarrow$ a coset $c+H_k$ (a Messiaen mode, $|a_k|$ saturated);
-        else seed $\leftarrow$ a maximally even set of the chosen cardinality.
+        else seed $\leftarrow$ a translate of $k^{-1}\{0,\ldots,d-1\}$ at the chosen cardinality $d$.
   \item Voice-lead by walking the Tonnetz with conjugate-pair-preserving moves (PLR$\,\cong D_{12}$): each
         triad's neighbourhood spectrum is \emph{its own} colour profile (\S\ref{sec:tonnetz}), so the walk
         keeps the harmony inside the chosen Fourier band.
@@ -544,16 +545,20 @@ there is no nontrivial coset, and the maximiser of $|a_k|$ over a chosen cardina
 \begin{tabular}{@{}p{0.10\textwidth} p{0.13\textwidth} p{0.31\textwidth} p{0.30\textwidth}@{}}
 \toprule
 \rowcolor{ctA!22}
-\textbf{Colour $k$} & \textbf{$|a_k|$} & \textbf{Saturating set $=c+H_k$} & \textbf{Realisation}\\
+\textbf{Colour $k$} & \textbf{$|a_k|$} & \textbf{Reference collection} & \textbf{Realisation}\\
 \midrule
 $3$ & $\sqrt5\,$(triad)$,\;3$ & augmented triad $\{0,4,8\}$ & \lean{augmented\_cycle.wav}\\
 $4$ & $\sqrt3\,$(triad)$,\;4$ & diminished seventh $\{0,3,6,9\}$ & \lean{petrushka\_octatonic.wav}\\
 $6$ & $1\,$(triad)$,\;6$ & whole-tone $\{0,2,4,6,8,10\}$ & \lean{modes\_messiaen.wav}\\
-$5$ & $2\cos\frac{\pi}{12}$ & diatonic (maximally even, no coset) & \lean{tonnetz\_hexatonic.wav}\\
+$5$ & $2+\sqrt3$ & seven-note diatonic (no coset) & \lean{tonnetz\_hexatonic.wav}\\
 even $k$ & $2$ & tritone axis $\{0,6\}$, the $2$-torsion & \lean{tritone\_symmetry.wav}\\
 \bottomrule
 \end{tabular}
 \end{table}
+
+For frequency five, $2\cos(\pi/12)$ is the generating triad's magnitude in
+Section~\ref{sec:tonnetz}; the seven-note diatonic maximum is $2+\sqrt3$.
+The table's sound files are illustrative realizations, not equality certificates for their entire recordings.
 
 \textbf{Microtonal instance ($N=24$, quarter tones).} The saturation rule is $N$-generic --- $H_k$ and
 $|a_k|=\gcd(N,k)$ are stated over an arbitrary universe, the same parametrisation the Lean

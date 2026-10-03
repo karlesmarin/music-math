@@ -1,0 +1,92 @@
+{
+  "audit_date": "2026-10-03",
+  "target": "Huddling in ZMod 12, M5 transport, and the diatonic seven-note Fourier maximum / all-pairs convex-energy minimum connection",
+  "conclusion": "No matching formalization was found in the sources and searches listed below. This is a bounded search result, not a proof of universal absence or a claim of new mathematics.",
+  "sources": [
+    {
+      "repository": "leanprover-community/mathlib4",
+      "url": "https://github.com/leanprover-community/mathlib4",
+      "revision": "300d0e535721bc098547106fc297d8ba2a63f6bb",
+      "revision_date": "2026-10-03T02:35:53Z",
+      "scope": "Downloaded source snapshot; searched all 8592 Mathlib Lean source files, relevant module names, and inspected Fourier/ZMod and roots-of-unity infrastructure",
+      "finding": "Found the reusable DFT substrate; no target Huddling or musical convex-energy extremality theorem located"
+    },
+    {
+      "repository": "lenianiva/Prismriver",
+      "url": "https://github.com/lenianiva/Prismriver",
+      "revision": "b54efbfaf259e9cf4d6186c8fb7998456821d568",
+      "revision_date": "2026-08-25T10:04:09Z",
+      "scope": "Downloaded source snapshot; searched all 35 Lean files; inspected Theory/Dihedral.lean",
+      "finding": "Pitch classes, triads and dihedral transformations are present; no target Fourier/Huddling/energy theorem located"
+    },
+    {
+      "repository": "isabelle-prover/mirror-afp-devel",
+      "url": "https://github.com/isabelle-prover/mirror-afp-devel/blob/master/thys/ROOTS",
+      "scope": "Entry catalogue only, retrieved on the audit date; not an audit of every AFP proof file",
+      "finding": "No catalogue entry matching the target terms located"
+    },
+    {
+      "url": "https://github.com/search?type=code",
+      "scope": "Authenticated indexed code searches: Huddling language:Lean; Huddling extension:v; Huddling extension:thy; Huddling extension:agda; homometric language:Lean; maximally even language:Lean",
+      "finding": "No matches in those scoped searches. Private, unindexed and differently named code may be missed. Broader Christoffel queries do find formalized word theory."
+    },
+    {
+      "repository": "karlesmarin/music-math",
+      "url": "https://github.com/karlesmarin/music-math/tree/main",
+      "commit_sha": "1d43287360f1ab83df066e958c5d4ae82c9af4d2",
+      "tree_sha": "bf1db443c11e69243c93f5ebb4195e53f154619d",
+      "scope": "Public recursive tree and notes inspected on the audit date; commit and tree identifiers verified against a fresh clone",
+      "finding": "Fourteen published Lean modules; MTransform and the new extremality cluster were absent. Existing notes supply the Fourier, parity, tritone and energy context."
+    }
+  ],
+  "source_search_terms": [
+    "huddling",
+    "homometr",
+    "maximally even",
+    "maximal evenness",
+    "well formed scale",
+    "myhill",
+    "christoffel",
+    "Douthett",
+    "Krantz",
+    "Amiot",
+    "pitch class",
+    "fourier maximum",
+    "norm root unity"
+  ],
+  "related_formalization": {
+    "url": "https://github.com/tcosmo/Knight2026_lean/blob/main/Knight2026/HighCycle.lean",
+    "declarations": [
+      "christoffel_inner_palindrome",
+      "christoffel_reverse_is_rotation"
+    ],
+    "implication": "Christoffel-word candidates need a declaration-level overlap audit before any novelty claim; they are not bundled into this Huddling paper"
+  },
+  "classical_mathematical_sources": [
+    {
+      "author": "Emmanuel Amiot",
+      "title": "Discrete Fourier Transform and Bach's Good Temperament",
+      "year": 2009,
+      "url": "https://mtosmt.org/issues/mto.09.15.2/mto.09.15.2.amiot.html",
+      "relevant_statement": "Lemma 2, consecutive roots maximize the magnitude of a sum of distinct roots of unity"
+    },
+    {
+      "author": "Emmanuel Amiot",
+      "title": "David Lewin and Maximally Even Sets",
+      "year": 2007,
+      "scope": "Earlier attribution cited by the existing MTransform source and Amiot's open 2009 article; exact theorem numbering is not used here"
+    },
+    {
+      "authors": "Jack Douthett and Richard Krantz",
+      "title": "Maximally even sets and configurations: common threads in mathematics, physics, and music",
+      "year": 2007,
+      "scope": "Classical energy / maximal-evenness connection; already represented by AllPairsEvenness.lean"
+    }
+  ],
+  "development_environment": {
+    "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
+    "mathlib_revision": "701fb6e9c3b9285968b375d19886bfc5ca134840",
+    "note": "The development pin differs from the newer Mathlib snapshot used for the overlap audit"
+  },
+  "literature_novelty_audit": "literature_novelty_2026-10-03.json"
+}

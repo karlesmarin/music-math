@@ -1,0 +1,400 @@
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:501:165: warning: This simp argument is unused:
+  Complex.zero_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵z̵e̵r̵o̵_̵r̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:506:83: warning: This simp argument is unused:
+  Complex.mul_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵m̵u̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:506:99: warning: This simp argument is unused:
+  Complex.ofReal_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵o̵f̵R̵e̵a̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:506:118: warning: This simp argument is unused:
+  Complex.ofReal_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.o̵f̵R̵e̵a̵l̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:506:137: warning: This simp argument is unused:
+  Complex.I_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_r̵e̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵I̵_̵im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:506:151: warning: This simp argument is unused:
+  Complex.I_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:506:165: warning: This simp argument is unused:
+  Complex.zero_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵z̵e̵r̵o̵_̵r̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:511:45: warning: This simp argument is unused:
+  Complex.div_ofNat_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.d̵i̵v̵_̵o̵f̵N̵a̵t̵_̵r̵e̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵neg_re, Complex.mul_re, Complex.ofReal_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:511:67: warning: This simp argument is unused:
+  Complex.neg_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.n̵e̵g̵m̲u̲l̲_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵m̵u̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:511:83: warning: This simp argument is unused:
+  Complex.mul_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵m̵u̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:511:99: warning: This simp argument is unused:
+  Complex.ofReal_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵o̵f̵R̵e̵a̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:511:118: warning: This simp argument is unused:
+  Complex.ofReal_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.o̵f̵R̵e̵a̵l̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:511:151: warning: This simp argument is unused:
+  Complex.I_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:511:165: warning: This simp argument is unused:
+  Complex.zero_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵z̵e̵r̵o̵_̵r̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:516:165: warning: This simp argument is unused:
+  Complex.zero_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵z̵e̵r̵o̵_̵r̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:521:83: warning: This simp argument is unused:
+  Complex.mul_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵m̵u̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:521:99: warning: This simp argument is unused:
+  Complex.ofReal_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵o̵f̵R̵e̵a̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:521:118: warning: This simp argument is unused:
+  Complex.ofReal_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.o̵f̵R̵e̵a̵l̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:521:151: warning: This simp argument is unused:
+  Complex.I_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:521:165: warning: This simp argument is unused:
+  Complex.zero_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵z̵e̵r̵o̵_̵r̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:526:45: warning: This simp argument is unused:
+  Complex.div_ofNat_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.d̵i̵v̵_̵o̵f̵N̵a̵t̵_̵r̵e̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵neg_re, Complex.mul_re, Complex.ofReal_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:526:83: warning: This simp argument is unused:
+  Complex.mul_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵m̵u̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:526:99: warning: This simp argument is unused:
+  Complex.ofReal_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵o̵f̵R̵e̵a̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:526:118: warning: This simp argument is unused:
+  Complex.ofReal_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.o̵f̵R̵e̵a̵l̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:526:137: warning: This simp argument is unused:
+  Complex.I_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_r̵e̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵I̵_̵im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:526:151: warning: This simp argument is unused:
+  Complex.I_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:526:165: warning: This simp argument is unused:
+  Complex.zero_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵z̵e̵r̵o̵_̵r̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:531:165: warning: This simp argument is unused:
+  Complex.zero_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵z̵e̵r̵o̵_̵r̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:536:67: warning: This simp argument is unused:
+  Complex.neg_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.n̵e̵g̵m̲u̲l̲_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵m̵u̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:536:83: warning: This simp argument is unused:
+  Complex.mul_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵m̵u̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:536:99: warning: This simp argument is unused:
+  Complex.ofReal_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵o̵f̵R̵e̵a̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:536:118: warning: This simp argument is unused:
+  Complex.ofReal_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.o̵f̵R̵e̵a̵l̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:536:137: warning: This simp argument is unused:
+  Complex.I_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_r̵e̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵I̵_̵im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:536:151: warning: This simp argument is unused:
+  Complex.I_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:536:165: warning: This simp argument is unused:
+  Complex.zero_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵z̵e̵r̵o̵_̵r̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:541:45: warning: This simp argument is unused:
+  Complex.div_ofNat_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.d̵i̵v̵_̵o̵f̵N̵a̵t̵_̵r̵e̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵neg_re, Complex.mul_re, Complex.ofReal_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:541:83: warning: This simp argument is unused:
+  Complex.mul_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵m̵u̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:541:99: warning: This simp argument is unused:
+  Complex.ofReal_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵o̵f̵R̵e̵a̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:541:118: warning: This simp argument is unused:
+  Complex.ofReal_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.o̵f̵R̵e̵a̵l̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:541:151: warning: This simp argument is unused:
+  Complex.I_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:541:165: warning: This simp argument is unused:
+  Complex.zero_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵z̵e̵r̵o̵_̵r̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:546:165: warning: This simp argument is unused:
+  Complex.zero_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵z̵e̵r̵o̵_̵r̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:551:67: warning: This simp argument is unused:
+  Complex.neg_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.n̵e̵g̵m̲u̲l̲_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵m̵u̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:551:83: warning: This simp argument is unused:
+  Complex.mul_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵m̵u̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:551:99: warning: This simp argument is unused:
+  Complex.ofReal_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲ C̵o̵m̵p̵l̵e̵x̵.̵o̵f̵R̵e̵a̵l̵_̵r̵e̵,̵  ̲ ̲Complex.ofReal_im, Complex.I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:551:118: warning: This simp argument is unused:
+  Complex.ofReal_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.o̵f̵R̵e̵a̵l̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵I_re, Complex.I_im, Complex.zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:551:151: warning: This simp argument is unused:
+  Complex.I_im
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I̵_̵i̵m̵,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵zero_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+E:\proyectos\Curiosity\research\music-math\lean\TonnetzCompleteness.lean:551:165: warning: This simp argument is unused:
+  Complex.zero_re
+
+Hint: Omit it from the simp argument list.
+  simp only [Complex.add_re, Complex.one_re, Complex.div_ofNat_re, Complex.neg_re, Complex.mul_re,
+  ̲  ̲ ̲ ̲Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im,̵ ̵C̵o̵m̵p̵l̵e̵x̵.̵z̵e̵r̵o̵_̵r̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+'TonnetzCompleteness.tensor_linearIndependent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.dftChar_linearIndependent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.A_mulVec_eig' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.stdFam_linearIndependent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.tonnetzBasis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.A_mulVec_eig_plus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.A_mulVec_eig_minus' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.qPair_linearIndependent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.eigFam_is_eigenvector' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.eigFam_linearIndependent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.eigenBasis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.pm_eq_conj_pp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.pp_mul_pm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.tonnetz_spectrum_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.pp_ne_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TonnetzCompleteness.tonnetz_spectrum_complete_unconditional' depends on axioms: [propext, Classical.choice, Quot.sound]

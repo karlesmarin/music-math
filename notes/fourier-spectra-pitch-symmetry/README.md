@@ -1,11 +1,15 @@
-# 🎼 From the chromatic circle to the Tonnetz: the discrete Fourier transform as the eigenbasis of pitch-class symmetry
+# 🎼 The Tonnetz spectrum is the generating triad's Fourier balance profile
 
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20862821-1B6F8C?logo=doi&logoColor=white)](https://doi.org/10.5281/zenodo.20862821)
 [![License](https://img.shields.io/badge/License-Apache_2.0-B5530F)](../../LICENSE)
 [![Lean 4 + Mathlib](https://img.shields.io/badge/Lean_4-Mathlib-2C2C2C)](https://leanprover.github.io/)
 
-> Carles Marín (with Claude, Anthropic, as AI assistant). Zenodo DOI: [10.5281/zenodo.20862821](https://doi.org/10.5281/zenodo.20862821).
+> Carles Marín Muñoz (with AI assistance). Zenodo concept DOI: [10.5281/zenodo.20862821](https://doi.org/10.5281/zenodo.20862821).
 > Note #3 in the *Mathematics of Music* series (companions: Note #1, the 6-30 tritone self-duality; Note #2, the phase taxonomy).
+
+These PDFs are correction version 1.1 (October 2026), in English and Spanish.
+The new-version Zenodo draft has reserved DOI **10.5281/zenodo.23121105** and awaits the
+author's publication. The published original remains unchanged. See [the change list](CHANGES_v1.1.txt).
 
 A focused, machine-checked research note. The twelve pitch classes $\mathbb{Z}_{12}$ carry both the discrete
 Fourier transform (the Lewin–Quinn *Fourier balances* $a_k$) and the geometry of the chromatic cycle graph
@@ -25,8 +29,9 @@ ladder of pitch-class symmetry:
    augmented, $\sqrt3=|a_4|$ diminished, $\ldots$).
 
 ## 📄 Files
-- `spectral_note.pdf` / `.tex` — the note (English).
-- `spectral_note_es.pdf` / `.tex` — Spanish version.
+- 📄 [English PDF](spectral_note.pdf) · 📝 [LaTeX source](spectral_note.tex).
+- 📄 [PDF castellano](spectral_note_es.pdf) · 📝 [Fuente LaTeX](spectral_note_es.tex).
+- 🔄 [Revision 1.1 changes / Cambios](CHANGES_v1.1.txt).
 
 ## 🔧 Reproducibility
 - **Lean 4** (`../../lean/`): `CycleGraphSpectrum.lean` (R.1 + the abelian-Cayley spectrum C-2),
@@ -43,10 +48,11 @@ ladder of pitch-class symmetry:
 ## 🎯 Scope
 Formalization + organization, not new mathematics. Circulant/Cayley spectra are folklore (Godsil–Royle;
 Babai 1979); the dihedral irreducibles are standard representation theory; the Tonnetz Laplacian was
-diagonalized by Lostanlen (2018). The contribution is the **unified, machine-checked** account — the first
-formalization in any proof assistant of the circulant/abelian-Cayley spectrum and of the Fourier-basis
-dihedral block decomposition — plus the expository observation that the Tonnetz adjacency spectrum is the
+diagonalized by Lostanlen (2018). The contribution is the **unified, machine-checked** account of
+the circulant/abelian-Cayley spectrum and the Fourier-basis dihedral block decomposition,
+plus the expository observation that the Tonnetz adjacency spectrum is the
 triad's own Fourier-balance profile (its components classical: Quinn/Amiot balances, Babai's Cayley sum,
 Lostanlen's prior Laplacian diagonalization). We cite Prismriver (Aniva–Wang) for the prior Lean $T/I$
 action, which our representation-theoretic and spectral layer extends. Spectral *completeness* (that the
-certified eigenvalues are all of them) is Sage-witnessed, pending a Mathlib dihedral-irrep classification.
+certified eigenvalues are all of them) is proved by an explicit eigenvector basis in
+`TonnetzCompleteness.lean`; it does not depend on a dihedral-irrep classification.

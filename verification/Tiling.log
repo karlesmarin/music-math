@@ -1,0 +1,8 @@
+'Tiling.dft_tileCount' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Tiling.dft_const_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Tiling.tiles_iff_dft_product' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Tiling.tiles_iff_dft' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Tiling.chromatic_aug_tiles' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Tiling.chromatic_aug_tiles'' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Tiling.chromatic_badtriad_not_tiles' depends on axioms: [propext, Quot.sound]
+'Tiling.chromatic_badtriad_fails_zeroset' depends on axioms: [propext, Classical.choice, Quot.sound]

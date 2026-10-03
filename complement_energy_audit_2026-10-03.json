@@ -1,0 +1,35 @@
+{
+  "audit_date": "2026-10-03",
+  "module": "lean/ComplementEnergy.lean",
+  "mathematical_status": "Classical weighted-sum mechanism; no claim of new mathematics or universal formalization priority.",
+  "antecedent": {
+    "authors": "N. Bushaw, B. Cody, C. Leffler",
+    "title": "Sets of vertices with extremal energy",
+    "url": "https://arxiv.org/pdf/2407.18785v3",
+    "location": "Theorem 3.5 and equation (3.1), pp. 13–14",
+    "relationship": "The graph theorem covers distance-degree regularity and complement preservation of extrema for all potentials. This module isolates the symmetric real weighted-kernel identity on any finite type and proves equivalences for constant weighted row sums; it does not formalize all the graph theorem's equivalences or local extrema."
+  },
+  "formal_statements": [
+    "For symmetric W, E(A^c)-E(A)=E(univ)-sum_{a in A} rowSum(W,a).",
+    "Constant row sums preserve energy differences of equal-cardinality sets and transport global minimizers under complementation.",
+    "Constant row sums are equivalent to preservation of all equal-cardinality energy differences.",
+    "For symmetric W with zero diagonal, constant row sums are equivalent to complementation preserving every cardinality-constrained global minimizer."
+  ],
+  "connection_to_note5": "The cycle C12 has constant interaction row sums for any distance potential. This explains the mechanism behind the note's specialized symbolic complement identity and pentatonic transport. The abstract module is a separate development; the note's theorem currently uses ExtremalityConnections.energy_compl, not an instantiated import of this module.",
+  "bounded_formalization_search": {
+    "mathlib_revision": "300d0e535721bc098547106fc297d8ba2a63f6bb",
+    "prismriver_revision": "b54efbfaf259e9cf4d6186c8fb7998456821d568",
+    "source_regex": "energy.*compl|compl.*energy|distance.degree.regular|complement.*minimiz|minimiz.*complement",
+    "source_result": "No matches in the inspected Mathlib and Prismriver source snapshots.",
+    "web_queries": ["site:github.com Lean distance degree regular", "site:isa-afp.org energy complement graph", "site:github.com energy_compl Lean", "site:github.com complement Bushaw Lean"],
+    "web_result": "No relevant implementation located. Indexed web searches were not an authenticated exhaustive code search. Generic finite-sum and matrix facts in libraries may express related mechanisms under other names."
+  },
+  "verification": {
+    "report": "verification/complement_build_report.json",
+    "lean": "4.30.0-rc2",
+    "mathlib_revision": "701fb6e9c3b9285968b375d19886bfc5ca134840",
+    "compiler_exit_code": 0,
+    "reported_axioms": ["propext", "Classical.choice", "Quot.sound"],
+    "native_censuses": 0
+  }
+}

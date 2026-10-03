@@ -1,0 +1,108 @@
+{
+  "audit_date": "2026-10-03",
+  "target": "Mathematical novelty of the Huddling / diatonic-pentatonic Fourier-energy note and connections to earlier music-math notes",
+  "verdict": {
+    "new_mathematical_theorem": "Not established. The central results are known, and the proposed connections are classical identities or consequences of known characterizations.",
+    "new_formalization": "No matching proof-assistant development was located in the bounded formalization audit. This supports a contribution in formalization, not a universal first-formalization claim.",
+    "appropriate_paper_claim": "A connected Lean 4 formalization of classical twelve-tone extremality, with explicit equality classes, exact arithmetic, reusable bridges, and reproducible independent checks.",
+    "inappropriate_claims": ["new Fourier-energy characterization", "new diatonic-pentatonic duality", "first ever formalization without qualification", "general roots-of-unity theorem proved by a twelve-tone census"]
+  },
+  "statement_comparison": [
+    {
+      "statement": "Consecutive roots maximize the magnitude of the sum at fixed cardinality, uniquely up to rotation",
+      "lean": ["Huddling.arc_maximizes_power", "Huddling.arc_unique"],
+      "status": "Known theorem, specialized here to ZMod 12",
+      "primary_source": "https://arxiv.org/pdf/math/0604210",
+      "location": "Amiot, 2006 preprint, Theorem 7 and its strict improvement proof, PDF page 6",
+      "additional_source": "https://mtosmt.org/issues/mto.09.15.2/mto.09.15.2.amiot.html",
+      "additional_location": "Amiot 2009, Lemma 2"
+    },
+    {
+      "statement": "Unit multiplication permutes Fourier indices; a coprime-cardinality maximum is the inverse image of a consecutive cluster",
+      "lean": ["MTransform.Ahat_mul", "Huddling.fifth_frequency_unique"],
+      "status": "Classical reindexing identity and known generated-scale characterization",
+      "primary_source": "https://arxiv.org/pdf/math/0604210",
+      "location": "Amiot 2006, Lemma 2 and Theorem 8, PDF pages 6-7",
+      "qualification": "The maximum at arbitrary unit frequency is an inverse-image cluster. It must not be called maximally even at every arbitrary frequency/cardinality."
+    },
+    {
+      "statement": "The diatonic seven-note collection maximizes frequency-five magnitude and is an all-pairs convex-energy minimizer",
+      "lean": ["DiatonicExtremality.diatonic_norm_unique", "DiatonicExtremality.diatonic_energy_unique"],
+      "status": "Two classical characterizations of the same maximally even orbit",
+      "fourier_source": "https://www.tandfonline.com/doi/abs/10.1080/17459730701654990",
+      "energy_source": "https://link.springer.com/article/10.1007/s10878-006-9041-5",
+      "additional_energy_source": "https://arxiv.org/pdf/2407.18785v3",
+      "location": "Amiot 2007; Douthett-Krantz 2007; Bushaw-Cody-Leffler 2025 version, Theorem 2.16, PDF page 10",
+      "qualification": "The recent paper uses unordered pairs and geodesic distance, matching this development's convention. Earlier formulations may use ordered pairs and clockwise distances."
+    },
+    {
+      "statement": "For strict decreasing convex potentials, Fourier extremality is equivalent to energy extremality at seven-of-twelve",
+      "lean": ["DiatonicExtremality.spectral_energy_equivalence"],
+      "status": "Immediate corollary of the two known equality-class characterizations",
+      "sources": ["https://www.tandfonline.com/doi/abs/10.1080/17459730701654990", "https://arxiv.org/pdf/2407.18785v3"],
+      "qualification": "An explicit joined Lean declaration is useful, but joining known equivalences does not establish mathematical novelty."
+    },
+    {
+      "statement": "Complementary sets have opposite nonzero Fourier coefficients; complementary extremal collections are diatonic and pentatonic",
+      "lean": ["Fourier.Ahat_compl", "ExtremalityConnections.norm_compl", "ExtremalityConnections.pentatonic_norm_unique"],
+      "status": "Known identity and known maximal-evenness complement theorem",
+      "primary_source": "https://arxiv.org/pdf/math/0604210",
+      "location": "Amiot 2006, Theorems 2 and 6, PDF pages 3 and 5",
+      "older_attribution": "Clough-Douthett 1991, Theorem 3.3, explicitly attributed in Bushaw-Cody-Leffler Theorem 3.1"
+    },
+    {
+      "statement": "Complementation changes all-pairs energy by a cardinality-dependent constant, preserving the energy ordering within a cardinality",
+      "lean": ["ExtremalityConnections.energy_compl", "ExtremalityConnections.pentatonic_energy_gap"],
+      "status": "Special case of a stronger published graph theorem",
+      "primary_source": "https://arxiv.org/pdf/2407.18785v3",
+      "location": "Bushaw, Cody, Leffler, Theorem 3.5, equation (3.1), PDF page 13",
+      "qualification": "Their distance-degree-regular graph result includes C12 and does not require convexity for the complement energy identity."
+    },
+    {
+      "statement": "Homometric sets have equal energy for every distance potential; the diatonic homometry class contains only transpositions",
+      "lean": ["ExtremalityConnections.energy_eq_of_homometric", "ExtremalityConnections.diatonic_homometric_iff"],
+      "status": "Direct consequences of classical homometry and extremal uniqueness, not claimed as new mathematics",
+      "primary_sources": ["https://sethares.engr.wisc.edu/paperspdf/AlgofScales.pdf", "https://www.tandfonline.com/doi/abs/10.1080/17459730701654990"],
+      "location": "Amiot-Sethares 2009, section 4.2.2 (equivalent descriptions of homometry); Amiot's Fourier equality-class characterization",
+      "qualification": "We did not locate the exact combined corollary under this wording; mathematical novelty does not follow from absence of that wording."
+    },
+    {
+      "statement": "M5 preserves coefficient six and commutes with transposition six",
+      "lean": ["ExtremalityConnections.m5_preserves_a6", "ExtremalityConnections.m5_commutes_tritone"],
+      "status": "Elementary consequences of unit reindexing and 5*6 = 6 modulo 12",
+      "qualification": "Useful links to the parity and tritone notes; no novelty claim is attached to these algebraic identities."
+    }
+  ],
+  "recent_related_work": [
+    {
+      "authors": ["Neal Bushaw", "Brent Cody", "Chris Leffler"],
+      "title": "Sets of vertices with extremal energy",
+      "first_submitted": "2024-07-26",
+      "version_checked": "v3, 2025-02-04",
+      "url": "https://arxiv.org/abs/2407.18785",
+      "scope": "Full primary-source PDF, relevant theorems and conventions inspected",
+      "implication": "The proposed complement-energy bridge is already covered in greater mathematical generality."
+    },
+    {
+      "title": "The Music and Mathematics of Maximal Evenness in Graphs",
+      "url": "https://arxiv.org/abs/2407.18768",
+      "scope": "Primary-source PDF inspected for graph/energy context",
+      "implication": "Graph generalization is an existing mathematical research direction; any new formalization must cite it."
+    },
+    {
+      "author": "Emmanuel Amiot",
+      "title": "A novel characterization of ME sets",
+      "doi": "10.1080/17459737.2026.2629572",
+      "url": "https://www.tandfonline.com/doi/full/10.1080/17459737.2026.2629572",
+      "scope": "Publisher-indexed title and abstract found; full text could not be retrieved",
+      "implication": "IFunc/generated-set characterizations remain active in 2026. Any candidate based on that characterization needs full-text review before a novelty claim. No theorem in the current note is attributed to this inaccessible full text."
+    }
+  ],
+  "limitations": [
+    "This is a targeted literature audit, not an exhaustive systematic review of every book, dissertation, language, or unpublished manuscript.",
+    "A negative search cannot prove global absence. Positive antecedents are enough to exclude mathematical novelty for the central proposed results.",
+    "Mathematical theorem novelty and proof-assistant implementation novelty are distinct questions.",
+    "No claim about novelty of corpus-level duration-weighted empirical findings is made by this finite-set audit."
+  ],
+  "formalization_audit": "formalization_prior_art_2026-10-03.json"
+}

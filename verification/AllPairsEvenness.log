@@ -1,0 +1,59 @@
+'AllPairsEvenness.abel_bridge' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AllPairsEvenness.abel_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AllPairsEvenness.abel_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'AllPairsEvenness.item1_min' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ item1_min._native.native_decide.ax_1_1]
+'AllPairsEvenness.item1_unique' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ item1_unique._native.native_decide.ax_1_1]
+'AllPairsEvenness.diatonic_ground_state' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ census_DD._native.native_decide.ax_1_1,
+ census_hsum._native.native_decide.ax_1_1]
+'AllPairsEvenness.diatonic_unique' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ census_DD._native.native_decide.ax_1_1,
+ census_hsum._native.native_decide.ax_1_1,
+ census_offorbit._native.native_decide.ax_1_1,
+ census_onorbit._native.native_decide.ax_1_1]
+'AllPairsEvenness.pentatonic_ground_state' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ census_DD_P._native.native_decide.ax_1_1,
+ census_hsum_P._native.native_decide.ax_1_1]
+'AllPairsEvenness.pentatonic_unique' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ census_DD_P._native.native_decide.ax_1_1,
+ census_hsum_P._native.native_decide.ax_1_1,
+ census_offorbit_P._native.native_decide.ax_1_1,
+ census_onorbit_P._native.native_decide.ax_1_1]
+'AllPairsEvenness.octatonic_ground_state' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ census_DD_O._native.native_decide.ax_1_1,
+ census_hsum_O._native.native_decide.ax_1_1]
+'AllPairsEvenness.octatonic_unique' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ census_DD_O._native.native_decide.ax_1_1,
+ census_hsum_O._native.native_decide.ax_1_1,
+ census_offorbit_O._native.native_decide.ax_1_1,
+ census_onorbit_O._native.native_decide.ax_1_1]
+'AllPairsEvenness.wholetone_ground_state' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ census_DD_W._native.native_decide.ax_1_1,
+ census_hsum_W._native.native_decide.ax_1_1]
+'AllPairsEvenness.wholetone_unique' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound,
+ census_DD_W._native.native_decide.ax_1_1,
+ census_hsum_W._native.native_decide.ax_1_1,
+ census_offorbit_W._native.native_decide.ax_1_1,
+ census_onorbit_W._native.native_decide.ax_1_1]

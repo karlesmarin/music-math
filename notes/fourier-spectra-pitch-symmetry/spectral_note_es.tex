@@ -1,12 +1,12 @@
 % !TeX program = pdflatex
 % Del circulo cromatico al Tonnetz: la DFT como base propia de la simetria de clases de altura.
-% Autor: Carles Marin (con Claude, Anthropic, como asistente de IA).
+% Autor: Carles Marin (con asistencia de IA).
 % Version en espanol de spectral_note.tex (Nota #3 de la serie music-math).
 % Build: pdflatex spectral_note_es.tex (dos veces, para refs).
 
 \documentclass[11pt]{article}
 \usepackage[T1]{fontenc}
-\usepackage[spanish]{babel}
+\usepackage[spanish,es-noshorthands,es-tabla]{babel}
 \usepackage{lmodern}
 \usepackage{amsmath,amssymb,amsthm,booktabs,graphicx}
 \usepackage[hidelinks]{hyperref}
@@ -33,13 +33,13 @@
 
 \title{\bf El espectro del Tonnetz es el perfil de balanzas\\ de Fourier de su tr\'iada generadora\\[5pt]
 \large\rm un relato verificado por m\'aquina de la simetr\'ia de clases de altura,\\ del c\'irculo crom\'atico al Tonnetz neo-riemanniano}
-\author{Carles Mar\'in\thanks{Preparado con la asistencia de un sistema de IA (Claude, Anthropic).
+\author{Carles Mar\'in\thanks{Preparado con la asistencia de herramientas de inteligencia artificial.
 La matem\'atica es cl\'asica; toda afirmaci\'on, alcance y limitaci\'on es responsabilidad del autor, y
 es el n\'ucleo de Lean~4 ---no el asistente--- quien certifica las partes formalizadas. El l\'imite de la
 contribuci\'on se expone en la Secci\'on~\ref{sec:novelty}.}\\[3pt]
   \normalsize Investigador independiente\\
   \normalsize \texttt{karlesmarin@gmail.com}}
-\date{Junio de 2026\\[3pt]\normalsize DOI: \href{https://doi.org/10.5281/zenodo.20862822}{10.5281/zenodo.20862822}
+\date{Junio de 2026; revisión de octubre de 2026 (v1.1)\\[3pt]\normalsize DOI: \href{https://doi.org/10.5281/zenodo.23121105}{10.5281/zenodo.23121105}
 \quad\textbullet\quad \href{https://github.com/karlesmarin/music-math}{github.com/karlesmarin/music-math}}
 
 \begin{document}
@@ -421,8 +421,9 @@ que Mathlib a\'un no puede formular porque tiene \lean{DihedralGroup N} y \lean{
 definiciones pero ninguna clasificaci\'on de los irreducibles diedrales. Es una brecha de cobertura, no un
 teorema dif\'icil; la ruta son tres ladrillos acotados, en orden de dependencia:
 \begin{enumerate}\setlength\itemsep{1pt}
-  \item \textbf{Los irreducibles diedrales, nombrados.} Construir $\rho_k:\lean{DihedralGroup}\,N\to\lean{Matrix
-        (Fin 2)}\,\mathbb{C}$ ($r\mapsto\mathrm{diag}(\omega^{k},\omega^{-k})$, $s\mapsto$ antidiagonal) y probar
+  \item \textbf{Los irreducibles diedrales, nombrados.} Construir
+        \[\rho_k:\lean{DihedralGroup}\,N\to M_2(\mathbb{C})\]
+        ($r\mapsto\mathrm{diag}(\omega^{k},\omega^{-k})$, $s\mapsto$ antidiagonal) y probar
         \lean{IsSimpleModule} para $k\neq-k$. La mitad dif\'icil ya est\'a hecha ---\lean{block\_irreducible} es
         exactamente ``sin subespacio invariante propio''; el ladrillo es el entrelazador expl\'icito
         $\mathrm{block}\,k\;\simeq_{D_{2N}}\;\rho_k$, la matriz constante
@@ -539,15 +540,16 @@ As\'i, el conjunto de $|a_k|$ \emph{m\'aximo} y cardinalidad $\gcd(N,k)$ es exac
 $c+H_k$, con balance $|a_k|=\gcd(N,k)$. En $\Zn{12}$ esto es precisamente el cat\'alogo de Messiaen de
 \emph{modos de transposici\'on limitada}~\cite{Messiaen}: $H_3=\{0,4,8\}$ la tr\'iada aumentada,
 $H_4=\{0,3,6,9\}$ la s\'eptima disminuida, $H_6=\{0,2,4,6,8,10\}$ la escala de tonos enteros. Cuando
-$\gcd(N,k)=1$ (p.\,ej.\ $k{=}5,1$ en $\Zn{12}$) no hay clase lateral no trivial, y el maximizador de
-$|a_k|$ para una cardinalidad dada es en cambio el conjunto \emph{maximalmente uniforme}
-(Clough--Douthett~\cite{CloughDouthett}; Amiot) ---la di\'atona para $k{=}5$.
+$\gcd(N,k)=1$ (p.\,ej.\ $k{=}5,1$ en $\Zn{12}$), Huddling da el maximizador a cardinalidad $d$
+como una traslaci\'on de $k^{-1}\{0,1,\ldots,d-1\}$. Para $k=1$ es un cluster crom\'atico;
+para $N=12$, $k=5$, $d=7$ es la di\'atona. Una frecuencia invertible y una cardinalidad
+arbitrarias no tienen por qu\'e seleccionar un conjunto maximalmente uniforme.
 
 \textbf{Algoritmo (reproducible).}
 \begin{enumerate}\setlength\itemsep{0pt}
   \item Elige un color $k\in\Zn{N}$ y una longitud $L$.
   \item Si $\gcd(N,k)>1$: semilla $\leftarrow$ una clase lateral $c+H_k$ (un modo de Messiaen, $|a_k|$
-        saturado); si no, semilla $\leftarrow$ un conjunto maximalmente uniforme de la cardinalidad elegida.
+        saturado); si no, semilla $\leftarrow$ una traslaci\'on de $k^{-1}\{0,\ldots,d-1\}$ a la cardinalidad $d$ elegida.
   \item Conduce las voces recorriendo el Tonnetz con movimientos que preservan los pares conjugados
         (PLR$\,\cong D_{12}$): el espectro del vecindario de cada tr\'iada es \emph{su propio} perfil de
         color (\S\ref{sec:tonnetz}), de modo que el paseo mantiene la armon\'ia dentro de la banda elegida.
@@ -559,16 +561,21 @@ $|a_k|$ para una cardinalidad dada es en cambio el conjunto \emph{maximalmente u
 \begin{tabular}{@{}p{0.10\textwidth} p{0.13\textwidth} p{0.31\textwidth} p{0.30\textwidth}@{}}
 \toprule
 \rowcolor{ctA!22}
-\textbf{Color $k$} & \textbf{$|a_k|$} & \textbf{Conjunto saturante $=c+H_k$} & \textbf{Realizaci\'on}\\
+\textbf{Color $k$} & \textbf{$|a_k|$} & \textbf{Colecci\'on de referencia} & \textbf{Realizaci\'on}\\
 \midrule
 $3$ & $\sqrt5\,$(tr\'iada)$,\;3$ & tr\'iada aumentada $\{0,4,8\}$ & \lean{augmented\_cycle.wav}\\
 $4$ & $\sqrt3\,$(tr\'iada)$,\;4$ & s\'eptima disminuida $\{0,3,6,9\}$ & \lean{petrushka\_octatonic.wav}\\
 $6$ & $1\,$(tr\'iada)$,\;6$ & tonos enteros $\{0,2,4,6,8,10\}$ & \lean{modes\_messiaen.wav}\\
-$5$ & $2\cos\frac{\pi}{12}$ & di\'atona (maximalmente uniforme, sin clase lateral) & \lean{tonnetz\_hexatonic.wav}\\
+$5$ & $2+\sqrt3$ & di\'atona de siete notas (sin clase lateral) & \lean{tonnetz\_hexatonic.wav}\\
 $k$ par & $2$ & eje de tritono $\{0,6\}$, la $2$-torsi\'on & \lean{tritone\_symmetry.wav}\\
 \bottomrule
 \end{tabular}
 \end{table}
+
+En la frecuencia cinco, $2\cos(\pi/12)$ es el m\'odulo de la tr\'iada generadora en
+la Secci\'on~\ref{sec:tonnetz}; el m\'aximo diat\'onico de siete notas es $2+\sqrt3$.
+Los archivos sonoros de la tabla son realizaciones ilustrativas, no certificados de igualdad
+para las grabaciones completas.
 
 \textbf{Instancia microtonal ($N=24$, cuartos de tono).} La regla de saturaci\'on es gen\'erica en $N$ ---$H_k$
 y $|a_k|=\gcd(N,k)$ est\'an enunciados sobre un universo arbitrario, la misma parametrizaci\'on que llevan en

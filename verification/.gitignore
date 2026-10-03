@@ -1,0 +1,2 @@
+# Keep the deliberately published proof audit logs despite generic build-log ignores.
+!*.log

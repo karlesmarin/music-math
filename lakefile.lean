@@ -13,11 +13,13 @@ package «music_math» where
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4" @ "701fb6e9c3b9285968b375d19886bfc5ca134840"
 
--- The note's Lean sources live in lean/. SixThirty imports NeoRiemannian.
+-- Build every supplied source, including the connected extremality development.
+-- A default library limited to the two Note 1 modules silently skipped the other notes.
 @[default_target]
-lean_lib «NeoRiemannian» where
+lean_lib «MusicMath» where
   srcDir := "lean"
-
-@[default_target]
-lean_lib «SixThirty» where
-  srcDir := "lean"
+  roots := #[`AllPairsEvenness, `CircleOfFifths, `CycleGraphSpectrum,
+    `DiatonicScale, `Fourier, `IntervalVector, `InversionDFT, `MaximalEvenness,
+    `MelodicWord, `MTransform, `NeoRiemannian, `ParityA6, `SixThirty,
+    `Temperament, `Tiling, `TonnetzCompleteness, `TonnetzSpectrum,
+    `Huddling, `DiatonicExtremality, `ExtremalityConnections, `ComplementEnergy]

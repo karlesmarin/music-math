@@ -10,11 +10,28 @@
 [![Source](https://img.shields.io/badge/source-karlesmarin%2Fmusic--math-1B6F8C?logo=github&logoColor=white)](https://github.com/karlesmarin/music-math)
 
 A machine-checked formalization in **Lean 4 / Mathlib** of classical mathematical music theory — every
-headline theorem `sorry`-free (`#print axioms` reports only `propext`, `Classical.choice`, `Quot.sound`).
+headline theorem `sorry`-free. Symbolic results use the ordinary foundational axioms
+`propext`, `Classical.choice`, and `Quot.sound`; the finite all-pairs and extremality
+censuses additionally trust compiled evaluation through `native_decide`.
 This is a **growing series** of focused, self-contained notes, each backed by a Lean formalization and
 reproducible Sage/GAP witnesses, now consolidated in a **corpus / Lean-library paper** and heading toward a
 constraint-search composition program built on the verified invariants. New notes are added under
 `notes/` over time; each carries its own Zenodo DOI.
+
+- 🆕 **Draft — Huddling, diatonic and pentatonic scales in ℤ₁₂: Fourier maxima and convex-energy minima formalized in Lean 4**
+  ([EN](notes/huddling-diatonic-pentatonic-extremality/huddling_note.pdf),
+  [ES](notes/huddling-diatonic-pentatonic-extremality/huddling_note_es.pdf),
+  [source and reproduction](notes/huddling-diatonic-pentatonic-extremality/README.md)).
+  Huddling → M5 → the diatonic Fourier maximum → the strict convex-energy minimum;
+  symbolic complementation transfers both problems to the pentatonic. The note links
+  homometry (Note 2), the generating triad's fifth coefficient (Note 3), parity (Note 4),
+  and central tritone transposition (Note 1). Classical mathematics, connected formalization;
+  reserved DOI **10.5281/zenodo.23121104**, with Zenodo publication pending the author.
+  Two native census dependencies are exposed in the axiom report.
+
+  The general weighted-kernel complement mechanism is developed separately in
+  [`ComplementEnergy.lean`](lean/ComplementEnergy.lean), without enumeration;
+  see its [scope and antecedents](complement_energy_audit_2026-10-03.json).
 
 - 📚 **Corpus paper — *One transform and one duality*** (the umbrella over Notes #1–#3)
   ([`corpus_paper.pdf`](notes/corpus-one-transform-one-duality/corpus_paper.pdf) · EN;
@@ -63,6 +80,11 @@ constraint-search composition program built on the verified invariants. New note
   Sage-verified. EN + ES, with MIDI/WAV (incl. a microtonal realization). DOI (this note)
   [10.5281/zenodo.20862822](https://doi.org/10.5281/zenodo.20862822).
 
+  The repository PDFs now contain correction version 1.1; the original published record remains
+  available at the DOI above. The new Zenodo version is awaiting the author's publication,
+  with reserved DOI **10.5281/zenodo.23121105**. See the
+  [bilingual change list](notes/fourier-spectra-pitch-symmetry/CHANGES_v1.1.txt).
+
 - 🎵 **Note 4 — *The per-voice Fourier signature: the bass is the spectrally purest voice***
   ([`per_voice_note.pdf`](notes/per-voice-fourier-signature/per_voice_note.pdf) · EN;
   [ES](notes/per-voice-fourier-signature/per_voice_note_es.pdf)):
@@ -83,6 +105,24 @@ constraint-search composition program built on the verified invariants. New note
 > spectrum `|Â|²` reappears in Note 3 as the conjugate-pair object behind the dihedral blocks (one
 > `{k,−k}` quotient behind both notes), and Note 4's parity kernel reads the same DFT at the order-2
 > frequency `a₆`.
+
+## 🔗 How the new note connects the series
+
+📄 **Note 5: Huddling, diatonic and pentatonic extremality** —
+[English PDF](notes/huddling-diatonic-pentatonic-extremality/huddling_note.pdf) ·
+[PDF castellano](notes/huddling-diatonic-pentatonic-extremality/huddling_note_es.pdf) ·
+[Sources and reproduction](notes/huddling-diatonic-pentatonic-extremality/README.md).
+
+The route is **consecutive cluster → M5 → diatonic Fourier maximum → convex-energy
+minimum → pentatonic complement**. Each earlier note supplies a connection:
+
+| Earlier paper | Connection to Note 5 |
+|---|---|
+| 🎵 [Note 1: tritone self-duality](notes/sixthirty-tritone-self-duality/) | M5 commutes with the central tritone transposition T6. This connects the transformations without assigning the 6-30 stabilizer to a diatonic set. |
+| 🎶 [Note 2: phase taxonomy](notes/phase-taxonomy-pitch-class-invariants/) | Homometric sets have equal energy for every pair potential; at the diatonic extremum the homometry class is exactly the transposition orbit. |
+| 🎼 [Note 3: Tonnetz spectrum](notes/fourier-spectra-pitch-symmetry/) | The fifth Fourier coordinate links triads and scales. Their different cardinalities give different constants: 2 cos(π/12) for the generating triad, 2 + √3 for the diatonic scale. |
+| 🎤 [Note 4: per-voice Fourier signature](notes/per-voice-fourier-signature/) | The binary seven-note theorem explains the extremal interpretation of diatonicity; M5 preserves the parity coefficient a6. Duration-weighted voice distributions remain a separate domain. |
+| 📚 [Corpus paper: one transform and one duality](notes/corpus-one-transform-one-duality/) | The new proof reuses the Fourier/autocorrelation and symbolic all-pairs Abel machinery, joining the spectral and scale-energy parts of the library. |
 
 ## 🧩 What is formalized
 
@@ -179,8 +219,8 @@ All `sorry`-free and axiom-clean (the all-pairs censuses additionally use `nativ
 | `Temperament.ker_v12_eq_span_pc`, `meantone_defect_eq_syntonic`, `ker_v12_5_eq_span` | regular temperament theory: the Pythagorean comma generates the rank-1 val kernel; 12-ET is meantone; the 5-limit comma lattice has rank 2. |
 | `CircleOfFifths.circle_of_fifths_complete`, `four_fifths_eq_major_third` | twelve fifths generate ℤ₁₂; four fifths = a major third. |
 
-The all-pairs uniqueness is, to our knowledge, the **first ITP formalization** of the Douthett–Krantz
-theorem; the step-gap form is the strictly weaker, degenerate cousin. The corpus also fixes the two
+No matching all-pairs uniqueness formalization was located in the bounded October 2026 audit;
+the step-gap form is the weaker, degenerate cousin. The corpus also fixes the two
 unifying threads in one picture — the autocorrelation `|Â|²` and the simply-transitive ⇒ self-centralizing
 duality. Formalization + organization, not new mathematics.
 
@@ -208,10 +248,7 @@ Requires [`elan`](https://github.com/leanprover/elan). The toolchain is pinned i
 
 ```bash
 lake exe cache get      # prebuilt Mathlib oleans (recommended)
-lake build              # notes:  NeoRiemannian, SixThirty, Fourier, CycleGraphSpectrum,
-                        #         InversionDFT, TonnetzSpectrum, TonnetzCompleteness
-                        # corpus: IntervalVector, DiatonicScale, MaximalEvenness,
-                        #         AllPairsEvenness, Temperament, CircleOfFifths
+lake build              # all supplied modules, including the extremality cluster
 ```
 
 Axiom footprint — one headline theorem per note, and the corpus' Pillar 3:
@@ -294,7 +331,8 @@ Each note is archived on Zenodo with a concept DOI (all versions) and a version 
 ## ⚖️ Author and license
 
 Carles Marín Muñoz (independent researcher, karlesmarin@gmail.com). A large language model was used as a
-coding assistant; every statement was independently verified by the Lean kernel, and all mathematics and
+coding assistant. Lean checks the proofs; finite censuses marked `native_decide` also trust
+compiled evaluation. Per-theorem axiom reports record this distinction. All mathematics and
 claims are the author's responsibility.
 
 Licensed under the Apache License 2.0 — see [`LICENSE`](LICENSE).
